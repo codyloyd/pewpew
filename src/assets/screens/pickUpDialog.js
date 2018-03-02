@@ -13,7 +13,6 @@ class PickUpScreen extends ItemListDialog {
     }
     if (inputData.keyCode == ROT.VK_RETURN) {
       const item = this.functions.getSelectedItem();
-      console.log(item);
       this.player.addItem(item);
       this.functions.removeItem(item);
       const items = this.functions.getItems();
@@ -22,6 +21,9 @@ class PickUpScreen extends ItemListDialog {
         this.player.getY(),
         items
       );
+      if (items.length == 0) {
+        this.exit();
+      }
       return;
     }
     super.handleInput(inputData);

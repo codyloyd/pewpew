@@ -4,6 +4,7 @@ import Colors from "../colors";
 
 class ItemDetailDialog {
   constructor(item) {
+    console.log(item);
     this.item = item;
     this.display = document.createElement("div");
     this.display.classList.add("item-detail-dialog");
@@ -18,7 +19,11 @@ class ItemDetailDialog {
         <div>{item.description}</div>
         <div>Actions:</div>
         <div>(d)rop</div>
-        <div>{item.wieldable ? "(w)ield" : item.wearable ? "(w)ear" : ""}</div>
+        <div>
+          {item.equipped
+            ? "(u)nequip"
+            : item.wieldable ? "(w)ield" : item.wearable ? "(w)ear" : ""}
+        </div>
         <div>Press key to use, press 'q' to go back</div>
       </div>
     );

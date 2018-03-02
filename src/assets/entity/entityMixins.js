@@ -172,6 +172,7 @@ export class InventoryHolder {
     return false;
   }
   _removeItem(itemToRemove) {
+    this.unequip(itemToRemove);
     this.inventory = this.inventory.filter(item => item !== itemToRemove);
   }
 }

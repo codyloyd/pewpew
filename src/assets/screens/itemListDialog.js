@@ -5,7 +5,6 @@ import ItemDetailDialog from "./itemDetailDialog";
 
 class ItemListDialog {
   constructor(items, masterScreen, player, title = "INVENTORY") {
-    console.log(title);
     this.items = items;
     this.masterScreen = masterScreen;
     this.player = player;
@@ -29,11 +28,16 @@ class ItemListDialog {
         return { items, selectedItemIndex };
       }
     };
-    this.state = { title: this.title, items: this.items, selectedItemIndex: 0 };
+    this.state = {
+      player: this.player,
+      title: this.title,
+      items: this.items,
+      selectedItemIndex: 0
+    };
     this.functions = app(this.state, this.actions, this.view, this.display);
   }
 
-  view({ items, selectedItemIndex, title }, actions) {
+  view({ player, items, selectedItemIndex, title }, actions) {
     return (
       <div>
         <div style={{ borderBottom: "1px solid " + Colors.white }}>{title}</div>
@@ -41,6 +45,8 @@ class ItemListDialog {
           return (
             <div class={i == selectedItemIndex ? "selected" : ""}>
               {item.name}
+              {item == player.weapon ? " (wielding)" : ""}
+              {item == player.armor ? " (wearing)" : ""}
             </div>
           );
         })}
@@ -91,7 +97,11 @@ class ItemListDialog {
 
     if (inputData.keyCode === ROT.VK_RETURN) {
       // view selected item
-      const detailDialog = new ItemDetailDialog(item);
+      const equipped = item == this.player.armor || item == this.player.weapon;
+      console.log(equipped);
+      const detailDialog = new ItemDetailDialog(
+        Object.assign(item, { equipped })
+      );
       this.display.innerHTML = "";
       this.display.appendChild(detailDialog.display);
     } else if (inputData.keyCode == ROT.VK_Q) {
@@ -119,6 +129,9 @@ class ItemListDialog {
         this.player.getGame().messageDisplay.add(`You put on the ${item.name}`);
         this.exit();
       }
+    } else if (inputData.keyCode === ROT.VK_U) {
+      this.player.unequip(item);
+      this.renderItemList();
     } else if (inputData.keyCode === ROT.VK_D) {
       this.player.removeItem(item);
       this.functions.removeItem(item);

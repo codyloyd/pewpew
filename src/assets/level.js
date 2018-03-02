@@ -19,13 +19,13 @@ class Level {
     this.player = null;
 
     // add Entities to Map
-    // for (let i = 0; i < 40; i++) {
-    //   this.addEntityAtRandomPosition(
-    //     new Entity(
-    //       Object.assign(MonsterTemplate, { level: this, Game: this.game })
-    //     )
-    //   );
-    // }
+    for (let i = 0; i < 40; i++) {
+      this.addEntityAtRandomPosition(
+        new Entity(
+          Object.assign(MonsterTemplate, { level: this, Game: this.game })
+        )
+      );
+    }
 
     for (let i = 0; i < 25; i++) {
       this.addItemAtRandomPosition(ItemRepository.createRandom());
