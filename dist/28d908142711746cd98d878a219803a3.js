@@ -6538,7 +6538,7 @@ var ItemDetailDialog = function () {
 
     this.item = item;
     this.display = document.createElement("div");
-    this.display.classList.add('item-detail-dialog');
+    this.display.classList.add("item-detail-dialog");
     this.actions = {};
     this.state = { item: this.item };
     this.functions = (0, _hyperapp.app)(this.state, this.actions, this.view, this.display);
@@ -6556,6 +6556,21 @@ var ItemDetailDialog = function () {
           "div",
           null,
           item.description
+        ),
+        (0, _hyperapp.h)(
+          "div",
+          null,
+          "Actions:"
+        ),
+        (0, _hyperapp.h)(
+          "div",
+          null,
+          "(d)rop"
+        ),
+        (0, _hyperapp.h)(
+          "div",
+          null,
+          item.wieldable ? "(w)ield" : item.wearable ? "(w)ear" : ""
         ),
         (0, _hyperapp.h)(
           "div",
@@ -6598,14 +6613,19 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var ItemListDialog = function () {
-  function ItemListDialog(items, masterScreen) {
+  function ItemListDialog(items, masterScreen, player) {
+    var title = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : "INVENTORY";
+
     _classCallCheck(this, ItemListDialog);
 
+    console.log(title);
     this.items = items;
     this.masterScreen = masterScreen;
+    this.player = player;
     this.subscreen = null;
     this.display = document.createElement("div");
     this.display.classList.add("item-list-dialog");
+    this.title = title;
     this.actions = {
       inc: this.incSelectedItem.bind(this),
       dec: this.decSelectedItem.bind(this),
@@ -6613,9 +6633,33 @@ var ItemListDialog = function () {
         return function (state) {
           return state.selectedItemIndex;
         };
+      },
+      getItems: function getItems(valie) {
+        return function (state) {
+          return state.items;
+        };
+      },
+      getState: function getState(value) {
+        return function (state) {
+          return state;
+        };
+      },
+      getSelectedItem: function getSelectedItem(value) {
+        return function (state) {
+          return state.items[state.selectedItemIndex];
+        };
+      },
+      removeItem: function removeItem(itemToRemove) {
+        return function (state) {
+          var items = state.items.filter(function (item) {
+            return item !== itemToRemove;
+          });
+          var selectedItemIndex = Math.min(state.selectedItemIndex, items.length - 1);
+          return { items: items, selectedItemIndex: selectedItemIndex };
+        };
       }
     };
-    this.state = { items: this.items, selectedItemIndex: 0 };
+    this.state = { title: this.title, items: this.items, selectedItemIndex: 0 };
     this.functions = (0, _hyperapp.app)(this.state, this.actions, this.view, this.display);
   }
 
@@ -6623,7 +6667,8 @@ var ItemListDialog = function () {
     key: "view",
     value: function view(_ref, actions) {
       var items = _ref.items,
-          selectedItemIndex = _ref.selectedItemIndex;
+          selectedItemIndex = _ref.selectedItemIndex,
+          title = _ref.title;
 
       return (0, _hyperapp.h)(
         "div",
@@ -6631,7 +6676,7 @@ var ItemListDialog = function () {
         (0, _hyperapp.h)(
           "div",
           { style: { borderBottom: "1px solid " + _colors2.default.white } },
-          "INVENTORY"
+          title
         ),
         items.map(function (item, i) {
           return (0, _hyperapp.h)(
@@ -6650,26 +6695,24 @@ var ItemListDialog = function () {
   }, {
     key: "incSelectedItem",
     value: function incSelectedItem() {
-      var _this = this;
-
       return function (_ref2) {
-        var selectedItemIndex = _ref2.selectedItemIndex;
+        var selectedItemIndex = _ref2.selectedItemIndex,
+            items = _ref2.items;
         return {
-          selectedItemIndex: (selectedItemIndex + 1) % _this.items.length
+          selectedItemIndex: (selectedItemIndex + 1) % items.length
         };
       };
     }
   }, {
     key: "decSelectedItem",
     value: function decSelectedItem() {
-      var _this2 = this;
-
       return function (_ref3) {
-        var selectedItemIndex = _ref3.selectedItemIndex;
+        var selectedItemIndex = _ref3.selectedItemIndex,
+            items = _ref3.items;
 
         var newValue = selectedItemIndex - 1;
         if (newValue < 0) {
-          newValue = _this2.items.length - 1;
+          newValue = items.length - 1;
         }
 
         return {
@@ -6678,23 +6721,56 @@ var ItemListDialog = function () {
       };
     }
   }, {
+    key: "exit",
+    value: function exit() {
+      this.masterScreen.exitSubscreen();
+      this.display.remove();
+    }
+  }, {
+    key: "renderItemList",
+    value: function renderItemList() {
+      (0, _hyperapp.app)(this.functions.getState(), this.actions, this.view, this.display);
+    }
+  }, {
     key: "handleInput",
     value: function handleInput(inputData) {
+      var item = this.functions.getSelectedItem();
+
       if (inputData.keyCode === _rotJs2.default.VK_ESCAPE) {
-        this.masterScreen.exitSubscreen();
-        this.display.remove();
-      } else if (inputData.keyCode === _rotJs2.default.VK_RETURN) {
+        this.exit();
+      }
+
+      if (!item) {
+        return;
+      }
+
+      if (inputData.keyCode === _rotJs2.default.VK_RETURN) {
         // view selected item
-        var item = this.items[this.functions.getIndex()];
         var detailDialog = new _itemDetailDialog2.default(item);
-        this.display.innerHTML = '';
+        this.display.innerHTML = "";
         this.display.appendChild(detailDialog.display);
       } else if (inputData.keyCode == _rotJs2.default.VK_Q) {
-        this.functions = (0, _hyperapp.app)(this.state, this.actions, this.view, this.display);
+        this.renderItemList();
       } else if (inputData.keyCode === _rotJs2.default.VK_J || inputData.keyCode === _rotJs2.default.VK_DOWN || inputData.keyCode === _rotJs2.default.VK_2) {
         this.functions.inc();
-      } else if (inputData.keyCode === _rotJs2.default.VK_K || inputData.keyCode || _rotJs2.default.VK_UP || inputData.keyCode === _rotJs2.default.VK_8) {
+      } else if (inputData.keyCode === _rotJs2.default.VK_K || inputData.keyCode === _rotJs2.default.VK_UP || inputData.keyCode === _rotJs2.default.VK_8) {
         this.functions.dec();
+      } else if (inputData.keyCode === _rotJs2.default.VK_W) {
+        if (item.wieldable) {
+          this.player.wield(item);
+          this.player.getGame().messageDisplay.add("You wield the " + item.name);
+          this.exit();
+        }
+        if (item.wearable) {
+          this.player.wear(item);
+          this.player.getGame().messageDisplay.add("You put on the " + item.name);
+          this.exit();
+        }
+      } else if (inputData.keyCode === _rotJs2.default.VK_D) {
+        this.player.removeItem(item);
+        this.functions.removeItem(item);
+        this.masterScreen.level.addItem(item, this.player.getX(), this.player.getY());
+        this.renderItemList();
       }
     }
   }]);
@@ -6703,7 +6779,71 @@ var ItemListDialog = function () {
 }();
 
 exports.default = ItemListDialog;
-},{"rot-js":27,"hyperapp":29,"../colors":5,"./itemDetailDialog":34}],9:[function(require,module,exports) {
+},{"rot-js":27,"hyperapp":29,"../colors":5,"./itemDetailDialog":34}],56:[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
+var _itemListDialog = require("./itemListDialog");
+
+var _itemListDialog2 = _interopRequireDefault(_itemListDialog);
+
+var _rotJs = require("rot-js");
+
+var _rotJs2 = _interopRequireDefault(_rotJs);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var PickUpScreen = function (_ItemListDialog) {
+  _inherits(PickUpScreen, _ItemListDialog);
+
+  function PickUpScreen() {
+    var _ref;
+
+    _classCallCheck(this, PickUpScreen);
+
+    var _this = _possibleConstructorReturn(this, (_ref = PickUpScreen.__proto__ || Object.getPrototypeOf(PickUpScreen)).call.apply(_ref, [this].concat(Array.prototype.slice.call(arguments), ["Pick Up What?"])));
+
+    _this.title = "Pick up what?";
+    return _this;
+  }
+
+  _createClass(PickUpScreen, [{
+    key: "handleInput",
+    value: function handleInput(inputData) {
+      if (inputData.keyCode == _rotJs2.default.VK_D || inputData.keyCode == _rotJs2.default.VK_W) {
+        return;
+      }
+      if (inputData.keyCode == _rotJs2.default.VK_RETURN) {
+        var item = this.functions.getSelectedItem();
+        console.log(item);
+        this.player.addItem(item);
+        this.functions.removeItem(item);
+        var items = this.functions.getItems();
+        this.masterScreen.level.setItemsAt(this.player.getX(), this.player.getY(), items);
+        return;
+      }
+      _get(PickUpScreen.prototype.__proto__ || Object.getPrototypeOf(PickUpScreen.prototype), "handleInput", this).call(this, inputData);
+    }
+  }]);
+
+  return PickUpScreen;
+}(_itemListDialog2.default);
+
+exports.default = PickUpScreen;
+},{"./itemListDialog":15,"rot-js":27}],9:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6918,7 +7058,7 @@ exports.default = HelpScreen;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Movable = exports.MonsterActor = exports.InventoryHolder = exports.TaskActor = exports.Sight = exports.Destructible = exports.PlayerActor = undefined;
+exports.Equipper = exports.Attacker = exports.Movable = exports.MonsterActor = exports.InventoryHolder = exports.TaskActor = exports.Sight = exports.Destructible = exports.PlayerActor = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -7182,21 +7322,8 @@ var Movable = exports.Movable = function () {
 
       var target = level.getEntityAt(x, y);
       if (target) {
-        if (target.hasMixin("PlayerActor")) {
-          var damage = 2;
-          var game = this.getGame();
-          if (game) {
-            game.messageDisplay.add("The " + this.name + " hits you for " + damage + " damage.");
-          }
-          target.takeDamage(damage);
-        }
-        if (this.hasMixin("PlayerActor") && target.hasMixin("Destructible")) {
-          var _damage = 2;
-          var _game = this.getGame();
-          if (_game && this.hasMixin("PlayerActor")) {
-            _game.messageDisplay.add("You hit the " + target.name + " for " + _damage + " damage.");
-          }
-          target.takeDamage(_damage);
+        if (this.hasMixin("Attacker")) {
+          this.attack(target);
         }
         return false;
       }
@@ -7210,6 +7337,108 @@ var Movable = exports.Movable = function () {
   }]);
 
   return Movable;
+}();
+
+var Attacker = exports.Attacker = function () {
+  function Attacker(_ref5) {
+    var _ref5$strength = _ref5.strength,
+        strength = _ref5$strength === undefined ? 1 : _ref5$strength;
+
+    _classCallCheck(this, Attacker);
+
+    this.name = "Attacker";
+    this.strength = strength;
+    this.attack = this._attack;
+    this.getAttackValue = this._getAttackValue;
+  }
+
+  _createClass(Attacker, [{
+    key: "_getAttackValue",
+    value: function _getAttackValue() {
+      var mod = 0;
+      if (this.hasMixin("Equipper")) {
+        if (this.weapon) {
+          mod += this.weapon.attackValue;
+        }
+      }
+      return this.strength + mod;
+    }
+  }, {
+    key: "_attack",
+    value: function _attack(target) {
+      var game = this.getGame();
+      if (target.hasMixin("PlayerActor")) {
+        var damage = this.getAttackValue();
+        if (game) {
+          game.messageDisplay.add("The " + this.name + " hits you for " + damage + " damage.");
+        }
+        target.takeDamage(damage);
+      }
+      if (this.hasMixin("PlayerActor") && target.hasMixin("Destructible")) {
+        var _damage = this.getAttackValue();
+        if (game && this.hasMixin("PlayerActor")) {
+          game.messageDisplay.add("You hit the " + target.name + " for " + _damage + " damage.");
+        }
+        target.takeDamage(_damage);
+      }
+    }
+  }]);
+
+  return Attacker;
+}();
+
+var Equipper = exports.Equipper = function () {
+  function Equipper(_ref6) {
+    var _ref6$weapon = _ref6.weapon,
+        weapon = _ref6$weapon === undefined ? null : _ref6$weapon,
+        _ref6$armor = _ref6.armor,
+        armor = _ref6$armor === undefined ? null : _ref6$armor;
+
+    _classCallCheck(this, Equipper);
+
+    this.name = "Equipper";
+    this.weapon = weapon;
+    this.armor = armor;
+    this.wield = this._wield;
+    this.unwield = this._unwield;
+    this.wear = this._wear;
+    this.takeOff = this._takeOff;
+    this.unequip = this._unequip;
+  }
+
+  _createClass(Equipper, [{
+    key: "_wield",
+    value: function _wield(weapon) {
+      this.weapon = weapon;
+    }
+  }, {
+    key: "_unwield",
+    value: function _unwield() {
+      this.weapon = null;
+    }
+  }, {
+    key: "_wear",
+    value: function _wear(armor) {
+      this.armor = armor;
+    }
+  }, {
+    key: "_takeOff",
+    value: function _takeOff() {
+      this.armor = null;
+    }
+  }, {
+    key: "_unequip",
+    value: function _unequip(item) {
+      if (item === this.armor) {
+        this.takeOff();
+      }
+      if (item === this.weapon) {
+        this.unwield();
+      }
+    }
+  }]);
+
+  return Equipper;
 }();
 },{"rot-js":27}],17:[function(require,module,exports) {
 "use strict";
@@ -7231,14 +7460,15 @@ var PlayerTemplate = exports.PlayerTemplate = {
   name: "ME",
   char: "@",
   fg: _colors2.default.white,
-  mixins: [_entityMixins.Destructible, _entityMixins.Movable, _entityMixins.PlayerActor, _entityMixins.InventoryHolder]
+  strength: 6,
+  mixins: [_entityMixins.Destructible, _entityMixins.Movable, _entityMixins.PlayerActor, _entityMixins.InventoryHolder, _entityMixins.Attacker, _entityMixins.Equipper]
 };
 
 var MonsterTemplate = exports.MonsterTemplate = {
   name: "Monster",
   char: "m",
   fg: _colors2.default.green,
-  mixins: [_entityMixins.Movable, _entityMixins.TaskActor, _entityMixins.Destructible, _entityMixins.Sight]
+  mixins: [_entityMixins.Movable, _entityMixins.TaskActor, _entityMixins.Destructible, _entityMixins.Sight, _entityMixins.Attacker]
 };
 },{"../colors":5,"./entityMixins":23}],19:[function(require,module,exports) {
 "use strict";
@@ -7480,7 +7710,34 @@ var Item = function (_DynamicGlyph) {
 }(_dynamicGlyph2.default);
 
 exports.default = Item;
-},{"../dynamicGlyph":21}],20:[function(require,module,exports) {
+},{"../dynamicGlyph":21}],46:[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Equippable = exports.Equippable = function Equippable(_ref) {
+  var _ref$attackValue = _ref.attackValue,
+      attackValue = _ref$attackValue === undefined ? 0 : _ref$attackValue,
+      _ref$defenseValue = _ref.defenseValue,
+      defenseValue = _ref$defenseValue === undefined ? 0 : _ref$defenseValue,
+      _ref$wieldable = _ref.wieldable,
+      wieldable = _ref$wieldable === undefined ? false : _ref$wieldable,
+      _ref$wearable = _ref.wearable,
+      wearable = _ref$wearable === undefined ? false : _ref$wearable;
+
+  _classCallCheck(this, Equippable);
+
+  this.attackValue = attackValue;
+  this.defenseValue = defenseValue;
+  this.wieldable = wieldable;
+  this.wearable = wearable;
+  this.name = "Equippable";
+};
+},{}],20:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7499,6 +7756,8 @@ var _colors2 = _interopRequireDefault(_colors);
 var _item = require("./item");
 
 var _item2 = _interopRequireDefault(_item);
+
+var _itemMixins = require("./itemMixins");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -7526,16 +7785,42 @@ WeaponRepository.define({
   name: "crowbar",
   char: "(",
   description: "Not the best weapon, but it'll get the job done.",
-  fg: _colors2.default.blue
+  fg: _colors2.default.blue,
+  wieldable: true,
+  attackValue: 5,
+  mixins: [_itemMixins.Equippable]
+});
+
+WeaponRepository.define({
+  name: "hammer",
+  char: "(",
+  description: "Not the best weapon, but it'll get the job done.",
+  fg: _colors2.default.gray,
+  wieldable: true,
+  attackValue: 3,
+  mixins: [_itemMixins.Equippable]
+});
+
+WeaponRepository.define({
+  name: "lazer sword",
+  char: "(",
+  description: "Now we're talking, this thing will really mess up some aliens.",
+  fg: _colors2.default.pink,
+  wieldable: true,
+  attackValue: 15,
+  mixins: [_itemMixins.Equippable]
 });
 
 WeaponRepository.define({
   name: "small blaster",
   char: "(",
   description: "doesn't pack much punch, but holds 100 charges... not bad!",
-  fg: _colors2.default.blue
+  fg: _colors2.default.blue,
+  wieldable: true,
+  attackValue: 1,
+  mixins: [_itemMixins.Equippable]
 });
-},{"../repository":25,"../colors":5,"./item":26}],12:[function(require,module,exports) {
+},{"../repository":25,"../colors":5,"./item":26,"./itemMixins":46}],12:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7579,14 +7864,20 @@ var Level = function () {
     this.player = null;
 
     // add Entities to Map
-    for (var i = 0; i < 40; i++) {
-      this.addEntityAtRandomPosition(new _entity2.default(Object.assign(_entities.MonsterTemplate, { level: this, Game: this.game })));
-    }
+    // for (let i = 0; i < 40; i++) {
+    //   this.addEntityAtRandomPosition(
+    //     new Entity(
+    //       Object.assign(MonsterTemplate, { level: this, Game: this.game })
+    //     )
+    //   );
+    // }
 
-    for (var _i = 0; _i < 25; _i++) {
+    for (var i = 0; i < 25; i++) {
       this.addItemAtRandomPosition(_items.ItemRepository.createRandom());
     }
-    this.addItemAtRandomPosition(_items.WeaponRepository.createRandom());
+    for (var _i = 0; _i < 25; _i++) {
+      this.addItemAtRandomPosition(_items.WeaponRepository.createRandom());
+    }
     this.addItemAtRandomPosition(_items.ItemRepository.create("Space Ship"));
   }
 
@@ -7620,17 +7911,30 @@ var Level = function () {
   }, {
     key: "addItem",
     value: function addItem(item, x, y) {
-      this.items[x + "," + y] = item;
+      var key = x + "," + y;
+      if (this.items[key]) {
+        this.items[key].push(item);
+      } else {
+        this.items[key] = [item];
+      }
     }
   }, {
-    key: "removeItem",
-    value: function removeItem(item) {
-      var _this = this;
-
-      var itemKey = Object.keys(this.items).find(function (itemKey) {
-        return _this.items[itemKey] == item;
-      });
-      delete this.items[itemKey];
+    key: "getItemsAt",
+    value: function getItemsAt(x, y) {
+      var key = x + "," + y;
+      return this.items[key];
+    }
+  }, {
+    key: "setItemsAt",
+    value: function setItemsAt(x, y, items) {
+      var key = x + "," + y;
+      if (items.length === 0) {
+        if (this.items[key]) {
+          delete this.items[key];
+        }
+      } else {
+        this.items[key] = items;
+      }
     }
   }, {
     key: "addEntityAtRandomPosition",
@@ -7664,10 +7968,10 @@ var Level = function () {
   }, {
     key: "removeEntity",
     value: function removeEntity(entityToRemove) {
-      var key = entityToRemove.getX() + ',' + entityToRemove.getY();
+      var key = entityToRemove.getX() + "," + entityToRemove.getY();
       if (this.entities[key] == entityToRemove) {
         delete this.entities[key];
-        if (entityToRemove.hasMixin('Actor')) {
+        if (entityToRemove.hasMixin("Actor")) {
           this.game.getScheduler().remove(entityToRemove);
         }
       }
@@ -7713,6 +8017,10 @@ var _gameOverScreen2 = _interopRequireDefault(_gameOverScreen);
 var _itemListDialog = require("./itemListDialog");
 
 var _itemListDialog2 = _interopRequireDefault(_itemListDialog);
+
+var _pickUpDialog = require("./pickUpDialog");
+
+var _pickUpDialog2 = _interopRequireDefault(_pickUpDialog);
 
 var _confirmation = require("./confirmation");
 
@@ -7797,9 +8105,22 @@ var playScreen = function () {
       } else if (inputData.keyCode === _rotJs2.default.VK_5 || _rotJs2.default.VK_PERIOD) {
         this.game.getEngine().unlock();
       }
+      // pick up item
+      if (inputData.keyCode === _rotJs2.default.VK_G || inputData.keyCode == _rotJs2.default.VK_COMMA) {
+        var item = this.level.getItems()[this.player.getX() + "," + this.player.getY()];
+        if (item.length == 1 && item[0].canPickUp && this.player.addItem(item[0])) {
+          this.level.setItemsAt(this.player.getX(), this.player.getY(), []);
+          this.game.messageDisplay.add("you pick up " + item[0].describeA());
+          console.log("you pick up " + item[0].describeA());
+        }
+        if (item.length > 1) {
+          this.enterSubscreen(new _pickUpDialog2.default(item, this, this.player));
+          console.log("lets pick up multiple items");
+        }
+      }
       // subscreens
       if (inputData.keyCode == _rotJs2.default.VK_I) {
-        this.enterSubscreen(new _itemListDialog2.default(this.player.inventory, this));
+        this.enterSubscreen(new _itemListDialog2.default(this.player.inventory, this, this.player));
       }
       if (inputData.keyCode == _rotJs2.default.VK_SLASH) {
         this.enterSubscreen(new _helpScreen2.default(this));
@@ -7829,19 +8150,19 @@ var playScreen = function () {
         hp: this.player.hp,
         maxHp: this.player.maxHp
       });
-      // autopickupitems
+
       var items = this.level.getItems();
       if (items[this.player.getX() + "," + this.player.getY()]) {
         var item = items[this.player.getX() + "," + this.player.getY()];
-        if (item.canPickUp && this.player.addItem(item)) {
-          this.level.removeItem(item);
-          this.game.messageDisplay.add("you pick up " + item.describeA());
-          console.log("you pick up " + item.describeA());
+        if (item.length == 1) {
+          this.game.messageDisplay.add("you see " + item[0].describeA());
+          console.log("you see " + item[0].describeA());
         } else {
-          this.game.messageDisplay.add("you see " + item.describeA());
-          console.log("you see " + item.describeA());
+          this.game.messageDisplay.add("you see several items here");
+          console.log("you see several items here");
         }
       }
+
       var screenWidth = Game.getScreenWidth();
       var screenHeight = Game.getScreenHeight();
       var topLeftX = Math.max(0, this.player.getX() - screenWidth / 2);
@@ -7884,7 +8205,7 @@ var playScreen = function () {
 
         var item = items[itemKey];
         if (visibleTiles[x + "," + y]) {
-          display.draw(parseInt(x) - topLeftX, parseInt(y) - topLeftY, item.getChar(), item.getFg(), item.getBg());
+          display.draw(parseInt(x) - topLeftX, parseInt(y) - topLeftY, item[0].getChar(), item[0].getFg(), item[0].getBg());
         }
       });
 
@@ -7906,7 +8227,7 @@ var playScreen = function () {
 }();
 
 exports.default = playScreen;
-},{"rot-js":27,"../colors":5,"../entity/entity":13,"./gameOverScreen":14,"./itemListDialog":15,"./confirmation":9,"./helpScreen":16,"../entity/entities":17,"../level":12}],8:[function(require,module,exports) {
+},{"rot-js":27,"../colors":5,"../entity/entity":13,"./gameOverScreen":14,"./itemListDialog":15,"./pickUpDialog":56,"./confirmation":9,"./helpScreen":16,"../entity/entities":17,"../level":12}],8:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8210,7 +8531,7 @@ window.onload = function () {
     game.switchScreen(_startScreen2.default);
   }
 };
-},{"rot-js":27,"./colors":5,"./screens/startScreen":8,"./messageDisplay":6,"./playerStatusDisplay":7,"./screens/confirmation":9}],44:[function(require,module,exports) {
+},{"rot-js":27,"./colors":5,"./screens/startScreen":8,"./messageDisplay":6,"./playerStatusDisplay":7,"./screens/confirmation":9}],57:[function(require,module,exports) {
 
 var global = (1, eval)('this');
 var OldModule = module.bundle.Module;
@@ -8333,5 +8654,5 @@ function hmrAccept(bundle, id) {
     return hmrAccept(global.require, id);
   });
 }
-},{}]},{},[44,3])
+},{}]},{},[57,3])
 //# sourceMappingURL=/dist/28d908142711746cd98d878a219803a3.map

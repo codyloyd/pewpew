@@ -4,27 +4,39 @@ import Colors from "../colors";
 import ItemDetailDialog from "./itemDetailDialog";
 
 class ItemListDialog {
-  constructor(items, masterScreen) {
+  constructor(items, masterScreen, player, title = "INVENTORY") {
+    console.log(title);
     this.items = items;
     this.masterScreen = masterScreen;
+    this.player = player;
     this.subscreen = null;
     this.display = document.createElement("div");
     this.display.classList.add("item-list-dialog");
+    this.title = title;
     this.actions = {
       inc: this.incSelectedItem.bind(this),
       dec: this.decSelectedItem.bind(this),
-      getIndex: value => state => state.selectedItemIndex
+      getIndex: value => state => state.selectedItemIndex,
+      getItems: valie => state => state.items,
+      getState: value => state => state,
+      getSelectedItem: value => state => state.items[state.selectedItemIndex],
+      removeItem: itemToRemove => state => {
+        const items = state.items.filter(item => item !== itemToRemove);
+        let selectedItemIndex = Math.min(
+          state.selectedItemIndex,
+          items.length - 1
+        );
+        return { items, selectedItemIndex };
+      }
     };
-    this.state = { items: this.items, selectedItemIndex: 0 };
+    this.state = { title: this.title, items: this.items, selectedItemIndex: 0 };
     this.functions = app(this.state, this.actions, this.view, this.display);
   }
 
-  view({ items, selectedItemIndex }, actions) {
+  view({ items, selectedItemIndex, title }, actions) {
     return (
       <div>
-        <div style={{ borderBottom: "1px solid " + Colors.white }}>
-          INVENTORY
-        </div>
+        <div style={{ borderBottom: "1px solid " + Colors.white }}>{title}</div>
         {items.map((item, i) => {
           return (
             <div class={i == selectedItemIndex ? "selected" : ""}>
@@ -41,15 +53,15 @@ class ItemListDialog {
   }
 
   incSelectedItem() {
-    return ({ selectedItemIndex }) => ({
-      selectedItemIndex: (selectedItemIndex + 1) % this.items.length
+    return ({ selectedItemIndex, items }) => ({
+      selectedItemIndex: (selectedItemIndex + 1) % items.length
     });
   }
   decSelectedItem() {
-    return ({ selectedItemIndex }) => {
+    return ({ selectedItemIndex, items }) => {
       let newValue = selectedItemIndex - 1;
       if (newValue < 0) {
-        newValue = this.items.length - 1;
+        newValue = items.length - 1;
       }
 
       return {
@@ -57,19 +69,33 @@ class ItemListDialog {
       };
     };
   }
+  exit() {
+    this.masterScreen.exitSubscreen();
+    this.display.remove();
+  }
+
+  renderItemList() {
+    app(this.functions.getState(), this.actions, this.view, this.display);
+  }
 
   handleInput(inputData) {
+    const item = this.functions.getSelectedItem();
+
     if (inputData.keyCode === ROT.VK_ESCAPE) {
-      this.masterScreen.exitSubscreen();
-      this.display.remove();
-    } else if (inputData.keyCode === ROT.VK_RETURN) {
+      this.exit();
+    }
+
+    if (!item) {
+      return;
+    }
+
+    if (inputData.keyCode === ROT.VK_RETURN) {
       // view selected item
-      const item = this.items[this.functions.getIndex()];
-      const detailDialog = new ItemDetailDialog(item)
-      this.display.innerHTML = ''
-      this.display.appendChild(detailDialog.display)
-    } else if ( inputData.keyCode == ROT.VK_Q ) {
-      this.functions = app(this.state, this.actions, this.view, this.display);
+      const detailDialog = new ItemDetailDialog(item);
+      this.display.innerHTML = "";
+      this.display.appendChild(detailDialog.display);
+    } else if (inputData.keyCode == ROT.VK_Q) {
+      this.renderItemList();
     } else if (
       inputData.keyCode === ROT.VK_J ||
       inputData.keyCode === ROT.VK_DOWN ||
@@ -78,11 +104,30 @@ class ItemListDialog {
       this.functions.inc();
     } else if (
       inputData.keyCode === ROT.VK_K ||
-      inputData.keyCode ||
-      ROT.VK_UP ||
+      inputData.keyCode === ROT.VK_UP ||
       inputData.keyCode === ROT.VK_8
     ) {
       this.functions.dec();
+    } else if (inputData.keyCode === ROT.VK_W) {
+      if (item.wieldable) {
+        this.player.wield(item);
+        this.player.getGame().messageDisplay.add(`You wield the ${item.name}`);
+        this.exit();
+      }
+      if (item.wearable) {
+        this.player.wear(item);
+        this.player.getGame().messageDisplay.add(`You put on the ${item.name}`);
+        this.exit();
+      }
+    } else if (inputData.keyCode === ROT.VK_D) {
+      this.player.removeItem(item);
+      this.functions.removeItem(item);
+      this.masterScreen.level.addItem(
+        item,
+        this.player.getX(),
+        this.player.getY()
+      );
+      this.renderItemList();
     }
   }
 }

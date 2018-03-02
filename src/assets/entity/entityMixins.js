@@ -201,25 +201,8 @@ export class Movable {
 
     const target = level.getEntityAt(x, y);
     if (target) {
-      if (target.hasMixin("PlayerActor")) {
-        const damage = 2;
-        const game = this.getGame();
-        if (game) {
-          game.messageDisplay.add(
-            `The ${this.name} hits you for ${damage} damage.`
-          );
-        }
-        target.takeDamage(damage);
-      }
-      if (this.hasMixin("PlayerActor") && target.hasMixin("Destructible")) {
-        const damage = 2;
-        const game = this.getGame();
-        if (game && this.hasMixin("PlayerActor")) {
-          game.messageDisplay.add(
-            `You hit the ${target.name} for ${damage} damage.`
-          );
-        }
-        target.takeDamage(damage);
+      if (this.hasMixin("Attacker")) {
+        this.attack(target);
       }
       return false;
     }
@@ -229,5 +212,78 @@ export class Movable {
       return true;
     }
     return false;
+  }
+}
+
+export class Attacker {
+  constructor({ strength = 1 }) {
+    this.name = "Attacker";
+    this.strength = strength;
+    this.attack = this._attack;
+    this.getAttackValue = this._getAttackValue;
+  }
+  _getAttackValue() {
+    let mod = 0;
+    if (this.hasMixin("Equipper")) {
+      if (this.weapon) {
+        mod += this.weapon.attackValue;
+      }
+    }
+    return this.strength + mod;
+  }
+  _attack(target) {
+    const game = this.getGame();
+    if (target.hasMixin("PlayerActor")) {
+      const damage = this.getAttackValue();
+      if (game) {
+        game.messageDisplay.add(
+          `The ${this.name} hits you for ${damage} damage.`
+        );
+      }
+      target.takeDamage(damage);
+    }
+    if (this.hasMixin("PlayerActor") && target.hasMixin("Destructible")) {
+      const damage = this.getAttackValue();
+      if (game && this.hasMixin("PlayerActor")) {
+        game.messageDisplay.add(
+          `You hit the ${target.name} for ${damage} damage.`
+        );
+      }
+      target.takeDamage(damage);
+    }
+  }
+}
+
+export class Equipper {
+  constructor({ weapon = null, armor = null }) {
+    this.name = "Equipper";
+    this.weapon = weapon;
+    this.armor = armor;
+    this.wield = this._wield;
+    this.unwield = this._unwield;
+    this.wear = this._wear;
+    this.takeOff = this._takeOff;
+    this.unequip = this._unequip;
+  }
+
+  _wield(weapon) {
+    this.weapon = weapon;
+  }
+  _unwield() {
+    this.weapon = null;
+  }
+  _wear(armor) {
+    this.armor = armor;
+  }
+  _takeOff() {
+    this.armor = null;
+  }
+  _unequip(item) {
+    if (item === this.armor) {
+      this.takeOff();
+    }
+    if (item === this.weapon) {
+      this.unwield();
+    }
   }
 }

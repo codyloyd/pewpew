@@ -3,6 +3,7 @@ import Colors from "../colors";
 import Entity from "../entity/entity";
 import gameOverScreen from "./gameOverScreen";
 import ItemListDialog from "./itemListDialog";
+import PickUpDialog from "./pickUpDialog";
 import Confirmation from "./confirmation";
 import HelpScreen from "./helpScreen";
 import { MonsterTemplate, PlayerTemplate } from "../entity/entities";
@@ -106,9 +107,30 @@ class playScreen {
     } else if (inputData.keyCode === ROT.VK_5 || ROT.VK_PERIOD) {
       this.game.getEngine().unlock();
     }
+    // pick up item
+    if (inputData.keyCode === ROT.VK_G || inputData.keyCode == ROT.VK_COMMA) {
+      const item = this.level.getItems()[
+        this.player.getX() + "," + this.player.getY()
+      ];
+      if (
+        item.length == 1 &&
+        item[0].canPickUp &&
+        this.player.addItem(item[0])
+      ) {
+        this.level.setItemsAt(this.player.getX(), this.player.getY(), []);
+        this.game.messageDisplay.add("you pick up " + item[0].describeA());
+        console.log("you pick up " + item[0].describeA());
+      }
+      if (item.length > 1) {
+        this.enterSubscreen(new PickUpDialog(item, this, this.player));
+        console.log("lets pick up multiple items");
+      }
+    }
     // subscreens
     if (inputData.keyCode == ROT.VK_I) {
-      this.enterSubscreen(new ItemListDialog(this.player.inventory, this));
+      this.enterSubscreen(
+        new ItemListDialog(this.player.inventory, this, this.player)
+      );
     }
     if (inputData.keyCode == ROT.VK_SLASH) {
       this.enterSubscreen(new HelpScreen(this));
@@ -135,19 +157,19 @@ class playScreen {
       hp: this.player.hp,
       maxHp: this.player.maxHp
     });
-    // autopickupitems
+
     const items = this.level.getItems();
     if (items[this.player.getX() + "," + this.player.getY()]) {
       const item = items[this.player.getX() + "," + this.player.getY()];
-      if (item.canPickUp && this.player.addItem(item)) {
-        this.level.removeItem(item);
-        this.game.messageDisplay.add("you pick up " + item.describeA());
-        console.log("you pick up " + item.describeA());
+      if (item.length == 1) {
+        this.game.messageDisplay.add("you see " + item[0].describeA());
+        console.log("you see " + item[0].describeA());
       } else {
-        this.game.messageDisplay.add("you see " + item.describeA());
-        console.log("you see " + item.describeA());
+        this.game.messageDisplay.add("you see several items here");
+        console.log("you see several items here");
       }
     }
+
     const screenWidth = Game.getScreenWidth();
     const screenHeight = Game.getScreenHeight();
     let topLeftX = Math.max(0, this.player.getX() - screenWidth / 2);
@@ -206,9 +228,9 @@ class playScreen {
         display.draw(
           parseInt(x) - topLeftX,
           parseInt(y) - topLeftY,
-          item.getChar(),
-          item.getFg(),
-          item.getBg()
+          item[0].getChar(),
+          item[0].getFg(),
+          item[0].getBg()
         );
       }
     });

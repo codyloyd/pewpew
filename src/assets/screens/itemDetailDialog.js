@@ -6,20 +6,22 @@ class ItemDetailDialog {
   constructor(item) {
     this.item = item;
     this.display = document.createElement("div");
-    this.display.classList.add('item-detail-dialog')
-    this.actions = {
-    };
+    this.display.classList.add("item-detail-dialog");
+    this.actions = {};
     this.state = { item: this.item };
     this.functions = app(this.state, this.actions, this.view, this.display);
   }
 
-  view({item}, actions) {
+  view({ item }, actions) {
     return (
       <div>
         <div>{item.description}</div>
+        <div>Actions:</div>
+        <div>(d)rop</div>
+        <div>{item.wieldable ? "(w)ield" : item.wearable ? "(w)ear" : ""}</div>
         <div>Press key to use, press 'q' to go back</div>
       </div>
-    )
+    );
   }
 }
 

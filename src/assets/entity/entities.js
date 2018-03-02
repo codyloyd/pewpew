@@ -2,23 +2,32 @@ import Colors from "../colors";
 import {
   InventoryHolder,
   PlayerActor,
-  MonsterActor,
   Movable,
   Destructible,
   Sight,
-  TaskActor
+  TaskActor,
+  Attacker,
+  Equipper
 } from "./entityMixins";
 
 export const PlayerTemplate = {
   name: "ME",
   char: "@",
   fg: Colors.white,
-  mixins: [Destructible, Movable, PlayerActor, InventoryHolder]
+  strength: 6,
+  mixins: [
+    Destructible,
+    Movable,
+    PlayerActor,
+    InventoryHolder,
+    Attacker,
+    Equipper
+  ]
 };
 
 export const MonsterTemplate = {
   name: "Monster",
   char: "m",
   fg: Colors.green,
-  mixins: [Movable, TaskActor, Destructible, Sight]
+  mixins: [Movable, TaskActor, Destructible, Sight, Attacker]
 };
