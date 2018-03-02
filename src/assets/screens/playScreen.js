@@ -15,9 +15,11 @@ class playScreen {
     this.map = this.level.getMap();
     this.subscreen = null;
 
-    this.player = new Entity(
+    this.game.player = new Entity(
       Object.assign(PlayerTemplate, { map: this.map, Game: this.game })
     );
+    this.player = this.game.player;
+    this.level.player = this.game.player;
 
     const position = this.level.getRandomFloorPosition();
     this.player.setPosition(position.x, position.y);
@@ -101,6 +103,8 @@ class playScreen {
       inputData.keyCode == ROT.VK_3
     ) {
       move(1, 1);
+    } else if (inputData.keyCode === ROT.VK_5 || ROT.VK_PERIOD) {
+      this.game.getEngine().unlock();
     }
     // subscreens
     if (inputData.keyCode == ROT.VK_I) {
@@ -126,7 +130,11 @@ class playScreen {
     const display = Game.getDisplay();
     const map = this.level.getMap();
 
-    playerStatusDisplay.render({ name: this.player.name, hp: 40, maxHp: 40 });
+    playerStatusDisplay.render({
+      name: this.player.name,
+      hp: this.player.hp,
+      maxHp: this.player.maxHp
+    });
     // autopickupitems
     const items = this.level.getItems();
     if (items[this.player.getX() + "," + this.player.getY()]) {
@@ -158,7 +166,7 @@ class playScreen {
 
     const visibleTiles = {};
     const exploredTiles = this.level.exploredTiles;
-    fov.compute(this.player.getX(), this.player.getY(), 10, function(
+    fov.compute(this.player.getX(), this.player.getY(), 20, function(
       x,
       y,
       r,

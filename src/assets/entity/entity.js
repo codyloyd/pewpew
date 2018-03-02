@@ -16,6 +16,19 @@ class Entity extends DynamicGlyph {
     this.level = level;
     this.game = Game;
     this.speed = speed;
+    this.alive = true;
+  }
+  isAlive() {
+    return this.alive;
+  }
+  kill() {
+    if (!this.isAlive()) return;
+    this.alive = false;
+    if (this.hasMixin("PlayerActor")) {
+      this.act();
+    } else {
+      this.getLevel().removeEntity(this);
+    }
   }
   getSpeed() {
     return this.speed;
@@ -26,7 +39,7 @@ class Entity extends DynamicGlyph {
   getLevel() {
     return this.level;
   }
-  setMap(newLevel) {
+  setLevel(newLevel) {
     this.level = newLevel;
   }
   getName() {

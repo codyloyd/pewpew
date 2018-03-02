@@ -3,19 +3,22 @@ import {
   InventoryHolder,
   PlayerActor,
   MonsterActor,
-  Movable
+  Movable,
+  Destructible,
+  Sight,
+  TaskActor
 } from "./entityMixins";
 
 export const PlayerTemplate = {
   name: "ME",
   char: "@",
   fg: Colors.white,
-  mixins: [Movable, PlayerActor, InventoryHolder]
+  mixins: [Destructible, Movable, PlayerActor, InventoryHolder]
 };
 
 export const MonsterTemplate = {
   name: "Monster",
   char: "m",
   fg: Colors.green,
-  mixins: [Movable, MonsterActor]
+  mixins: [Movable, TaskActor, Destructible, Sight]
 };

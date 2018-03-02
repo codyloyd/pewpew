@@ -1,3 +1,5 @@
+import ROT from "rot-js";
+
 export class PlayerActor {
   constructor() {
     this.name = "PlayerActor";
@@ -21,11 +23,142 @@ export class Destructible {
 
   _takeDamage(damage) {
     this.hp -= damage;
+    if (this.hp <= 0) {
+      if (this.hasMixin("PlayerActor")) {
+        this.game.messageDisplay.add(`You DIE`);
+      } else {
+        this.game.messageDisplay.add(`You kill the ${this.name}.`);
+      }
+      this.kill();
+    }
+  }
+}
+
+export class Sight {
+  constructor({ sightRadius = 15 }) {
+    this.name = "Sight";
+    this.sightRadius = sightRadius;
+    this.canSee = this._canSee;
+  }
+
+  _canSee(entity) {
+    const otherX = entity.getX();
+    const otherY = entity.getY();
+    if (
+      (otherX - this.getX()) * (otherX - this.getX()) +
+        (otherY - this.getY()) * (otherY - this.getY()) >
+      this.sightRadius * this.sightRadius
+    ) {
+      return false;
+    }
+    let found = false;
+    const fov = new ROT.FOV.PreciseShadowcasting((x, y) => {
+      if (this.level.map.getTile(x, y)) {
+        return !this.level.map.getTile(x, y).blocksLight;
+      }
+      return false;
+    });
+
+    fov.compute(this.getX(), this.getY(), this.sightRadius, function(
+      x,
+      y,
+      radius,
+      visibility
+    ) {
+      if (x === otherX && y === otherY) {
+        found = true;
+      }
+    });
+    return found;
+    return true;
+  }
+}
+
+export class TaskActor {
+  constructor({ tasks = ["hunt", "wander"] }) {
+    this.huntingTarget = null;
+    this.tasks = tasks;
+    this.name = "TaskActor";
+    this.groupName = "Actor";
+    this.act = this._act;
+    this.canDoTask = this._canDoTask;
+    this.wander = this._wander;
+    this.hunt = this._hunt;
+  }
+  _act() {
+    for (let i = 0; i < this.tasks.length; i++) {
+      const task = this.tasks[i];
+      if (this.canDoTask(task)) {
+        this[task]();
+        break;
+      }
+    }
+  }
+
+  _canDoTask(task) {
+    if (task === "hunt") {
+      return (
+        this.hasMixin("Sight") &&
+        (this.canSee(this.getLevel().player) || this.huntingTarget)
+      );
+    } else if (task === "wander") {
+      return true;
+    } else {
+      throw new Error("tried to perform undefined task");
+    }
+  }
+
+  _hunt() {
+    const player = this.getLevel().player;
+    const offsets =
+      Math.abs(player.getX() - this.getX()) +
+      Math.abs(player.getY() - this.getY());
+    if (offsets === 1 && this.hasMixin("Attacker")) {
+      this.attack(player);
+      return;
+    }
+
+    if (this.canSee(player)) {
+      this.huntingTarget = { x: player.getX(), y: player.getY() };
+    }
+
+    const source = this;
+    const path = new ROT.Path.AStar(
+      this.huntingTarget.x,
+      this.huntingTarget.y,
+      function(x, y) {
+        var entity = source.getLevel().getEntityAt(x, y);
+        if (entity && entity !== player && entity !== source) {
+          return false;
+        }
+        return source
+          .getLevel()
+          .getMap()
+          .getTile(x, y).isWalkable;
+      },
+      { topology: 4 }
+    );
+    let count = 0;
+    path.compute(source.getX(), source.getY(), function(x, y) {
+      if (count == 1) {
+        source.tryMove(x, y, source.getLevel());
+      }
+      count++;
+    });
+  }
+
+  _wander() {
+    const dX = Math.floor(Math.random() * 3) - 1;
+    const dY = Math.floor(Math.random() * 3) - 1;
+    if (this.level.player && this.canSee(this.level.player)) {
+      this.tryMove(this.getX() + dX, this.getY() + dY, this.getLevel());
+    }
   }
 }
 
 export class InventoryHolder {
   constructor({ inventorySize = 10 }) {
+    this.name = "InventoryHolder";
     this.inventorySize = inventorySize;
     this.inventory = [];
     this.addItem = this._addItem;
@@ -52,7 +185,9 @@ export class MonsterActor {
   _act() {
     const dX = Math.floor(Math.random() * 3) - 1;
     const dY = Math.floor(Math.random() * 3) - 1;
-    this.tryMove(this.getX() + dX, this.getY() + dY, this.getLevel());
+    if (this.level.player && this.canSee(this.level.player)) {
+      this.tryMove(this.getX() + dX, this.getY() + dY, this.getLevel());
+    }
   }
 }
 
@@ -65,7 +200,29 @@ export class Movable {
     const tile = level.getMap().getTile(x, y);
 
     const target = level.getEntityAt(x, y);
-    if (target) return false;
+    if (target) {
+      if (target.hasMixin("PlayerActor")) {
+        const damage = 2;
+        const game = this.getGame();
+        if (game) {
+          game.messageDisplay.add(
+            `The ${this.name} hits you for ${damage} damage.`
+          );
+        }
+        target.takeDamage(damage);
+      }
+      if (this.hasMixin("PlayerActor") && target.hasMixin("Destructible")) {
+        const damage = 2;
+        const game = this.getGame();
+        if (game && this.hasMixin("PlayerActor")) {
+          game.messageDisplay.add(
+            `You hit the ${target.name} for ${damage} damage.`
+          );
+        }
+        target.takeDamage(damage);
+      }
+      return false;
+    }
 
     if (tile.isWalkable) {
       this.setPosition(x, y);

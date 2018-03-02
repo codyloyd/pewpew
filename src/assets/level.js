@@ -16,11 +16,12 @@ class Level {
     });
     this.exploredTiles = {};
     this.items = {};
+    this.player = null
 
     // add Entities to Map
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 40; i++) {
       this.addEntityAtRandomPosition(
-        new Entity(Object.assign(MonsterTemplate, { level: this }))
+        new Entity(Object.assign(MonsterTemplate, { level: this, Game:this.game }))
       );
     }
 
@@ -72,7 +73,10 @@ class Level {
   }
 
   getEntityAt(x, y) {
-    return this.entities[x + "," + y];
+    if (this.player && this.player.getX() == x && this.player.getY() == y) {
+      return this.player
+    }
+    return this.entities[x + "," + y] 
   }
 
   updateEntityPosition(oldX, oldY, newX, newY) {
@@ -84,6 +88,16 @@ class Level {
     this.entities[entity.getX() + "," + entity.getY()] = entity;
     if (entity.hasMixin("Actor")) {
       this.game.getScheduler().add(entity, true);
+    }
+  }
+
+  removeEntity(entityToRemove) {
+    const key = entityToRemove.getX() + ',' + entityToRemove.getY();
+    if (this.entities[key] == entityToRemove) {
+      delete this.entities[key]
+      if (entityToRemove.hasMixin('Actor')) {
+        this.game.getScheduler().remove(entityToRemove)
+      }
     }
   }
 
