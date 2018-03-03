@@ -9,16 +9,26 @@ class Tile extends Glyph {
   }
 }
 
-const floorTile = new Tile({
+export const stairsUpTile = new Tile({
+  char: "<",
+  fg: Colors.gray,
+  isWalkable: true
+});
+
+export const stairsDownTile = new Tile({
+  char: ">",
+  fg: Colors.gray,
+  isWalkable: true
+});
+
+export const floorTile = new Tile({
   char: ".",
   fg: Colors.darkGray,
   isWalkable: true
 });
 
-const wallTile = new Tile({
+export const wallTile = new Tile({
   char: "#",
   fg: Colors.brown,
   blocksLight: true
 });
-
-export { floorTile, wallTile };

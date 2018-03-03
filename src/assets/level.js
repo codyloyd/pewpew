@@ -2,13 +2,14 @@ import DungeonMap from "./dungeonMap";
 import Entity from "./entity/entity";
 import { WeaponRepository, ItemRepository } from "./item/items";
 import { MonsterTemplate, PlayerTemplate } from "./entity/entities";
-import { floorTile, wallTile } from "./tile";
+import { floorTile, wallTile, stairsUpTile, stairsDownTile } from "./tile";
 
 class Level {
-  constructor(Game) {
+  constructor({ Game, gameWorld, topLevel = false, bottomLevel = false }) {
     this.game = Game;
+    this.gameWorld = gameWorld;
     this.width = this.game.getScreenWidth();
-    this.height = this.game.getScreenHeight() * 1.5;
+    this.height = this.game.getScreenHeight();
     this.entities = {};
     this.map = new DungeonMap({
       width: this.width,
@@ -18,8 +19,17 @@ class Level {
     this.items = {};
     this.player = null;
 
+    if (!topLevel) {
+      this.stairsUp = this.getRandomFloorPosition();
+      this.map.setTile(this.stairsUp.x, this.stairsUp.y, stairsUpTile);
+    }
+    if (!bottomLevel) {
+      this.stairsDown = this.getRandomFloorPosition();
+      this.map.setTile(this.stairsDown.x, this.stairsDown.y, stairsDownTile);
+    }
+
     // add Entities to Map
-    for (let i = 0; i < 40; i++) {
+    for (let i = 0; i < 10; i++) {
       this.addEntityAtRandomPosition(
         new Entity(
           Object.assign(MonsterTemplate, { level: this, Game: this.game })
@@ -27,10 +37,10 @@ class Level {
       );
     }
 
-    for (let i = 0; i < 25; i++) {
+    for (let i = 0; i < 5; i++) {
       this.addItemAtRandomPosition(ItemRepository.createRandom());
     }
-    for (let i = 0; i < 25; i++) {
+    for (let i = 0; i < 5; i++) {
       this.addItemAtRandomPosition(WeaponRepository.createRandom());
     }
     this.addItemAtRandomPosition(ItemRepository.create("Space Ship"));

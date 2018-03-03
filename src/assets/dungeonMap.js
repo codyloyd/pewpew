@@ -31,6 +31,15 @@ class DungeonMap {
     return this.tiles;
   }
 
+  setTile(x, y, tile) {
+    try {
+      this.tiles[x][y] = tile;
+      return tile;
+    } catch (e) {
+      return false;
+    }
+  }
+
   getTile(x, y) {
     try {
       return this.tiles[x][y];

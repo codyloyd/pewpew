@@ -7,12 +7,13 @@ import PickUpDialog from "./pickUpDialog";
 import Confirmation from "./confirmation";
 import HelpScreen from "./helpScreen";
 import { MonsterTemplate, PlayerTemplate } from "../entity/entities";
-import Level from "../level";
+import GameWorld from "../gameWorld";
 
 class playScreen {
   constructor(Game) {
     this.game = Game;
-    this.level = new Level(this.game);
+    this.gameWorld = new GameWorld(this.game);
+    this.level = this.gameWorld.getCurrentLevel();
     this.map = this.level.getMap();
     this.subscreen = null;
 
@@ -104,8 +105,39 @@ class playScreen {
       inputData.keyCode == ROT.VK_3
     ) {
       move(1, 1);
-    } else if (inputData.keyCode === ROT.VK_5 || ROT.VK_PERIOD) {
+    } else if (
+      inputData.keyCode === ROT.VK_5 ||
+      inputData.keyCode === ROT.VK_PERIOD
+    ) {
+      if (inputData.shiftKey) {
+        // go down level
+        const newLevel = this.gameWorld.goDownLevel();
+        if (newLevel) {
+          this.level = newLevel;
+          this.player.setPosition(this.level.stairsUp.x, this.level.stairsUp.y);
+          this.level.player = this.player;
+          this.map = this.level.getMap();
+          this.game.refresh();
+        }
+        return;
+      }
+
+      // if no shift key, then wait
       this.game.getEngine().unlock();
+    } else if (inputData.keyCode === ROT.VK_COMMA && inputData.shiftKey) {
+      // go up level
+      const newLevel = this.gameWorld.goUpLevel();
+      if (newLevel) {
+        this.level = newLevel;
+        this.player.setPosition(
+          this.level.stairsDown.x,
+          this.level.stairsDown.y
+        );
+        this.level.player = this.player;
+        this.map = this.level.getMap();
+        this.game.refresh();
+        return;
+      }
     }
     // pick up item
     if (inputData.keyCode === ROT.VK_G || inputData.keyCode == ROT.VK_COMMA) {

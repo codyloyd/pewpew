@@ -20,7 +20,7 @@ class PlayerStatusDisplay {
     return this.playerStatus;
   }
 
-  render({ name = "Player Name", hp, maxHp }) {
+  render({ name = "Player Name", hp, maxHp, x, y }) {
     this.playerStatus.innerHTML = "";
     this.playerStatus.innerHTML = `${name} ♥${hp}/${maxHp}`;
   }

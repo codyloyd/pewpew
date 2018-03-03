@@ -86,6 +86,9 @@ export class TaskActor {
     this.hunt = this._hunt;
   }
   _act() {
+    if (this.level.gameWorld.currentLevel !== this.level) {
+      return false;
+    }
     for (let i = 0; i < this.tasks.length; i++) {
       const task = this.tasks[i];
       if (this.canDoTask(task)) {
