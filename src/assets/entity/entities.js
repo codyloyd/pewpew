@@ -14,6 +14,7 @@ export const PlayerTemplate = {
   name: "ME",
   char: "@",
   fg: Colors.white,
+  sightRadius: 6,
   strength: 6,
   mixins: [
     Destructible,
@@ -21,7 +22,8 @@ export const PlayerTemplate = {
     PlayerActor,
     InventoryHolder,
     Attacker,
-    Equipper
+    Equipper,
+    Sight
   ]
 };
 

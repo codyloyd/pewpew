@@ -19,6 +19,12 @@ class Level {
     this.items = {};
     this.player = null;
 
+    this.firstRoom = this.map.getRooms()[0];
+
+    if (topLevel) {
+      this.playerStartPosition = this.getRandomRoomPosition(this.firstRoom);
+    }
+
     if (!topLevel) {
       this.stairsUp = this.getRandomFloorPosition();
       this.map.setTile(this.stairsUp.x, this.stairsUp.y, stairsUpTile);
@@ -37,13 +43,37 @@ class Level {
       );
     }
 
-    for (let i = 0; i < 5; i++) {
-      this.addItemAtRandomPosition(ItemRepository.createRandom());
+    // for (let i = 0; i < 5; i++) {
+    //   this.addItemAtRandomPosition(ItemRepository.createRandom());
+    // }
+
+    if (topLevel) {
+      const firstRoomPosition = this.getRandomRoomPosition(this.firstRoom);
+      this.addItem(
+        WeaponRepository.createRandom(),
+        firstRoomPosition.x,
+        firstRoomPosition.y
+      );
+
+      const otherRoomPosition = this.getRandomRoomPosition();
+      const ship = ItemRepository.create("Space Ship");
+      console.log(ship, otherRoomPosition);
+      this.addItem(ship, otherRoomPosition.x, otherRoomPosition.y);
     }
-    for (let i = 0; i < 5; i++) {
-      this.addItemAtRandomPosition(WeaponRepository.createRandom());
+    if (bottomLevel) {
+      this.addItemAtRandomPosition(ItemRepository.create("your keys"));
     }
-    this.addItemAtRandomPosition(ItemRepository.create("Space Ship"));
+  }
+
+  getRandomRoomPosition(room = this.map.getRooms().random()) {
+    return {
+      y:
+        Math.floor(Math.random() * (room.getBottom() - room.getTop())) +
+        room.getTop(),
+      x:
+        Math.floor(Math.random() * (room.getLeft() - room.getRight())) +
+        room.getRight()
+    };
   }
 
   getItems() {

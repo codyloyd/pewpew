@@ -32,3 +32,17 @@ export const wallTile = new Tile({
   fg: Colors.brown,
   blocksLight: true
 });
+
+export const closedDoorTile = new Tile({
+  char: "+",
+  fg: Colors.peach,
+  blocksLight: true,
+  isWalkable: false
+});
+
+export const openDoorTile = new Tile({
+  char: "-",
+  fg: Colors.peach,
+  blocksLight: false,
+  isWalkable: true
+});

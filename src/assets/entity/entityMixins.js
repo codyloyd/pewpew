@@ -1,4 +1,5 @@
 import ROT from "rot-js";
+import { closedDoorTile } from "../tile";
 
 export class PlayerActor {
   constructor() {
@@ -214,6 +215,10 @@ export class Movable {
     if (tile.isWalkable) {
       this.setPosition(x, y);
       return true;
+    }
+
+    if (tile == closedDoorTile) {
+      level.getMap().openDoor(x, y);
     }
     return false;
   }

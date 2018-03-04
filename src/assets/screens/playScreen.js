@@ -17,6 +17,7 @@ class playScreen {
     this.level = this.gameWorld.getCurrentLevel();
     this.map = this.level.getMap();
     this.subscreen = null;
+    this.closing = false;
 
     this.game.player = new Entity(
       Object.assign(PlayerTemplate, { map: this.map, Game: this.game })
@@ -24,7 +25,8 @@ class playScreen {
     this.player = this.game.player;
     this.level.player = this.game.player;
 
-    const position = this.level.getRandomFloorPosition();
+    // const position = this.level.getRandomFloorPosition();
+    const position = this.level.playerStartPosition;
     this.player.setPosition(position.x, position.y);
     this.game.getScheduler().add(this.player, true);
     this.game.getEngine().start();
@@ -62,49 +64,91 @@ class playScreen {
       );
       this.game.getEngine().unlock();
     }.bind(this);
+
+    const closeDoor = function(dX, dY) {
+      console.log("ping");
+      this.level
+        .getMap()
+        .closeDoor(this.player.getX() + dX, this.player.getY() + dY);
+      this.closing = false;
+      this.game.getEngine().unlock();
+    }.bind(this);
+
     if (
       inputData.keyCode === ROT.VK_H ||
       inputData.keyCode == ROT.VK_4 ||
       inputData.keyCode == ROT.VK_LEFT
     ) {
+      if (this.closing) {
+        closeDoor(-1, 0);
+        return;
+      }
       move(-1, 0);
     } else if (
       inputData.keyCode === ROT.VK_L ||
       inputData.keyCode == ROT.VK_6 ||
       inputData.keyCode == ROT.VK_RIGHT
     ) {
+      if (this.closing) {
+        closeDoor(1, 0);
+        return;
+      }
       move(1, 0);
     } else if (
       inputData.keyCode === ROT.VK_K ||
       inputData.keyCode == ROT.VK_8 ||
       inputData.keyCode == ROT.VK_UP
     ) {
+      if (this.closing) {
+        closeDoor(0, -1);
+        return;
+      }
       move(0, -1);
     } else if (
       inputData.keyCode === ROT.VK_J ||
       inputData.keyCode == ROT.VK_2 ||
       inputData.keyCode == ROT.VK_DOWN
     ) {
+      if (this.closing) {
+        closeDoor(0, 1);
+        return;
+      }
       move(0, 1);
     } else if (
       inputData.keyCode === ROT.VK_Y ||
       inputData.keyCode == ROT.VK_7
     ) {
+      if (this.closing) {
+        closeDoor(-1, -1);
+        return;
+      }
       move(-1, -1);
     } else if (
       inputData.keyCode === ROT.VK_U ||
       inputData.keyCode == ROT.VK_9
     ) {
+      if (this.closing) {
+        closeDoor(1, -1);
+        return;
+      }
       move(1, -1);
     } else if (
       inputData.keyCode === ROT.VK_B ||
       inputData.keyCode == ROT.VK_1
     ) {
+      if (this.closing) {
+        closeDoor(-1, 1);
+        return;
+      }
       move(-1, 1);
     } else if (
       inputData.keyCode === ROT.VK_N ||
       inputData.keyCode == ROT.VK_3
     ) {
+      if (this.closing) {
+        closeDoor(1, 1);
+        return;
+      }
       move(1, 1);
     } else if (
       inputData.keyCode === ROT.VK_5 ||
@@ -152,6 +196,14 @@ class playScreen {
         this.game.refresh();
         return;
       }
+    } else if (inputData.keyCode == ROT.VK_C) {
+      this.game.messageDisplay.add("Close where?");
+      this.closing = true;
+      return;
+    }
+    if (this.closing) {
+      this.game.messageDisplay.add("Nevermind");
+      this.closing = false;
     }
     // pick up item
     if (inputData.keyCode === ROT.VK_G || inputData.keyCode == ROT.VK_COMMA) {
@@ -234,15 +286,15 @@ class playScreen {
 
     const visibleTiles = {};
     const exploredTiles = this.level.exploredTiles;
-    fov.compute(this.player.getX(), this.player.getY(), 20, function(
-      x,
-      y,
-      r,
-      visibility
-    ) {
-      visibleTiles[x + "," + y] = true;
-      exploredTiles[x + "," + y] = true;
-    });
+    fov.compute(
+      this.player.getX(),
+      this.player.getY(),
+      this.player.sightRadius,
+      function(x, y, r, visibility) {
+        visibleTiles[x + "," + y] = true;
+        exploredTiles[x + "," + y] = true;
+      }
+    );
 
     for (var x = topLeftX; x < topLeftX + screenWidth; x++) {
       for (var y = topLeftY; y < topLeftY + screenHeight; y++) {

@@ -1,5 +1,5 @@
 import ROT from "rot-js";
-import { floorTile, wallTile } from "./tile";
+import { floorTile, wallTile, openDoorTile, closedDoorTile } from "./tile";
 
 class DungeonMap {
   constructor({ width = 40, height = 20 }) {
@@ -11,8 +11,8 @@ class DungeonMap {
       this.tiles[w] = new Array(height);
     }
 
-    const maxRoomWidth = Math.random() > 0.3 ? 10 : 32;
-    const maxRoomHeight = maxRoomWidth !== 32 && Math.random() > 0.8 ? 32 : 12;
+    const maxRoomWidth = Math.random() > 0.3 ? 10 : 22;
+    const maxRoomHeight = maxRoomWidth !== 32 && Math.random() > 0.8 ? 22 : 12;
 
     const generator = new ROT.Map.Digger(width, height, {
       roomWidth: [6, maxRoomWidth],
@@ -25,6 +25,32 @@ class DungeonMap {
         this.tiles[x][y] = value == 1 ? wallTile : floorTile;
       }.bind(this)
     );
+    this.rooms = generator.getRooms();
+    this.rooms.forEach((room, i) => {
+      room.getDoors((x, y) => {
+        this.tiles[x][y] =
+          i == 0
+            ? closedDoorTile
+            : Math.random() > 0.8
+              ? openDoorTile
+              : Math.random() > 0.8 ? closedDoorTile : floorTile;
+      });
+    });
+  }
+
+  openDoor(x, y) {
+    if (this.tiles[x][y] === closedDoorTile) {
+      this.tiles[x][y] = openDoorTile;
+    }
+  }
+  closeDoor(x, y) {
+    if (this.tiles[x][y] === openDoorTile) {
+      this.tiles[x][y] = closedDoorTile;
+    }
+  }
+
+  getRooms() {
+    return this.rooms;
   }
 
   getTiles() {

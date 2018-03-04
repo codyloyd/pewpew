@@ -22,6 +22,14 @@ ItemRepository.define({
   disableRandomCreation: true
 });
 
+ItemRepository.define({
+  name: "your keys",
+  char: '"',
+  description: "Your keys!  You can't get off this rock without them!",
+  fg: Colors.blue,
+  disableRandomCreation: true
+});
+
 export const WeaponRepository = new Repository({ name: "Weapons", ctor: Item });
 
 WeaponRepository.define({
@@ -45,6 +53,17 @@ WeaponRepository.define({
 });
 
 WeaponRepository.define({
+  name: "monkey wrench",
+  char: "(",
+  description:
+    "Heavy, rusty, not particularly useful as a tool anymore--but if you need to bash someone's brains in....",
+  fg: Colors.gray,
+  wieldable: true,
+  attackValue: 3,
+  mixins: [Equippable]
+});
+
+WeaponRepository.define({
   name: "lazer sword",
   char: "(",
   description: "Now we're talking, this thing will really mess up some aliens.",
@@ -55,11 +74,22 @@ WeaponRepository.define({
 });
 
 WeaponRepository.define({
-  name: "small blaster",
-  char: "(",
-  description: "doesn't pack much punch, but holds 100 charges... not bad!",
-  fg: Colors.blue,
+  name: "pocket knife",
+  description:
+    "Old trusty pocket knife.. it's not worth much, but it's better than bare hands.",
+  char: ")",
+  fg: Colors.brown,
   wieldable: true,
-  attackValue: 1,
+  attackValue: 3,
   mixins: [Equippable]
 });
+
+// WeaponRepository.define({
+//   name: "small blaster",
+//   char: "(",
+//   description: "doesn't pack much punch, but holds 100 charges... not bad!",
+//   fg: Colors.blue,
+//   wieldable: true,
+//   attackValue: 1,
+//   mixins: [Equippable]
+// });

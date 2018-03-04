@@ -7067,7 +7067,89 @@ var HelpScreen = function () {
 }();
 
 exports.default = HelpScreen;
-},{"hyperapp":32,"rot-js":30}],21:[function(require,module,exports) {
+},{"hyperapp":32,"rot-js":30}],24:[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.openDoorTile = exports.closedDoorTile = exports.wallTile = exports.floorTile = exports.stairsDownTile = exports.stairsUpTile = undefined;
+
+var _glyph = require("./glyph");
+
+var _glyph2 = _interopRequireDefault(_glyph);
+
+var _colors = require("./colors");
+
+var _colors2 = _interopRequireDefault(_colors);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Tile = function (_Glyph) {
+  _inherits(Tile, _Glyph);
+
+  function Tile(_ref) {
+    var _ref$isWalkable = _ref.isWalkable,
+        isWalkable = _ref$isWalkable === undefined ? false : _ref$isWalkable,
+        _ref$blocksLight = _ref.blocksLight,
+        blocksLight = _ref$blocksLight === undefined ? false : _ref$blocksLight;
+
+    _classCallCheck(this, Tile);
+
+    var _this = _possibleConstructorReturn(this, (Tile.__proto__ || Object.getPrototypeOf(Tile)).apply(this, arguments));
+
+    _this.isWalkable = isWalkable;
+    _this.blocksLight = blocksLight;
+    return _this;
+  }
+
+  return Tile;
+}(_glyph2.default);
+
+var stairsUpTile = exports.stairsUpTile = new Tile({
+  char: "<",
+  fg: _colors2.default.gray,
+  isWalkable: true
+});
+
+var stairsDownTile = exports.stairsDownTile = new Tile({
+  char: ">",
+  fg: _colors2.default.gray,
+  isWalkable: true
+});
+
+var floorTile = exports.floorTile = new Tile({
+  char: ".",
+  fg: _colors2.default.darkGray,
+  isWalkable: true
+});
+
+var wallTile = exports.wallTile = new Tile({
+  char: "#",
+  fg: _colors2.default.brown,
+  blocksLight: true
+});
+
+var closedDoorTile = exports.closedDoorTile = new Tile({
+  char: "+",
+  fg: _colors2.default.peach,
+  blocksLight: true,
+  isWalkable: false
+});
+
+var openDoorTile = exports.openDoorTile = new Tile({
+  char: "-",
+  fg: _colors2.default.peach,
+  blocksLight: false,
+  isWalkable: true
+});
+},{"./glyph":26,"./colors":5}],21:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7080,6 +7162,8 @@ var _createClass = function () { function defineProperties(target, props) { for 
 var _rotJs = require("rot-js");
 
 var _rotJs2 = _interopRequireDefault(_rotJs);
+
+var _tile = require("../tile");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -7351,6 +7435,10 @@ var Movable = exports.Movable = function () {
         this.setPosition(x, y);
         return true;
       }
+
+      if (tile == _tile.closedDoorTile) {
+        level.getMap().openDoor(x, y);
+      }
       return false;
     }
   }]);
@@ -7459,7 +7547,7 @@ var Equipper = exports.Equipper = function () {
 
   return Equipper;
 }();
-},{"rot-js":30}],17:[function(require,module,exports) {
+},{"rot-js":30,"../tile":24}],17:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7479,8 +7567,9 @@ var PlayerTemplate = exports.PlayerTemplate = {
   name: "ME",
   char: "@",
   fg: _colors2.default.white,
+  sightRadius: 6,
   strength: 6,
-  mixins: [_entityMixins.Destructible, _entityMixins.Movable, _entityMixins.PlayerActor, _entityMixins.InventoryHolder, _entityMixins.Attacker, _entityMixins.Equipper]
+  mixins: [_entityMixins.Destructible, _entityMixins.Movable, _entityMixins.PlayerActor, _entityMixins.InventoryHolder, _entityMixins.Attacker, _entityMixins.Equipper, _entityMixins.Sight]
 };
 
 var MonsterTemplate = exports.MonsterTemplate = {
@@ -7489,75 +7578,7 @@ var MonsterTemplate = exports.MonsterTemplate = {
   fg: _colors2.default.green,
   mixins: [_entityMixins.Movable, _entityMixins.TaskActor, _entityMixins.Destructible, _entityMixins.Sight, _entityMixins.Attacker]
 };
-},{"../colors":5,"./entityMixins":21}],24:[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.wallTile = exports.floorTile = exports.stairsDownTile = exports.stairsUpTile = undefined;
-
-var _glyph = require("./glyph");
-
-var _glyph2 = _interopRequireDefault(_glyph);
-
-var _colors = require("./colors");
-
-var _colors2 = _interopRequireDefault(_colors);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Tile = function (_Glyph) {
-  _inherits(Tile, _Glyph);
-
-  function Tile(_ref) {
-    var _ref$isWalkable = _ref.isWalkable,
-        isWalkable = _ref$isWalkable === undefined ? false : _ref$isWalkable,
-        _ref$blocksLight = _ref.blocksLight,
-        blocksLight = _ref$blocksLight === undefined ? false : _ref$blocksLight;
-
-    _classCallCheck(this, Tile);
-
-    var _this = _possibleConstructorReturn(this, (Tile.__proto__ || Object.getPrototypeOf(Tile)).apply(this, arguments));
-
-    _this.isWalkable = isWalkable;
-    _this.blocksLight = blocksLight;
-    return _this;
-  }
-
-  return Tile;
-}(_glyph2.default);
-
-var stairsUpTile = exports.stairsUpTile = new Tile({
-  char: "<",
-  fg: _colors2.default.gray,
-  isWalkable: true
-});
-
-var stairsDownTile = exports.stairsDownTile = new Tile({
-  char: ">",
-  fg: _colors2.default.gray,
-  isWalkable: true
-});
-
-var floorTile = exports.floorTile = new Tile({
-  char: ".",
-  fg: _colors2.default.darkGray,
-  isWalkable: true
-});
-
-var wallTile = exports.wallTile = new Tile({
-  char: "#",
-  fg: _colors2.default.brown,
-  blocksLight: true
-});
-},{"./glyph":26,"./colors":5}],23:[function(require,module,exports) {
+},{"../colors":5,"./entityMixins":21}],23:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7578,6 +7599,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var DungeonMap = function () {
   function DungeonMap(_ref) {
+    var _this = this;
+
     var _ref$width = _ref.width,
         width = _ref$width === undefined ? 40 : _ref$width,
         _ref$height = _ref.height,
@@ -7593,8 +7616,8 @@ var DungeonMap = function () {
       this.tiles[w] = new Array(height);
     }
 
-    var maxRoomWidth = Math.random() > 0.3 ? 10 : 32;
-    var maxRoomHeight = maxRoomWidth !== 32 && Math.random() > 0.8 ? 32 : 12;
+    var maxRoomWidth = Math.random() > 0.3 ? 10 : 22;
+    var maxRoomHeight = maxRoomWidth !== 32 && Math.random() > 0.8 ? 22 : 12;
 
     var generator = new _rotJs2.default.Map.Digger(width, height, {
       roomWidth: [6, maxRoomWidth],
@@ -7605,9 +7628,34 @@ var DungeonMap = function () {
     generator.create(function (x, y, value) {
       this.tiles[x][y] = value == 1 ? _tile.wallTile : _tile.floorTile;
     }.bind(this));
+    this.rooms = generator.getRooms();
+    this.rooms.forEach(function (room, i) {
+      room.getDoors(function (x, y) {
+        _this.tiles[x][y] = i == 0 ? _tile.closedDoorTile : Math.random() > 0.8 ? _tile.openDoorTile : Math.random() > 0.8 ? _tile.closedDoorTile : _tile.floorTile;
+      });
+    });
   }
 
   _createClass(DungeonMap, [{
+    key: "openDoor",
+    value: function openDoor(x, y) {
+      if (this.tiles[x][y] === _tile.closedDoorTile) {
+        this.tiles[x][y] = _tile.openDoorTile;
+      }
+    }
+  }, {
+    key: "closeDoor",
+    value: function closeDoor(x, y) {
+      if (this.tiles[x][y] === _tile.openDoorTile) {
+        this.tiles[x][y] = _tile.closedDoorTile;
+      }
+    }
+  }, {
+    key: "getRooms",
+    value: function getRooms() {
+      return this.rooms;
+    }
+  }, {
     key: "getTiles",
     value: function getTiles() {
       return this.tiles;
@@ -7817,6 +7865,14 @@ ItemRepository.define({
   disableRandomCreation: true
 });
 
+ItemRepository.define({
+  name: "your keys",
+  char: '"',
+  description: "Your keys!  You can't get off this rock without them!",
+  fg: _colors2.default.blue,
+  disableRandomCreation: true
+});
+
 var WeaponRepository = exports.WeaponRepository = new _repository2.default({ name: "Weapons", ctor: _item2.default });
 
 WeaponRepository.define({
@@ -7840,6 +7896,16 @@ WeaponRepository.define({
 });
 
 WeaponRepository.define({
+  name: "monkey wrench",
+  char: "(",
+  description: "Heavy, rusty, not particularly useful as a tool anymore--but if you need to bash someone's brains in....",
+  fg: _colors2.default.gray,
+  wieldable: true,
+  attackValue: 3,
+  mixins: [_itemMixins.Equippable]
+});
+
+WeaponRepository.define({
   name: "lazer sword",
   char: "(",
   description: "Now we're talking, this thing will really mess up some aliens.",
@@ -7850,14 +7916,24 @@ WeaponRepository.define({
 });
 
 WeaponRepository.define({
-  name: "small blaster",
-  char: "(",
-  description: "doesn't pack much punch, but holds 100 charges... not bad!",
-  fg: _colors2.default.blue,
+  name: "pocket knife",
+  description: "Old trusty pocket knife.. it's not worth much, but it's better than bare hands.",
+  char: ")",
+  fg: _colors2.default.brown,
   wieldable: true,
-  attackValue: 1,
+  attackValue: 3,
   mixins: [_itemMixins.Equippable]
 });
+
+// WeaponRepository.define({
+//   name: "small blaster",
+//   char: "(",
+//   description: "doesn't pack much punch, but holds 100 charges... not bad!",
+//   fg: Colors.blue,
+//   wieldable: true,
+//   attackValue: 1,
+//   mixins: [Equippable]
+// });
 },{"../repository":27,"../colors":5,"./item":28,"./itemMixins":29}],19:[function(require,module,exports) {
 "use strict";
 
@@ -7909,6 +7985,12 @@ var Level = function () {
     this.items = {};
     this.player = null;
 
+    this.firstRoom = this.map.getRooms()[0];
+
+    if (topLevel) {
+      this.playerStartPosition = this.getRandomRoomPosition(this.firstRoom);
+    }
+
     if (!topLevel) {
       this.stairsUp = this.getRandomFloorPosition();
       this.map.setTile(this.stairsUp.x, this.stairsUp.y, _tile.stairsUpTile);
@@ -7923,16 +8005,35 @@ var Level = function () {
       this.addEntityAtRandomPosition(new _entity2.default(Object.assign(_entities.MonsterTemplate, { level: this, Game: this.game })));
     }
 
-    for (var _i = 0; _i < 5; _i++) {
-      this.addItemAtRandomPosition(_items.ItemRepository.createRandom());
+    // for (let i = 0; i < 5; i++) {
+    //   this.addItemAtRandomPosition(ItemRepository.createRandom());
+    // }
+
+    if (topLevel) {
+      var firstRoomPosition = this.getRandomRoomPosition(this.firstRoom);
+      this.addItem(_items.WeaponRepository.createRandom(), firstRoomPosition.x, firstRoomPosition.y);
+
+      var otherRoomPosition = this.getRandomRoomPosition();
+      var ship = _items.ItemRepository.create("Space Ship");
+      console.log(ship, otherRoomPosition);
+      this.addItem(ship, otherRoomPosition.x, otherRoomPosition.y);
     }
-    for (var _i2 = 0; _i2 < 5; _i2++) {
-      this.addItemAtRandomPosition(_items.WeaponRepository.createRandom());
+    if (bottomLevel) {
+      this.addItemAtRandomPosition(_items.ItemRepository.create("your keys"));
     }
-    this.addItemAtRandomPosition(_items.ItemRepository.create("Space Ship"));
   }
 
   _createClass(Level, [{
+    key: "getRandomRoomPosition",
+    value: function getRandomRoomPosition() {
+      var room = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.map.getRooms().random();
+
+      return {
+        y: Math.floor(Math.random() * (room.getBottom() - room.getTop())) + room.getTop(),
+        x: Math.floor(Math.random() * (room.getLeft() - room.getRight())) + room.getRight()
+      };
+    }
+  }, {
     key: "getItems",
     value: function getItems() {
       return this.items;
@@ -8161,12 +8262,14 @@ var playScreen = function () {
     this.level = this.gameWorld.getCurrentLevel();
     this.map = this.level.getMap();
     this.subscreen = null;
+    this.closing = false;
 
     this.game.player = new _entity2.default(Object.assign(_entities.PlayerTemplate, { map: this.map, Game: this.game }));
     this.player = this.game.player;
     this.level.player = this.game.player;
 
-    var position = this.level.getRandomFloorPosition();
+    // const position = this.level.getRandomFloorPosition();
+    var position = this.level.playerStartPosition;
     this.player.setPosition(position.x, position.y);
     this.game.getScheduler().add(this.player, true);
     this.game.getEngine().start();
@@ -8199,21 +8302,61 @@ var playScreen = function () {
         this.player.tryMove(this.player.getX() + dX, this.player.getY() + dY, this.level);
         this.game.getEngine().unlock();
       }.bind(this);
+
+      var closeDoor = function (dX, dY) {
+        console.log("ping");
+        this.level.getMap().closeDoor(this.player.getX() + dX, this.player.getY() + dY);
+        this.closing = false;
+        this.game.getEngine().unlock();
+      }.bind(this);
+
       if (inputData.keyCode === _rotJs2.default.VK_H || inputData.keyCode == _rotJs2.default.VK_4 || inputData.keyCode == _rotJs2.default.VK_LEFT) {
+        if (this.closing) {
+          closeDoor(-1, 0);
+          return;
+        }
         move(-1, 0);
       } else if (inputData.keyCode === _rotJs2.default.VK_L || inputData.keyCode == _rotJs2.default.VK_6 || inputData.keyCode == _rotJs2.default.VK_RIGHT) {
+        if (this.closing) {
+          closeDoor(1, 0);
+          return;
+        }
         move(1, 0);
       } else if (inputData.keyCode === _rotJs2.default.VK_K || inputData.keyCode == _rotJs2.default.VK_8 || inputData.keyCode == _rotJs2.default.VK_UP) {
+        if (this.closing) {
+          closeDoor(0, -1);
+          return;
+        }
         move(0, -1);
       } else if (inputData.keyCode === _rotJs2.default.VK_J || inputData.keyCode == _rotJs2.default.VK_2 || inputData.keyCode == _rotJs2.default.VK_DOWN) {
+        if (this.closing) {
+          closeDoor(0, 1);
+          return;
+        }
         move(0, 1);
       } else if (inputData.keyCode === _rotJs2.default.VK_Y || inputData.keyCode == _rotJs2.default.VK_7) {
+        if (this.closing) {
+          closeDoor(-1, -1);
+          return;
+        }
         move(-1, -1);
       } else if (inputData.keyCode === _rotJs2.default.VK_U || inputData.keyCode == _rotJs2.default.VK_9) {
+        if (this.closing) {
+          closeDoor(1, -1);
+          return;
+        }
         move(1, -1);
       } else if (inputData.keyCode === _rotJs2.default.VK_B || inputData.keyCode == _rotJs2.default.VK_1) {
+        if (this.closing) {
+          closeDoor(-1, 1);
+          return;
+        }
         move(-1, 1);
       } else if (inputData.keyCode === _rotJs2.default.VK_N || inputData.keyCode == _rotJs2.default.VK_3) {
+        if (this.closing) {
+          closeDoor(1, 1);
+          return;
+        }
         move(1, 1);
       } else if (inputData.keyCode === _rotJs2.default.VK_5 || inputData.keyCode === _rotJs2.default.VK_PERIOD) {
         if (inputData.shiftKey) {
@@ -8248,6 +8391,14 @@ var playScreen = function () {
           this.game.refresh();
           return;
         }
+      } else if (inputData.keyCode == _rotJs2.default.VK_C) {
+        this.game.messageDisplay.add("Close where?");
+        this.closing = true;
+        return;
+      }
+      if (this.closing) {
+        this.game.messageDisplay.add("Nevermind");
+        this.closing = false;
       }
       // pick up item
       if (inputData.keyCode === _rotJs2.default.VK_G || inputData.keyCode == _rotJs2.default.VK_COMMA) {
@@ -8325,7 +8476,7 @@ var playScreen = function () {
 
       var visibleTiles = {};
       var exploredTiles = this.level.exploredTiles;
-      fov.compute(this.player.getX(), this.player.getY(), 20, function (x, y, r, visibility) {
+      fov.compute(this.player.getX(), this.player.getY(), this.player.sightRadius, function (x, y, r, visibility) {
         visibleTiles[x + "," + y] = true;
         exploredTiles[x + "," + y] = true;
       });
@@ -8677,7 +8828,7 @@ window.onload = function () {
     game.switchScreen(_startScreen2.default);
   }
 };
-},{"rot-js":30,"./colors":5,"./screens/startScreen":8,"./messageDisplay":6,"./playerStatusDisplay":7,"./screens/confirmation":9}],33:[function(require,module,exports) {
+},{"rot-js":30,"./colors":5,"./screens/startScreen":8,"./messageDisplay":6,"./playerStatusDisplay":7,"./screens/confirmation":9}],51:[function(require,module,exports) {
 
 var global = (1, eval)('this');
 var OldModule = module.bundle.Module;
@@ -8800,5 +8951,5 @@ function hmrAccept(bundle, id) {
     return hmrAccept(global.require, id);
   });
 }
-},{}]},{},[33,3])
+},{}]},{},[51,3])
 //# sourceMappingURL=/dist/28d908142711746cd98d878a219803a3.map
