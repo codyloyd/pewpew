@@ -8,6 +8,7 @@ import Confirmation from "./confirmation";
 import HelpScreen from "./helpScreen";
 import { MonsterTemplate, PlayerTemplate } from "../entity/entities";
 import GameWorld from "../gameWorld";
+import { stairsUpTile, stairsDownTile } from "../tile";
 
 class playScreen {
   constructor(Game) {
@@ -111,6 +112,13 @@ class playScreen {
     ) {
       if (inputData.shiftKey) {
         // go down level
+        if (
+          this.level
+            .getMap()
+            .getTile(this.player.getX(), this.player.getY()) !== stairsDownTile
+        ) {
+          return false;
+        }
         const newLevel = this.gameWorld.goDownLevel();
         if (newLevel) {
           this.level = newLevel;
@@ -126,6 +134,12 @@ class playScreen {
       this.game.getEngine().unlock();
     } else if (inputData.keyCode === ROT.VK_COMMA && inputData.shiftKey) {
       // go up level
+      if (
+        this.level.getMap().getTile(this.player.getX(), this.player.getY()) !==
+        stairsUpTile
+      ) {
+        return false;
+      }
       const newLevel = this.gameWorld.goUpLevel();
       if (newLevel) {
         this.level = newLevel;
