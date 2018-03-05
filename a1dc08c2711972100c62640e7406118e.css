@@ -2,19 +2,20 @@
   --black: #000010;
   --white: #fff1f8;
   --red: #ff0040;
+  font-size: 1em;
 }
 body {
   background: var(--black);
   color: var(--white);
-  font-size: 15px;
+  font-size: 1em;
   font-family: Courier, monospace;
 }
 
 .item-list-dialog {
   position: absolute;
-  top: 60px;
-  left: 60px;
-  padding: 15px;
+  top: 4em;
+  left: 4em;
+  padding: 1em;
   border: 1px solid var(--white);
   background: var(--black);
 }
@@ -26,18 +27,18 @@ body {
 
 .help-screen {
   position: absolute;
-  top: 60px;
-  left: 60px;
-  padding: 15px;
+  top: 4em;
+  left: 4em;
+  padding: 1em;
   border: 1px solid var(--white);
   background: var(--black);
 }
 
 .confirmation {
   position: absolute;
-  top: 60px;
-  left: 60px;
-  padding: 15px;
+  top: 4em;
+  left: 4em;
+  padding: 1em;
   border: 1px solid var(--red);
   background: var(--black);
 }
@@ -50,9 +51,19 @@ body {
   cursor: pointer;
   color: var(--white);
   font-family: Courier, monospace;
-  font-size: 15px;
+  font-size: 1em;
   background: var(--black);
   border: 1px solid var(--white);
-  width: 120px;
-  margin: 15px 15px 0 0;
+  width: 8em;
+  margin: 1em 1em 0 0;
+}
+
+.story-screen {
+  position: absolute;
+  max-width: 40em;
+  top: 4em;
+  left: 4em;
+  padding: 1em;
+  border: 0.5em solid var(--white);
+  background: var(--black);
 }
