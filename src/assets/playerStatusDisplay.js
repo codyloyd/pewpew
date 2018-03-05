@@ -26,7 +26,7 @@ class PlayerStatusDisplay {
     this.playerStatus.innerHTML = `<div style="flex: 1">${name} ♥${hp}/${maxHp}</div>`;
     this.playerStatus.innerHTML += "<div>";
     statusEffects.forEach(s => {
-      this.playerStatus.innerHTML += `${s.label} +${s.value}/${s.timer}`;
+      this.playerStatus.innerHTML += `${s.label}/${s.timer} `;
     });
     this.playerStatus.innerHTML += "</div>";
   }

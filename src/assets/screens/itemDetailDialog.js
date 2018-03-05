@@ -4,7 +4,6 @@ import Colors from "../colors";
 
 class ItemDetailDialog {
   constructor(item) {
-    console.log(item);
     this.item = item;
     this.display = document.createElement("div");
     this.display.classList.add("item-detail-dialog");
@@ -16,7 +15,8 @@ class ItemDetailDialog {
   view({ item }, actions) {
     return (
       <div>
-        <div>{item.description}</div>
+        <h1>{item.name}</h1>
+        <p>{item.description}</p>
         <div>Actions:</div>
         <div>(d)rop</div>
         <div>
@@ -28,7 +28,11 @@ class ItemDetailDialog {
                 ? "(w)ear"
                 : item.hasMixin("Usable") ? "(a)pply" : ""}
         </div>
-        <div>Press key to use, press 'q' to go back</div>
+        <p>Press key to use, press 'q' to go back</p>
+        <p>
+          hint: you can use the letter shortcuts above from the main inventory
+          screen
+        </p>
       </div>
     );
   }

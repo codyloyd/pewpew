@@ -8,12 +8,12 @@ import PickUpDialog from "./pickUpDialog";
 import Confirmation from "./confirmation";
 import StoryScreen from "./storyScreen";
 import HelpScreen from "./helpScreen";
+import PlayerStatusScreen from "./playerStatusScreen";
+import { WeaponRepository, ItemRepository } from "../item/items";
 import { MonsterTemplate, PlayerTemplate } from "../entity/entities";
 import GameWorld from "../gameWorld";
 import { stairsUpTile, stairsDownTile } from "../tile";
 import text from "../text";
-
-console.log(text);
 
 class playScreen {
   constructor(Game) {
@@ -75,7 +75,6 @@ class playScreen {
     }.bind(this);
 
     const closeDoor = function(dX, dY) {
-      console.log("ping");
       this.level
         .getMap()
         .closeDoor(this.player.getX() + dX, this.player.getY() + dY);
@@ -206,7 +205,7 @@ class playScreen {
         return;
       }
     } else if (inputData.keyCode == ROT.VK_C) {
-      this.game.messageDisplay.add("Close where?");
+      this.game.messageDisplay.add({ text: "Close where?", color: "white" });
       this.closing = true;
       return;
     }
@@ -226,11 +225,9 @@ class playScreen {
       ) {
         this.level.setItemsAt(this.player.getX(), this.player.getY(), []);
         this.game.messageDisplay.add("you pick up " + item[0].describeA());
-        console.log("you pick up " + item[0].describeA());
       }
       if (item.length > 1) {
         this.enterSubscreen(new PickUpDialog(item, this, this.player));
-        console.log("lets pick up multiple items");
       }
     }
     // subscreens
@@ -241,6 +238,9 @@ class playScreen {
     }
     if (inputData.keyCode == ROT.VK_SLASH) {
       this.enterSubscreen(new HelpScreen(this));
+    }
+    if (inputData.keyCode == ROT.VK_P) {
+      this.enterSubscreen(new PlayerStatusScreen(this));
     }
   }
 
@@ -276,9 +276,15 @@ class playScreen {
         this.foundShip = true;
         this.enterSubscreen(
           new StoryScreen(this, text.foundShipNoKeys, () => {
+            this.player.addItem(WeaponRepository.create("crowbar"));
             this.game.messageDisplay.add(
               "You have found your rig, don't forget where it is!"
             );
+            this.game.messageDisplay.add({
+              text:
+                "crowbar added to inventory (go wield it. or don't. whatever)",
+              color: "blue"
+            });
           })
         );
         return;
@@ -302,11 +308,15 @@ class playScreen {
         return;
       }
       if (item.length == 1) {
-        this.game.messageDisplay.add("you see " + item[0].describeA());
-        console.log("you see " + item[0].describeA());
+        this.game.messageDisplay.add({
+          text: "you see " + item[0].describeA(),
+          color: "light-gray"
+        });
       } else {
-        this.game.messageDisplay.add("you see several items here");
-        console.log("you see several items here");
+        this.game.messageDisplay.add({
+          text: "you see several items here",
+          color: "light-gray"
+        });
       }
     }
 
@@ -331,7 +341,7 @@ class playScreen {
     fov.compute(
       this.player.getX(),
       this.player.getY(),
-      this.player.sightRadius,
+      this.player.getSightRadius(),
       function(x, y, r, visibility) {
         visibleTiles[x + "," + y] = true;
         exploredTiles[x + "," + y] = true;

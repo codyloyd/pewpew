@@ -2,7 +2,8 @@ import ROT from "rot-js";
 import { floorTile, wallTile, openDoorTile, closedDoorTile } from "./tile";
 
 class DungeonMap {
-  constructor({ width = 40, height = 20 }) {
+  constructor({ width = 40, height = 20, Game }) {
+    this.game = Game;
     this.width = width;
     this.height = height;
     this.tiles = new Array(width);
@@ -46,6 +47,7 @@ class DungeonMap {
   closeDoor(x, y) {
     if (this.tiles[x][y] === openDoorTile) {
       this.tiles[x][y] = closedDoorTile;
+      this.game.messageDisplay.add("You close the door");
     }
   }
 

@@ -10,6 +10,7 @@ class ItemListDialog {
     this.player = player;
     this.subscreen = null;
     this.display = document.createElement("div");
+    this.display.classList.add("subscreen");
     this.display.classList.add("item-list-dialog");
     this.title = title;
     this.actions = {
@@ -40,13 +41,18 @@ class ItemListDialog {
   view({ player, items, selectedItemIndex, title }, actions) {
     return (
       <div>
-        <div style={{ borderBottom: "1px solid " + Colors.white }}>{title}</div>
+        <h1>
+          {title}
+          {title == "INVENTORY"
+            ? `- ${items.length}/${player.getInventorySize()}`
+            : ""}
+        </h1>
         {items.map((item, i) => {
           return (
             <div class={i == selectedItemIndex ? "selected" : ""}>
               {item.name}
               {item == player.weapon ? " (wielding)" : ""}
-              {item == player.armor ? " (wearing)" : ""}
+              {player.isWearing(item) ? " (wearing)" : ""}
             </div>
           );
         })}
@@ -98,7 +104,6 @@ class ItemListDialog {
     if (inputData.keyCode === ROT.VK_RETURN) {
       // view selected item
       const equipped = item == this.player.armor || item == this.player.weapon;
-      console.log(equipped);
       const detailDialog = new ItemDetailDialog(
         Object.assign(item, { equipped })
       );

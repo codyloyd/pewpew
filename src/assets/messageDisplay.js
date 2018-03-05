@@ -38,7 +38,12 @@ class MessageDisplay {
     this.messages
       .slice(Math.max(this.messages.length - 5, 0))
       .forEach(message => {
-        this.messageScreen.innerHTML += message + "<br>";
+        let color = "gray";
+        if (typeof message == "object") {
+          color = message.color;
+          message = message.text;
+        }
+        this.messageScreen.innerHTML += `<div class="${color}">${message}</div>`;
       });
   }
 }

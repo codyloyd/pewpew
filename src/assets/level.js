@@ -13,7 +13,8 @@ class Level {
     this.entities = {};
     this.map = new DungeonMap({
       width: this.width,
-      height: this.height
+      height: this.height,
+      Game: this.game
     });
     this.exploredTiles = {};
     this.items = {};
@@ -43,28 +44,40 @@ class Level {
       );
     }
 
-    // for (let i = 0; i < 5; i++) {
-    //   this.addItemAtRandomPosition(ItemRepository.createRandom());
-    // }
+    for (let i = 0; i < 2; i++) {
+      this.addItemAtRandomPosition(ItemRepository.createRandom());
+    }
 
     if (topLevel) {
       let firstRoomPosition = this.getRandomRoomPosition(this.firstRoom);
       this.addItem(
-        WeaponRepository.createRandom(),
+        WeaponRepository.createRandom(1),
         firstRoomPosition.x,
         firstRoomPosition.y
       );
 
       firstRoomPosition = this.getRandomRoomPosition(this.firstRoom);
       this.addItem(
-        ItemRepository.create("strength stim syringe"),
+        ItemRepository.create("night-vision goggles"),
+        // ItemRepository.createRandom(),
+        firstRoomPosition.x,
+        firstRoomPosition.y
+      );
+      this.addItem(
+        ItemRepository.create("backpack"),
+        // ItemRepository.createRandom(),
+        firstRoomPosition.x,
+        firstRoomPosition.y
+      );
+      this.addItem(
+        ItemRepository.create("techno chain mail shirt"),
+        // ItemRepository.createRandom(),
         firstRoomPosition.x,
         firstRoomPosition.y
       );
 
       const otherRoomPosition = this.getRandomRoomPosition();
       const ship = ItemRepository.create("Space Ship");
-      console.log(ship, otherRoomPosition);
       this.addItem(ship, otherRoomPosition.x, otherRoomPosition.y);
     }
     if (topLevel) {

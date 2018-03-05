@@ -16,12 +16,31 @@ export class PlayerActor {
 }
 
 export class Destructible {
-  constructor({ maxHp = 10, hp }) {
+  constructor({ maxHp = 10, hp, defenseValue = 0 }) {
     this.name = "Destructible";
     this.maxHp = maxHp;
     this.hp = hp || this.maxHp;
+    this.defenseValue = defenseValue;
     this.takeDamage = this._takeDamage;
     this.addHp = this._addHp;
+    this.getDefenseValue = this._getDefenseValue;
+  }
+
+  _getDefenseValue() {
+    let mod = 0;
+    if (this.hasMixin("TimedStatusEffects")) {
+      this.getTimedStatusEffects().forEach(s => {
+        if (s.property == "defense") {
+          mod += s.value;
+        }
+      });
+    }
+    if (this.armor) {
+      this.armor.forEach(a => {
+        mod += a.defenseValue;
+      });
+    }
+    return this.defenseValue + mod;
   }
 
   _addHp(value) {
@@ -32,9 +51,12 @@ export class Destructible {
     this.hp -= damage;
     if (this.hp <= 0) {
       if (this.hasMixin("PlayerActor")) {
-        this.game.messageDisplay.add(`You DIE`);
+        this.game.messageDisplay.add({ text: `You DIE`, color: "red" });
       } else {
-        this.game.messageDisplay.add(`You kill the ${this.name}.`);
+        this.game.messageDisplay.add({
+          color: "white",
+          text: `You kill the ${this.name}.`
+        });
       }
       this.kill();
     }
@@ -46,6 +68,26 @@ export class Sight {
     this.name = "Sight";
     this.sightRadius = sightRadius;
     this.canSee = this._canSee;
+    this.getSightRadius = this._getSightRadius;
+  }
+
+  _getSightRadius() {
+    let mod = 0;
+    if (this.hasMixin("TimedStatusEffects")) {
+      this.getTimedStatusEffects().forEach(s => {
+        if (s.property == "sight") {
+          mod += s.value;
+        }
+      });
+    }
+
+    if (this.armor) {
+      this.armor.forEach(a => {
+        mod += a.sightBoost;
+      });
+    }
+
+    return this.sightRadius + mod;
   }
 
   _canSee(entity) {
@@ -167,22 +209,37 @@ export class TaskActor {
 }
 
 export class InventoryHolder {
-  constructor({ inventorySize = 10 }) {
+  constructor({ inventorySize = 8 }) {
     this.name = "InventoryHolder";
     this.inventorySize = inventorySize;
     this.inventory = [];
     this.addItem = this._addItem;
     this.removeItem = this._removeItem;
     this.hasItem = this._hasItem;
+    this.getInventorySize = this._getInventorySize;
+  }
+
+  _getInventorySize() {
+    let mod = 0;
+    if (this.armor) {
+      this.armor.forEach(a => {
+        mod += a.inventoryBoost;
+      });
+    }
+    return this.inventorySize + mod;
   }
   _hasItem(item) {
     return this.inventory.filter(i => i.name == item).length > 0;
   }
   _addItem(item) {
-    if (this.inventory.length < this.inventorySize) {
+    if (this.inventory.length < this.getInventorySize()) {
       this.inventory.push(item);
       return true;
     }
+    this.game.messageDisplay.add({
+      color: "blue",
+      text: "Your inventory seems to be full!"
+    });
     return false;
   }
   _removeItem(itemToRemove) {
@@ -260,20 +317,26 @@ export class Attacker {
   _attack(target) {
     const game = this.getGame();
     if (target.hasMixin("PlayerActor")) {
-      const damage = this.getAttackValue();
+      const attack = this.getAttackValue();
+      const defense = target.getDefenseValue();
+      const damage = Math.max(attack - defense, 0);
       if (game) {
-        game.messageDisplay.add(
-          `The ${this.name} hits you for ${damage} damage.`
-        );
+        game.messageDisplay.add({
+          color: "red",
+          text: `The ${this.name} hits you for ${damage} damage.`
+        });
       }
       target.takeDamage(damage);
     }
     if (this.hasMixin("PlayerActor") && target.hasMixin("Destructible")) {
-      const damage = this.getAttackValue();
+      const attack = this.getAttackValue();
+      const defense = target.getDefenseValue();
+      const damage = Math.max(attack - defense, 0);
       if (game && this.hasMixin("PlayerActor")) {
-        game.messageDisplay.add(
-          `You hit the ${target.name} for ${damage} damage.`
-        );
+        game.messageDisplay.add({
+          color: "white",
+          text: `You hit the ${target.name} for ${damage} damage.`
+        });
       }
       target.takeDamage(damage);
     }
@@ -281,7 +344,7 @@ export class Attacker {
 }
 
 export class Equipper {
-  constructor({ weapon = null, armor = null }) {
+  constructor({ weapon = null, armor = [] }) {
     this.name = "Equipper";
     this.weapon = weapon;
     this.armor = armor;
@@ -290,6 +353,11 @@ export class Equipper {
     this.wear = this._wear;
     this.takeOff = this._takeOff;
     this.unequip = this._unequip;
+    this.isWearing = this._isWearing;
+  }
+
+  _isWearing(item) {
+    return this.armor.includes(item);
   }
 
   _wield(weapon) {
@@ -299,14 +367,14 @@ export class Equipper {
     this.weapon = null;
   }
   _wear(armor) {
-    this.armor = armor;
+    this.armor.push(armor);
   }
-  _takeOff() {
-    this.armor = null;
+  _takeOff(item) {
+    this.armor.splice(this.armor.indexOf(item), 1);
   }
   _unequip(item) {
     if (item === this.armor) {
-      this.takeOff();
+      this.takeOff(item);
     }
     if (item === this.weapon) {
       this.unwield();
@@ -319,7 +387,9 @@ export class TimedStatusEffects {
     this.name = "TimedStatusEffects";
     //array of objects
     // {property, label, value, timer}
-    this.statusEffects = [];
+    this.statusEffects = [
+      // { property: "speed", label: "Speed up", value: 1000, timer: 135 }
+    ];
     this.incrementTimedStatusEffects = this._incrementTimedStatusEffects;
     this.getTimedStatusEffects = this._getTimedStatusEffects;
     this.addTimedStatusEffect = this._addTimedStatusEffect;

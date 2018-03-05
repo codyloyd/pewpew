@@ -2,6 +2,8 @@ export class Equippable {
   constructor({
     attackValue = 0,
     defenseValue = 0,
+    sightBoost = 0,
+    inventoryBoost = 0,
     wieldable = false,
     wearable = false
   }) {
@@ -9,6 +11,8 @@ export class Equippable {
     this.defenseValue = defenseValue;
     this.wieldable = wieldable;
     this.wearable = wearable;
+    this.sightBoost = sightBoost;
+    this.inventoryBoost = inventoryBoost;
     this.name = "Equippable";
   }
 }

@@ -7,6 +7,8 @@ class Confirmation {
     this.masterScreen = masterScreen;
     this.function = func;
     this.display = document.createElement("div");
+    this.display.classList.add("subscreen");
+    this.display.classList.add("confirmation");
     app(
       {
         text: this.text,
@@ -21,7 +23,7 @@ class Confirmation {
 
   view({ text, confirm, cancel }) {
     return (
-      <div class="confirmation">
+      <div>
         {text}
         <div>
           <button onclick={confirm}>YES (ENTER)</button>

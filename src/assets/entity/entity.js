@@ -31,8 +31,20 @@ class Entity extends DynamicGlyph {
     }
   }
   getSpeed() {
-    return this.speed;
+    let mod = 0;
+    if (this.hasMixin("TimedStatusEffects")) {
+      this.getTimedStatusEffects().forEach(s => {
+        if (s.property == "speed") {
+          mod += s.value;
+        }
+      });
+    }
+    if (this.armor && this.armor.length > 1) {
+      mod -= Math.pow(5, this.armor.length);
+    }
+    return Math.max(this.speed + mod, 100);
   }
+
   getGame() {
     return this.game;
   }

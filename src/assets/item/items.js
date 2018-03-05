@@ -24,8 +24,38 @@ ItemRepository.define({
   statusEffect: {
     property: "strength",
     value: 10,
-    label: "Strength",
-    timer: 15
+    label: "Strength boost",
+    timer: 25
+  },
+  mixins: [StatusBooster]
+});
+
+ItemRepository.define({
+  name: "speed-boost syringe",
+  description:
+    "A syringe filled with a dark liquid that smells of coffee.  Will temporarily increase your speed.",
+  char: "!",
+  fg: Colors.darkGreen,
+  statusEffect: {
+    property: "speed",
+    value: 1000,
+    label: "Speed boost",
+    timer: 25
+  },
+  mixins: [StatusBooster]
+});
+
+ItemRepository.define({
+  name: "armor-boost syringe",
+  description:
+    "No clue how this tech is supposed to work.. but shooting this baby up will temporarily increase your defense value.  It's a game, get over it.",
+  char: "!",
+  fg: Colors.darkGreen,
+  statusEffect: {
+    property: "speed",
+    value: 10,
+    label: "Armor boost",
+    timer: 25
   },
   mixins: [StatusBooster]
 });
@@ -48,6 +78,41 @@ ItemRepository.define({
   disableRandomCreation: true
 });
 
+ItemRepository.define({
+  name: "backpack",
+  description:
+    "Increases your inventory size and provides a teeny-tiny amount of defense, might slow you down a bit though.",
+  char: "[",
+  fg: Colors.blue,
+  wearable: true,
+  defenseValue: 2,
+  inventoryBoost: 5,
+  mixins: [Equippable]
+});
+
+ItemRepository.define({
+  name: "night-vision goggles",
+  char: "[",
+  fg: Colors.green,
+  description:
+    "Increases your sight-radius while worn, and offers a small amount of protection. Could be useful in these caverns.",
+  wearable: true,
+  sightBoost: 8,
+  defenseValue: 3,
+  mixins: [Equippable]
+});
+
+ItemRepository.define({
+  name: "techno chain mail shirt",
+  char: "[",
+  fg: Colors.indigo,
+  description:
+    "Huh... why do these aliens have bits of armor just randomly strewn about their weirdo cave system?  No matter, I guess I'll take the defense boost.",
+  wearable: true,
+  defenseValue: 8,
+  mixins: [Equippable]
+});
+
 export const WeaponRepository = new Repository({ name: "Weapons", ctor: Item });
 
 WeaponRepository.define({
@@ -67,6 +132,7 @@ WeaponRepository.define({
   fg: Colors.gray,
   wieldable: true,
   attackValue: 3,
+  level: 1,
   mixins: [Equippable]
 });
 
@@ -78,6 +144,7 @@ WeaponRepository.define({
   fg: Colors.gray,
   wieldable: true,
   attackValue: 3,
+  level: 1,
   mixins: [Equippable]
 });
 
@@ -88,6 +155,7 @@ WeaponRepository.define({
   fg: Colors.pink,
   wieldable: true,
   attackValue: 15,
+  level: 2,
   mixins: [Equippable]
 });
 
@@ -99,6 +167,7 @@ WeaponRepository.define({
   fg: Colors.brown,
   wieldable: true,
   attackValue: 3,
+  level: 1,
   mixins: [Equippable]
 });
 

@@ -24,12 +24,14 @@ class Repository {
     }
   }
 
-  createRandom() {
+  createRandom(level) {
     const weightMap = Object.keys(
       this.randomTemplates
     ).reduce((obj, template) => {
       const item = this.randomTemplates[template];
-      obj[template] = item.rngWeight || 1;
+      if ((level && item.level == level) || !level) {
+        obj[template] = item.rngWeight || 1;
+      }
       return obj;
     }, {});
     const item = ROT.RNG.getWeightedValue(weightMap);
