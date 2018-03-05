@@ -129,6 +129,14 @@ class ItemListDialog {
         this.player.getGame().messageDisplay.add(`You put on the ${item.name}`);
         this.exit();
       }
+    } else if (inputData.keyCode === ROT.VK_A) {
+      if (item.hasMixin("Usable")) {
+        item.use(this.player);
+        this.player.removeItem(item);
+        this.functions.removeItem(item);
+        this.player.getGame().messageDisplay.add(`You apply the ${item.name}`);
+        this.exit();
+      }
     } else if (inputData.keyCode === ROT.VK_U) {
       this.player.unequip(item);
       this.renderItemList();

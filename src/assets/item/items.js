@@ -1,7 +1,7 @@
 import Repository from "../repository";
 import Colors from "../colors";
 import Item from "./item";
-import { Equippable } from "./itemMixins";
+import { Equippable, StatusBooster } from "./itemMixins";
 
 export const ItemRepository = new Repository({ name: "Items", ctor: Item });
 
@@ -9,7 +9,25 @@ ItemRepository.define({
   name: "med pack",
   description: "Will restore a moderate amount of health.  Single use.",
   char: "+",
-  fg: Colors.pink
+  fg: Colors.pink,
+  hpUp: 5,
+  mixins: [StatusBooster]
+});
+
+ItemRepository.define({
+  name: "strength stim syringe",
+  description:
+    "A syringe filled with a thick, dark liquid.  Will temporarily increase your strength. May reduce HP.",
+  char: "!",
+  fg: Colors.darkPurple,
+  hpDown: 3,
+  statusEffect: {
+    property: "strength",
+    value: 10,
+    label: "Strength",
+    timer: 15
+  },
+  mixins: [StatusBooster]
 });
 
 ItemRepository.define({
@@ -23,7 +41,7 @@ ItemRepository.define({
 });
 
 ItemRepository.define({
-  name: "your keys",
+  name: "keys",
   char: '"',
   description: "Your keys!  You can't get off this rock without them!",
   fg: Colors.blue,

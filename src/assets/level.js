@@ -48,9 +48,16 @@ class Level {
     // }
 
     if (topLevel) {
-      const firstRoomPosition = this.getRandomRoomPosition(this.firstRoom);
+      let firstRoomPosition = this.getRandomRoomPosition(this.firstRoom);
       this.addItem(
         WeaponRepository.createRandom(),
+        firstRoomPosition.x,
+        firstRoomPosition.y
+      );
+
+      firstRoomPosition = this.getRandomRoomPosition(this.firstRoom);
+      this.addItem(
+        ItemRepository.create("strength stim syringe"),
         firstRoomPosition.x,
         firstRoomPosition.y
       );
@@ -60,8 +67,8 @@ class Level {
       console.log(ship, otherRoomPosition);
       this.addItem(ship, otherRoomPosition.x, otherRoomPosition.y);
     }
-    if (bottomLevel) {
-      this.addItemAtRandomPosition(ItemRepository.create("your keys"));
+    if (topLevel) {
+      this.addItemAtRandomPosition(ItemRepository.create("keys"));
     }
   }
 

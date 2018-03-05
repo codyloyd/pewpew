@@ -6226,6 +6226,56 @@ var gameOverScreen = function () {
 }();
 
 exports.default = gameOverScreen;
+},{"rot-js":30,"./startScreen":8}],59:[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _rotJs = require("rot-js");
+
+var _rotJs2 = _interopRequireDefault(_rotJs);
+
+var _startScreen = require("./startScreen");
+
+var _startScreen2 = _interopRequireDefault(_startScreen);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var WinScreen = function () {
+  function WinScreen(Game) {
+    _classCallCheck(this, WinScreen);
+
+    this.game = Game;
+  }
+
+  _createClass(WinScreen, [{
+    key: "exit",
+    value: function exit() {}
+  }, {
+    key: "handleInput",
+    value: function handleInput(inputData) {
+      if (inputData.keyCode == _rotJs2.default.VK_RETURN) {
+        this.game.switchScreen(_startScreen2.default);
+      }
+    }
+  }, {
+    key: "render",
+    value: function render(Game) {
+      var display = Game.getDisplay();
+      display.drawText(0, 0, "YOU WIN.  CONGRATZ");
+    }
+  }]);
+
+  return WinScreen;
+}();
+
+exports.default = WinScreen;
 },{"rot-js":30,"./startScreen":8}],32:[function(require,module,exports) {
 "use strict";
 
@@ -6571,7 +6621,7 @@ var ItemDetailDialog = function () {
         (0, _hyperapp.h)(
           "div",
           null,
-          item.equipped ? "(u)nequip" : item.wieldable ? "(w)ield" : item.wearable ? "(w)ear" : ""
+          item.equipped ? "(u)nequip" : item.wieldable ? "(w)ield" : item.wearable ? "(w)ear" : item.hasMixin("Usable") ? "(a)pply" : ""
         ),
         (0, _hyperapp.h)(
           "div",
@@ -6776,6 +6826,14 @@ var ItemListDialog = function () {
           this.player.getGame().messageDisplay.add("You put on the " + item.name);
           this.exit();
         }
+      } else if (inputData.keyCode === _rotJs2.default.VK_A) {
+        if (item.hasMixin("Usable")) {
+          item.use(this.player);
+          this.player.removeItem(item);
+          this.functions.removeItem(item);
+          this.player.getGame().messageDisplay.add("You apply the " + item.name);
+          this.exit();
+        }
       } else if (inputData.keyCode === _rotJs2.default.VK_U) {
         this.player.unequip(item);
         this.renderItemList();
@@ -6953,6 +7011,83 @@ var Confirmation = function () {
 }();
 
 exports.default = Confirmation;
+},{"hyperapp":32,"rot-js":30}],52:[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _hyperapp = require("hyperapp");
+
+var _rotJs = require("rot-js");
+
+var _rotJs2 = _interopRequireDefault(_rotJs);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var StoryScreen = function () {
+  function StoryScreen(masterScreen, text, func) {
+    _classCallCheck(this, StoryScreen);
+
+    this.func = func;
+    this.masterScreen = masterScreen;
+    this.text = text;
+    this.display = document.createElement("div");
+    this.display.classList.add("story-screen");
+    this.actions = {};
+    this.app = (0, _hyperapp.app)({ text: this.text }, this.actions, this.view.bind(this), this.display);
+  }
+
+  _createClass(StoryScreen, [{
+    key: "view",
+    value: function view(_ref) {
+      var text = _ref.text;
+
+      return (0, _hyperapp.h)(
+        "div",
+        null,
+        text.map(function (p) {
+          return (0, _hyperapp.h)(
+            "p",
+            null,
+            p
+          );
+        }),
+        (0, _hyperapp.h)(
+          "p",
+          null,
+          "Press [Enter] to continue"
+        )
+      );
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      this.display.remove();
+      document.body.appendChild(this.display);
+    }
+  }, {
+    key: "handleInput",
+    value: function handleInput(inputData) {
+      if (inputData.keyCode === _rotJs2.default.VK_ESCAPE || inputData.keyCode === _rotJs2.default.VK_RETURN) {
+        this.masterScreen.exitSubscreen();
+        this.display.remove();
+        if (this.func) {
+          this.func();
+        }
+      }
+    }
+  }]);
+
+  return StoryScreen;
+}();
+
+exports.default = StoryScreen;
 },{"hyperapp":32,"rot-js":30}],16:[function(require,module,exports) {
 "use strict";
 
@@ -7155,7 +7290,7 @@ var openDoorTile = exports.openDoorTile = new Tile({
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Equipper = exports.Attacker = exports.Movable = exports.MonsterActor = exports.InventoryHolder = exports.TaskActor = exports.Sight = exports.Destructible = exports.PlayerActor = undefined;
+exports.TimedStatusEffects = exports.Equipper = exports.Attacker = exports.Movable = exports.MonsterActor = exports.InventoryHolder = exports.TaskActor = exports.Sight = exports.Destructible = exports.PlayerActor = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -7182,6 +7317,7 @@ var PlayerActor = exports.PlayerActor = function () {
     key: "_act",
     value: function _act() {
       var Game = this.getGame();
+      this.incrementTimedStatusEffects();
       Game.refresh();
       Game.getEngine().lock();
     }
@@ -7202,9 +7338,15 @@ var Destructible = exports.Destructible = function () {
     this.maxHp = maxHp;
     this.hp = hp || this.maxHp;
     this.takeDamage = this._takeDamage;
+    this.addHp = this._addHp;
   }
 
   _createClass(Destructible, [{
+    key: "_addHp",
+    value: function _addHp(value) {
+      this.hp = Math.min(this.hp + value, this.maxHp);
+    }
+  }, {
     key: "_takeDamage",
     value: function _takeDamage(damage) {
       this.hp -= damage;
@@ -7363,9 +7505,17 @@ var InventoryHolder = exports.InventoryHolder = function () {
     this.inventory = [];
     this.addItem = this._addItem;
     this.removeItem = this._removeItem;
+    this.hasItem = this._hasItem;
   }
 
   _createClass(InventoryHolder, [{
+    key: "_hasItem",
+    value: function _hasItem(item) {
+      return this.inventory.filter(function (i) {
+        return i.name == item;
+      }).length > 0;
+    }
+  }, {
     key: "_addItem",
     value: function _addItem(item) {
       if (this.inventory.length < this.inventorySize) {
@@ -7468,6 +7618,13 @@ var Attacker = exports.Attacker = function () {
           mod += this.weapon.attackValue;
         }
       }
+      if (this.hasMixin("TimedStatusEffects")) {
+        this.getTimedStatusEffects().forEach(function (s) {
+          if (s.property == "strength") {
+            mod += s.value;
+          }
+        });
+      }
       return this.strength + mod;
     }
   }, {
@@ -7547,6 +7704,47 @@ var Equipper = exports.Equipper = function () {
 
   return Equipper;
 }();
+
+var TimedStatusEffects = exports.TimedStatusEffects = function () {
+  function TimedStatusEffects() {
+    _classCallCheck(this, TimedStatusEffects);
+
+    this.name = "TimedStatusEffects";
+    //array of objects
+    // {property, label, value, timer}
+    this.statusEffects = [];
+    this.incrementTimedStatusEffects = this._incrementTimedStatusEffects;
+    this.getTimedStatusEffects = this._getTimedStatusEffects;
+    this.addTimedStatusEffect = this._addTimedStatusEffect;
+  }
+
+  _createClass(TimedStatusEffects, [{
+    key: "_addTimedStatusEffect",
+    value: function _addTimedStatusEffect(effect) {
+      this.statusEffects.push(effect);
+    }
+  }, {
+    key: "_getTimedStatusEffects",
+    value: function _getTimedStatusEffects() {
+      return this.statusEffects;
+    }
+  }, {
+    key: "_incrementTimedStatusEffects",
+    value: function _incrementTimedStatusEffects() {
+      var _this2 = this;
+
+      this.statusEffects.forEach(function (s) {
+        s.timer -= 1;
+        if (s.timer <= 0) {
+          var i = _this2.statusEffects.indexOf(s);
+          _this2.statusEffects.splice(i, 1);
+        }
+      });
+    }
+  }]);
+
+  return TimedStatusEffects;
+}();
 },{"rot-js":30,"../tile":24}],17:[function(require,module,exports) {
 "use strict";
 
@@ -7569,7 +7767,7 @@ var PlayerTemplate = exports.PlayerTemplate = {
   fg: _colors2.default.white,
   sightRadius: 6,
   strength: 6,
-  mixins: [_entityMixins.Destructible, _entityMixins.Movable, _entityMixins.PlayerActor, _entityMixins.InventoryHolder, _entityMixins.Attacker, _entityMixins.Equipper, _entityMixins.Sight]
+  mixins: [_entityMixins.Destructible, _entityMixins.Movable, _entityMixins.PlayerActor, _entityMixins.InventoryHolder, _entityMixins.Attacker, _entityMixins.Equipper, _entityMixins.Sight, _entityMixins.TimedStatusEffects]
 };
 
 var MonsterTemplate = exports.MonsterTemplate = {
@@ -7803,6 +8001,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Equippable = exports.Equippable = function Equippable(_ref) {
@@ -7823,6 +8023,35 @@ var Equippable = exports.Equippable = function Equippable(_ref) {
   this.wearable = wearable;
   this.name = "Equippable";
 };
+
+var StatusBooster = exports.StatusBooster = function () {
+  function StatusBooster(_ref2) {
+    var _ref2$hpUp = _ref2.hpUp,
+        hpUp = _ref2$hpUp === undefined ? 0 : _ref2$hpUp,
+        _ref2$statusEffect = _ref2.statusEffect,
+        statusEffect = _ref2$statusEffect === undefined ? null : _ref2$statusEffect;
+
+    _classCallCheck(this, StatusBooster);
+
+    this.name = "StatusBooster";
+    this.groupName = "Usable";
+    this.hpUp = hpUp;
+    this.use = this._use;
+    this.statusEffect = statusEffect;
+  }
+
+  _createClass(StatusBooster, [{
+    key: "_use",
+    value: function _use(entity) {
+      entity.addHp(this.hpUp);
+      if (this.statusEffect) {
+        entity.addTimedStatusEffect(this.statusEffect);
+      }
+    }
+  }]);
+
+  return StatusBooster;
+}();
 },{}],25:[function(require,module,exports) {
 "use strict";
 
@@ -7853,7 +8082,24 @@ ItemRepository.define({
   name: "med pack",
   description: "Will restore a moderate amount of health.  Single use.",
   char: "+",
-  fg: _colors2.default.pink
+  fg: _colors2.default.pink,
+  hpUp: 5,
+  mixins: [_itemMixins.StatusBooster]
+});
+
+ItemRepository.define({
+  name: "strength stim syringe",
+  description: "A syringe filled with a thick, dark liquid.  Will temporarily increase your strength. May reduce HP.",
+  char: "!",
+  fg: _colors2.default.darkPurple,
+  hpDown: 3,
+  statusEffect: {
+    property: "strength",
+    value: 10,
+    label: "Strength",
+    timer: 15
+  },
+  mixins: [_itemMixins.StatusBooster]
 });
 
 ItemRepository.define({
@@ -7866,7 +8112,7 @@ ItemRepository.define({
 });
 
 ItemRepository.define({
-  name: "your keys",
+  name: "keys",
   char: '"',
   description: "Your keys!  You can't get off this rock without them!",
   fg: _colors2.default.blue,
@@ -8013,13 +8259,16 @@ var Level = function () {
       var firstRoomPosition = this.getRandomRoomPosition(this.firstRoom);
       this.addItem(_items.WeaponRepository.createRandom(), firstRoomPosition.x, firstRoomPosition.y);
 
+      firstRoomPosition = this.getRandomRoomPosition(this.firstRoom);
+      this.addItem(_items.ItemRepository.create("strength stim syringe"), firstRoomPosition.x, firstRoomPosition.y);
+
       var otherRoomPosition = this.getRandomRoomPosition();
       var ship = _items.ItemRepository.create("Space Ship");
       console.log(ship, otherRoomPosition);
       this.addItem(ship, otherRoomPosition.x, otherRoomPosition.y);
     }
-    if (bottomLevel) {
-      this.addItemAtRandomPosition(_items.ItemRepository.create("your keys"));
+    if (topLevel) {
+      this.addItemAtRandomPosition(_items.ItemRepository.create("keys"));
     }
   }
 
@@ -8198,7 +8447,21 @@ var GameWorld = function () {
 }();
 
 exports.default = GameWorld;
-},{"./level":19}],11:[function(require,module,exports) {
+},{"./level":19}],54:[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var text = {
+  introduction: ["You wake up in a dimly lit room struggling to remember where you are and how you got there.  ", "Slowly it comes to you...", "You are the pilot of a small mining ship, and you were on your way back to the main station when you came across a large undocumented asteroid. You, the grand opportunist you are, undocked your drilling rig and floated over to check it out. Turns out it was occupied. You're a bit foggy on what came next, but you need to get to your rig and get off this rock.", "Fast."],
+  foundShipNoKeys: ["Great!  Your rig!", "You jump into the one-man mining rig and start to fire it up only to discover that your keys have gone missing.  Frantically you check your pockets but come up with nothing but lint.  These alien monsters must have taken the keys when they ripped you from the cockpit.  Fortunately, the thing seems to be in working order.", "You find an old crowbar in the back. Wielding that should help as you explore the strange caverns that have been carved into this asteroid.", "Let's find those keys."],
+  foundKeys: ["Your keys... now don't lose them.", "Back to the ship!"],
+  foundKeysAndShip: ["You jam your keys into the ignition and the rig fires up.", "Now that you're back in the cockpit blasting yourself free from this cavern is a simple task, and this time you won't let those slimy space-bugs surround you.", "You blast yourself free, turn on your navigational systems and head home.", "You win."]
+};
+
+exports.default = text;
+},{}],11:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8225,6 +8488,10 @@ var _gameOverScreen = require("./gameOverScreen");
 
 var _gameOverScreen2 = _interopRequireDefault(_gameOverScreen);
 
+var _winScreen = require("./winScreen");
+
+var _winScreen2 = _interopRequireDefault(_winScreen);
+
 var _itemListDialog = require("./itemListDialog");
 
 var _itemListDialog2 = _interopRequireDefault(_itemListDialog);
@@ -8236,6 +8503,10 @@ var _pickUpDialog2 = _interopRequireDefault(_pickUpDialog);
 var _confirmation = require("./confirmation");
 
 var _confirmation2 = _interopRequireDefault(_confirmation);
+
+var _storyScreen = require("./storyScreen");
+
+var _storyScreen2 = _interopRequireDefault(_storyScreen);
 
 var _helpScreen = require("./helpScreen");
 
@@ -8249,9 +8520,15 @@ var _gameWorld2 = _interopRequireDefault(_gameWorld);
 
 var _tile = require("../tile");
 
+var _text = require("../text");
+
+var _text2 = _interopRequireDefault(_text);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+console.log(_text2.default);
 
 var playScreen = function () {
   function playScreen(Game) {
@@ -8263,17 +8540,22 @@ var playScreen = function () {
     this.map = this.level.getMap();
     this.subscreen = null;
     this.closing = false;
+    this.foundShip = false;
+    this.gameOver = false;
+    this.win = false;
 
     this.game.player = new _entity2.default(Object.assign(_entities.PlayerTemplate, { map: this.map, Game: this.game }));
     this.player = this.game.player;
     this.level.player = this.game.player;
 
-    // const position = this.level.getRandomFloorPosition();
+    this.game.messageDisplay.clear();
+
     var position = this.level.playerStartPosition;
     this.player.setPosition(position.x, position.y);
     this.game.getScheduler().add(this.player, true);
     this.game.getEngine().start();
-    console.log("enter play screen");
+
+    this.enterSubscreen(new _storyScreen2.default(this, _text2.default.introduction));
   }
 
   _createClass(playScreen, [{
@@ -8292,7 +8574,6 @@ var playScreen = function () {
       }
       if (inputData.keyCode === _rotJs2.default.VK_ESCAPE) {
         var exitFunction = function exitFunction() {
-          console.log(_this);
           _this.game.switchScreen(_gameOverScreen2.default);
         };
         this.enterSubscreen(new _confirmation2.default("Are you SURE you want to INSTA-LOSE?", exitFunction, this));
@@ -8436,6 +8717,8 @@ var playScreen = function () {
   }, {
     key: "render",
     value: function render(Game) {
+      var _this2 = this;
+
       var playerStatusDisplay = Game.playerStatusDisplay;
       var display = Game.getDisplay();
       var map = this.level.getMap();
@@ -8443,12 +8726,38 @@ var playScreen = function () {
       playerStatusDisplay.render({
         name: this.player.name,
         hp: this.player.hp,
-        maxHp: this.player.maxHp
+        maxHp: this.player.maxHp,
+        statusEffects: this.player.getTimedStatusEffects()
       });
 
       var items = this.level.getItems();
       if (items[this.player.getX() + "," + this.player.getY()]) {
         var item = items[this.player.getX() + "," + this.player.getY()];
+        if (!this.foundShip && item.filter(function (i) {
+          return i.name == "Space Ship";
+        }).length > 0) {
+          this.foundShip = true;
+          this.enterSubscreen(new _storyScreen2.default(this, _text2.default.foundShipNoKeys, function () {
+            _this2.game.messageDisplay.add("You have found your rig, don't forget where it is!");
+          }));
+          return;
+        }
+        if (!this.foundKeys && item.filter(function (i) {
+          return i.name == "keys";
+        }).length > 0) {
+          this.foundKeys = true;
+          this.enterSubscreen(new _storyScreen2.default(this, _text2.default.foundKeys));
+          return;
+        }
+        if (!this.win && this.player.hasItem("keys") && item.filter(function (i) {
+          return i.name == "Space Ship";
+        }).length > 0) {
+          this.win = true;
+          this.enterSubscreen(new _storyScreen2.default(this, _text2.default.foundKeysAndShip, function () {
+            _this2.game.switchScreen(_winScreen2.default);
+          }));
+          return;
+        }
         if (item.length == 1) {
           this.game.messageDisplay.add("you see " + item[0].describeA());
           console.log("you see " + item[0].describeA());
@@ -8515,6 +8824,10 @@ var playScreen = function () {
         this.subscreen.render(Game);
         return;
       }
+
+      if (this.win) {
+        // this.game.switchScreen(WinScreen);
+      }
     }
   }]);
 
@@ -8522,7 +8835,7 @@ var playScreen = function () {
 }();
 
 exports.default = playScreen;
-},{"rot-js":30,"../colors":5,"../entity/entity":18,"./gameOverScreen":13,"./itemListDialog":14,"./pickUpDialog":15,"./confirmation":9,"./helpScreen":16,"../entity/entities":17,"../gameWorld":12,"../tile":24}],8:[function(require,module,exports) {
+},{"rot-js":30,"../colors":5,"../entity/entity":18,"./gameOverScreen":13,"./winScreen":59,"./itemListDialog":14,"./pickUpDialog":15,"./confirmation":9,"./storyScreen":52,"./helpScreen":16,"../entity/entities":17,"../gameWorld":12,"../tile":24,"../text":54}],8:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8625,6 +8938,12 @@ var MessageDisplay = function () {
       this.render();
     }
   }, {
+    key: "clear",
+    value: function clear() {
+      this.messages = [];
+      this.render();
+    }
+  }, {
     key: "render",
     value: function render() {
       var _this = this;
@@ -8672,7 +8991,8 @@ var PlayerStatusDisplay = function () {
       color: _colors2.default.white,
       "font-family": "Courier, monospace",
       height: "18px",
-      overflow: "hidden"
+      overflow: "hidden",
+      display: "flex"
     });
 
     this.playerStatus.textContent = "  ";
@@ -8686,15 +9006,21 @@ var PlayerStatusDisplay = function () {
   }, {
     key: "render",
     value: function render(_ref) {
+      var _this = this;
+
       var _ref$name = _ref.name,
           name = _ref$name === undefined ? "Player Name" : _ref$name,
           hp = _ref.hp,
           maxHp = _ref.maxHp,
-          x = _ref.x,
-          y = _ref.y;
+          statusEffects = _ref.statusEffects;
 
       this.playerStatus.innerHTML = "";
-      this.playerStatus.innerHTML = name + " \u2665" + hp + "/" + maxHp;
+      this.playerStatus.innerHTML = "<div style=\"flex: 1\">" + name + " \u2665" + hp + "/" + maxHp + "</div>";
+      this.playerStatus.innerHTML += "<div>";
+      statusEffects.forEach(function (s) {
+        _this.playerStatus.innerHTML += s.label + " +" + s.value + "/" + s.timer;
+      });
+      this.playerStatus.innerHTML += "</div>";
     }
   }]);
 
@@ -8828,7 +9154,7 @@ window.onload = function () {
     game.switchScreen(_startScreen2.default);
   }
 };
-},{"rot-js":30,"./colors":5,"./screens/startScreen":8,"./messageDisplay":6,"./playerStatusDisplay":7,"./screens/confirmation":9}],51:[function(require,module,exports) {
+},{"rot-js":30,"./colors":5,"./screens/startScreen":8,"./messageDisplay":6,"./playerStatusDisplay":7,"./screens/confirmation":9}],74:[function(require,module,exports) {
 
 var global = (1, eval)('this');
 var OldModule = module.bundle.Module;
@@ -8951,5 +9277,5 @@ function hmrAccept(bundle, id) {
     return hmrAccept(global.require, id);
   });
 }
-},{}]},{},[51,3])
+},{}]},{},[74,3])
 //# sourceMappingURL=/dist/28d908142711746cd98d878a219803a3.map

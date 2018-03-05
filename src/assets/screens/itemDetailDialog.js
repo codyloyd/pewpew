@@ -22,7 +22,11 @@ class ItemDetailDialog {
         <div>
           {item.equipped
             ? "(u)nequip"
-            : item.wieldable ? "(w)ield" : item.wearable ? "(w)ear" : ""}
+            : item.wieldable
+              ? "(w)ield"
+              : item.wearable
+                ? "(w)ear"
+                : item.hasMixin("Usable") ? "(a)pply" : ""}
         </div>
         <div>Press key to use, press 'q' to go back</div>
       </div>

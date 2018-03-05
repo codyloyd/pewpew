@@ -2,13 +2,18 @@ import ROT from "rot-js";
 import Colors from "../colors";
 import Entity from "../entity/entity";
 import gameOverScreen from "./gameOverScreen";
+import WinScreen from "./winScreen";
 import ItemListDialog from "./itemListDialog";
 import PickUpDialog from "./pickUpDialog";
 import Confirmation from "./confirmation";
+import StoryScreen from "./storyScreen";
 import HelpScreen from "./helpScreen";
 import { MonsterTemplate, PlayerTemplate } from "../entity/entities";
 import GameWorld from "../gameWorld";
 import { stairsUpTile, stairsDownTile } from "../tile";
+import text from "../text";
+
+console.log(text);
 
 class playScreen {
   constructor(Game) {
@@ -18,6 +23,9 @@ class playScreen {
     this.map = this.level.getMap();
     this.subscreen = null;
     this.closing = false;
+    this.foundShip = false;
+    this.gameOver = false;
+    this.win = false;
 
     this.game.player = new Entity(
       Object.assign(PlayerTemplate, { map: this.map, Game: this.game })
@@ -25,12 +33,14 @@ class playScreen {
     this.player = this.game.player;
     this.level.player = this.game.player;
 
-    // const position = this.level.getRandomFloorPosition();
+    this.game.messageDisplay.clear();
+
     const position = this.level.playerStartPosition;
     this.player.setPosition(position.x, position.y);
     this.game.getScheduler().add(this.player, true);
     this.game.getEngine().start();
-    console.log("enter play screen");
+
+    this.enterSubscreen(new StoryScreen(this, text.introduction));
   }
 
   exit() {
@@ -44,7 +54,6 @@ class playScreen {
     }
     if (inputData.keyCode === ROT.VK_ESCAPE) {
       const exitFunction = () => {
-        console.log(this);
         this.game.switchScreen(gameOverScreen);
       };
       this.enterSubscreen(
@@ -253,12 +262,45 @@ class playScreen {
     playerStatusDisplay.render({
       name: this.player.name,
       hp: this.player.hp,
-      maxHp: this.player.maxHp
+      maxHp: this.player.maxHp,
+      statusEffects: this.player.getTimedStatusEffects()
     });
 
     const items = this.level.getItems();
     if (items[this.player.getX() + "," + this.player.getY()]) {
       const item = items[this.player.getX() + "," + this.player.getY()];
+      if (
+        !this.foundShip &&
+        item.filter(i => i.name == "Space Ship").length > 0
+      ) {
+        this.foundShip = true;
+        this.enterSubscreen(
+          new StoryScreen(this, text.foundShipNoKeys, () => {
+            this.game.messageDisplay.add(
+              "You have found your rig, don't forget where it is!"
+            );
+          })
+        );
+        return;
+      }
+      if (!this.foundKeys && item.filter(i => i.name == "keys").length > 0) {
+        this.foundKeys = true;
+        this.enterSubscreen(new StoryScreen(this, text.foundKeys));
+        return;
+      }
+      if (
+        !this.win &&
+        this.player.hasItem("keys") &&
+        item.filter(i => i.name == "Space Ship").length > 0
+      ) {
+        this.win = true;
+        this.enterSubscreen(
+          new StoryScreen(this, text.foundKeysAndShip, () => {
+            this.game.switchScreen(WinScreen);
+          })
+        );
+        return;
+      }
       if (item.length == 1) {
         this.game.messageDisplay.add("you see " + item[0].describeA());
         console.log("you see " + item[0].describeA());
@@ -355,6 +397,10 @@ class playScreen {
     if (this.subscreen) {
       this.subscreen.render(Game);
       return;
+    }
+
+    if (this.win) {
+      // this.game.switchScreen(WinScreen);
     }
   }
 }

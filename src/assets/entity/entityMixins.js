@@ -9,6 +9,7 @@ export class PlayerActor {
   }
   _act() {
     const Game = this.getGame();
+    this.incrementTimedStatusEffects();
     Game.refresh();
     Game.getEngine().lock();
   }
@@ -20,6 +21,11 @@ export class Destructible {
     this.maxHp = maxHp;
     this.hp = hp || this.maxHp;
     this.takeDamage = this._takeDamage;
+    this.addHp = this._addHp;
+  }
+
+  _addHp(value) {
+    this.hp = Math.min(this.hp + value, this.maxHp);
   }
 
   _takeDamage(damage) {
@@ -167,6 +173,10 @@ export class InventoryHolder {
     this.inventory = [];
     this.addItem = this._addItem;
     this.removeItem = this._removeItem;
+    this.hasItem = this._hasItem;
+  }
+  _hasItem(item) {
+    return this.inventory.filter(i => i.name == item).length > 0;
   }
   _addItem(item) {
     if (this.inventory.length < this.inventorySize) {
@@ -238,6 +248,13 @@ export class Attacker {
         mod += this.weapon.attackValue;
       }
     }
+    if (this.hasMixin("TimedStatusEffects")) {
+      this.getTimedStatusEffects().forEach(s => {
+        if (s.property == "strength") {
+          mod += s.value;
+        }
+      });
+    }
     return this.strength + mod;
   }
   _attack(target) {
@@ -294,5 +311,35 @@ export class Equipper {
     if (item === this.weapon) {
       this.unwield();
     }
+  }
+}
+
+export class TimedStatusEffects {
+  constructor() {
+    this.name = "TimedStatusEffects";
+    //array of objects
+    // {property, label, value, timer}
+    this.statusEffects = [];
+    this.incrementTimedStatusEffects = this._incrementTimedStatusEffects;
+    this.getTimedStatusEffects = this._getTimedStatusEffects;
+    this.addTimedStatusEffect = this._addTimedStatusEffect;
+  }
+
+  _addTimedStatusEffect(effect) {
+    this.statusEffects.push(effect);
+  }
+
+  _getTimedStatusEffects() {
+    return this.statusEffects;
+  }
+
+  _incrementTimedStatusEffects() {
+    this.statusEffects.forEach(s => {
+      s.timer -= 1;
+      if (s.timer <= 0) {
+        const i = this.statusEffects.indexOf(s);
+        this.statusEffects.splice(i, 1);
+      }
+    });
   }
 }

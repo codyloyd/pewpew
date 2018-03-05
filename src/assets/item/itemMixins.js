@@ -12,3 +12,20 @@ export class Equippable {
     this.name = "Equippable";
   }
 }
+
+export class StatusBooster {
+  constructor({ hpUp = 0, statusEffect = null }) {
+    this.name = "StatusBooster";
+    this.groupName = "Usable";
+    this.hpUp = hpUp;
+    this.use = this._use;
+    this.statusEffect = statusEffect;
+  }
+
+  _use(entity) {
+    entity.addHp(this.hpUp);
+    if (this.statusEffect) {
+      entity.addTimedStatusEffect(this.statusEffect);
+    }
+  }
+}

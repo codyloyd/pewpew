@@ -7,7 +7,8 @@ import {
   Sight,
   TaskActor,
   Attacker,
-  Equipper
+  Equipper,
+  TimedStatusEffects
 } from "./entityMixins";
 
 export const PlayerTemplate = {
@@ -23,7 +24,8 @@ export const PlayerTemplate = {
     InventoryHolder,
     Attacker,
     Equipper,
-    Sight
+    Sight,
+    TimedStatusEffects
   ]
 };
 

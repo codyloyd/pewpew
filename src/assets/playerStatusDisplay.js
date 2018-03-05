@@ -11,7 +11,8 @@ class PlayerStatusDisplay {
       color: Colors.white,
       "font-family": "Courier, monospace",
       height: "18px",
-      overflow: "hidden"
+      overflow: "hidden",
+      display: "flex"
     });
 
     this.playerStatus.textContent = "  ";
@@ -20,9 +21,14 @@ class PlayerStatusDisplay {
     return this.playerStatus;
   }
 
-  render({ name = "Player Name", hp, maxHp, x, y }) {
+  render({ name = "Player Name", hp, maxHp, statusEffects }) {
     this.playerStatus.innerHTML = "";
-    this.playerStatus.innerHTML = `${name} ♥${hp}/${maxHp}`;
+    this.playerStatus.innerHTML = `<div style="flex: 1">${name} ♥${hp}/${maxHp}</div>`;
+    this.playerStatus.innerHTML += "<div>";
+    statusEffects.forEach(s => {
+      this.playerStatus.innerHTML += `${s.label} +${s.value}/${s.timer}`;
+    });
+    this.playerStatus.innerHTML += "</div>";
   }
 }
 
