@@ -14,11 +14,9 @@ import { MonsterTemplate, PlayerTemplate } from "../entity/entities";
 import GameWorld from "../gameWorld";
 import { stairsUpTile, stairsDownTile } from "../tile";
 import text from "../text";
-import { hit00, hit01, hit02, blip } from "../sounds/sounds";
 
 class playScreen {
   constructor(Game) {
-    blip.play();
     this.game = Game;
     this.gameWorld = new GameWorld(this.game);
     this.level = this.gameWorld.getCurrentLevel();
@@ -31,13 +29,24 @@ class playScreen {
     this.win = false;
     this.rangeWeaponDisplay = null;
 
+    this.game.messageDisplay.add({
+      color: "white",
+      text: "Press ? at any time for help"
+    });
+
     this.game.player = new Entity(
       Object.assign(PlayerTemplate, { map: this.map, Game: this.game })
     );
     this.player = this.game.player;
+    this.player.alive = true;
     this.level.player = this.game.player;
 
     this.game.messageDisplay.clear();
+
+    this.game.messageDisplay.add({
+      color: "white",
+      text: "Press ? at any time for help"
+    });
 
     const position = this.level.playerStartPosition;
     this.player.setPosition(position.x, position.y);

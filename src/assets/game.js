@@ -19,6 +19,7 @@ class Game {
       bg: Colors.black
     });
     this.currentScreen;
+    this.player = null;
     this.messageDisplay = new MessageDisplay();
     this.playerStatusDisplay = new PlayerStatusDisplay();
 

@@ -1,6 +1,5 @@
 import ROT from "rot-js";
 import { closedDoorTile } from "../tile";
-import { hit00, hit01, hit02, blip } from "../sounds/sounds";
 
 export class PlayerActor {
   constructor() {
@@ -331,8 +330,6 @@ export class Attacker {
       target.takeDamage(damage);
     }
     if (this.hasMixin("PlayerActor") && target.hasMixin("Destructible")) {
-      const sound = Math.random() > 0.5 ? hit01 : hit02;
-      sound.play();
       const attack = this.getAttackValue();
       const defense = target.getDefenseValue();
       const damage = Math.max(attack - defense, 0);

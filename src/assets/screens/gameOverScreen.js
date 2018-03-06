@@ -8,7 +8,7 @@ class gameOverScreen {
   exit() {}
   handleInput(inputData) {
     if (inputData.keyCode == ROT.VK_RETURN) {
-      this.game.switchScreen(startScreen);
+      window.location.reload();
     }
   }
   render(Game) {

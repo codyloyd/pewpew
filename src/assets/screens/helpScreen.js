@@ -6,7 +6,13 @@ class HelpScreen {
     this.masterScreen = masterScreen;
     this.display = document.createElement("div");
     this.display.classList.add("subscreen");
-    this.screens = ["movement", "otherKeys", "inventory", "weaponsAndArmor"];
+    this.screens = [
+      "movement",
+      "otherKeys",
+      "inventory",
+      "weaponsAndArmor",
+      "blasters"
+    ];
     this.actions = {
       switchScreen: value => state => ({
         screen: value
@@ -30,6 +36,8 @@ class HelpScreen {
         return <this.inventory />;
       case "weaponsAndArmor":
         return <this.weaponsAndArmor />;
+      case "blasters":
+        return <this.blasters />;
       default:
         return <div>error</div>;
     }
@@ -53,7 +61,24 @@ class HelpScreen {
           Multiple pieces of Armor may be worn, but wearing more than one piece
           will negatively affect your speed... so use with care!
         </p>
-        <p class="light">(press &lt; or &gt; to view more help topics)</p>
+        <p class="gray">(press &lt; or &gt; to view more help topics)</p>
+      </div>
+    );
+  }
+
+  blasters() {
+    return (
+      <div>
+        <h1>HELP - GUNS</h1>
+        <p>
+          Blasters can be fired by pressing 'f' and then one of the direction
+          keys while wielding the weapon. Blasters can only be fired in one of
+          the 8 movement directions and may or may not have a limited range.
+          Blasters have a limited amount of charges and once they have run out
+          will no longer fire. It is possible to find "blaster chargers"
+          throughout the game that can recharge the wielded weapon.
+        </p>
+        <p class="gray">(press &lt; or &gt; to view more help topics)</p>
       </div>
     );
   }
@@ -81,7 +106,7 @@ class HelpScreen {
           example, pressing 'd' from the main inventory screen will drop the
           selected item.
         </p>
-        <p class="light">(press &lt; or &gt; to view more help topics)</p>
+        <p class="gray">(press &lt; or &gt; to view more help topics)</p>
       </div>
     );
   }
@@ -91,9 +116,11 @@ class HelpScreen {
       <div>
         <h1>HELP - OTHER KEYS</h1>
         <div>i - inventory</div>
-        <div>g/, - pick up item</div>
+        <div>g - pick up item</div>
         <div>p - view player status</div>
-        <p class="light">(press &lt; or &gt; to view more help topics)</p>
+        <div>c - close door</div>
+        <div>f - fire weapon</div>
+        <p class="gray">(press &lt; or &gt; to view more help topics)</p>
       </div>
     );
   }
@@ -114,7 +141,8 @@ class HelpScreen {
           as seen below
         </div>
         <pre style={{ margin: 0 }}>{movement}</pre>
-        <p class="light">(press &lt; or &gt; to view more help topics)</p>
+        <div>press 5 or . to wait for one turn</div>
+        <p class="gray">(press &lt; or &gt; to view more help topics)</p>
       </div>
     );
   }

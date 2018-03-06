@@ -55,8 +55,6 @@ export class Fireable {
       });
       return;
     }
-    const sound = hit00;
-    sound.play();
     this.charges -= 1;
     const targetArray = targetObj.coords;
     const displayArray = [];

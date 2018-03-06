@@ -4,6 +4,7 @@ import playScreen from "./playScreen";
 class startScreen {
   constructor(Game) {
     this.game = Game;
+    this.game.player = null;
   }
   exit() {}
   handleInput(inputData) {

@@ -18,9 +18,9 @@ export const PlayerTemplate = {
   sightRadius: 6,
   strength: 6,
   mixins: [
+    PlayerActor,
     Destructible,
     Movable,
-    PlayerActor,
     InventoryHolder,
     Attacker,
     Equipper,
