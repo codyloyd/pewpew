@@ -57,13 +57,13 @@ class Game {
   }
 }
 
-export default Game;
+const game = new Game();
+export default game;
 
 window.onload = function() {
   if (!ROT.isSupported()) {
     alert("The rot.js library isn't supported by your browser.");
   } else {
-    const game = new Game();
     document.body.appendChild(game.playerStatusDisplay.getDisplay());
     document.body.appendChild(game.getDisplay().getContainer());
     document.body.appendChild(game.messageDisplay.getDisplay());

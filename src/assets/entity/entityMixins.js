@@ -1,5 +1,6 @@
 import ROT from "rot-js";
 import { closedDoorTile } from "../tile";
+import { hit00, hit01, hit02, blip } from "../sounds/sounds";
 
 export class PlayerActor {
   constructor() {
@@ -24,6 +25,7 @@ export class Destructible {
     this.takeDamage = this._takeDamage;
     this.addHp = this._addHp;
     this.getDefenseValue = this._getDefenseValue;
+    this.hit = false;
   }
 
   _getDefenseValue() {
@@ -47,8 +49,9 @@ export class Destructible {
     this.hp = Math.min(this.hp + value, this.maxHp);
   }
 
-  _takeDamage(damage) {
+  _takeDamage(damage, color) {
     this.hp -= damage;
+    this.hit = color;
     if (this.hp <= 0) {
       if (this.hasMixin("PlayerActor")) {
         this.game.messageDisplay.add({ text: `You DIE`, color: "red" });
@@ -187,8 +190,7 @@ export class TaskActor {
           .getLevel()
           .getMap()
           .getTile(x, y).isWalkable;
-      },
-      { topology: 4 }
+      }
     );
     let count = 0;
     path.compute(source.getX(), source.getY(), function(x, y) {
@@ -329,6 +331,8 @@ export class Attacker {
       target.takeDamage(damage);
     }
     if (this.hasMixin("PlayerActor") && target.hasMixin("Destructible")) {
+      const sound = Math.random() > 0.5 ? hit01 : hit02;
+      sound.play();
       const attack = this.getAttackValue();
       const defense = target.getDefenseValue();
       const damage = Math.max(attack - defense, 0);

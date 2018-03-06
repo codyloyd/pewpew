@@ -1,7 +1,7 @@
 import Repository from "../repository";
 import Colors from "../colors";
 import Item from "./item";
-import { Equippable, StatusBooster } from "./itemMixins";
+import { Fireable, Equippable, StatusBooster } from "./itemMixins";
 
 export const ItemRepository = new Repository({ name: "Items", ctor: Item });
 
@@ -171,12 +171,15 @@ WeaponRepository.define({
   mixins: [Equippable]
 });
 
-// WeaponRepository.define({
-//   name: "small blaster",
-//   char: "(",
-//   description: "doesn't pack much punch, but holds 100 charges... not bad!",
-//   fg: Colors.blue,
-//   wieldable: true,
-//   attackValue: 1,
-//   mixins: [Equippable]
-// });
+WeaponRepository.define({
+  name: "small blaster",
+  char: "(",
+  description: "doesn't pack much punch, but holds 100 charges... not bad!",
+  fg: Colors.green,
+  wieldable: true,
+  maxCharges: 100,
+  attackValue: 1,
+  rangeDamage: 3,
+  level: 1,
+  mixins: [Equippable, Fireable]
+});

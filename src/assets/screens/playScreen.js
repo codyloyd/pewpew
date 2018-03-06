@@ -14,18 +14,22 @@ import { MonsterTemplate, PlayerTemplate } from "../entity/entities";
 import GameWorld from "../gameWorld";
 import { stairsUpTile, stairsDownTile } from "../tile";
 import text from "../text";
+import { hit00, hit01, hit02, blip } from "../sounds/sounds";
 
 class playScreen {
   constructor(Game) {
+    blip.play();
     this.game = Game;
     this.gameWorld = new GameWorld(this.game);
     this.level = this.gameWorld.getCurrentLevel();
     this.map = this.level.getMap();
     this.subscreen = null;
     this.closing = false;
+    this.firing = false;
     this.foundShip = false;
     this.gameOver = false;
     this.win = false;
+    this.rangeWeaponDisplay = null;
 
     this.game.player = new Entity(
       Object.assign(PlayerTemplate, { map: this.map, Game: this.game })
@@ -66,6 +70,19 @@ class playScreen {
     }
     //movement
     const move = function(dX, dY) {
+      if (this.firing) {
+        const array = this.level.lookInDirection(dX, dY);
+        this.rangeWeaponDisplay = this.player.weapon.fire(array);
+        console.log(this.rangeWeaponDisplay);
+        this.firing = false;
+        this.game.getEngine().unlock();
+        return;
+      }
+      if (this.closing) {
+        closeDoor(dX, dY);
+        this.game.getEngine().unlock();
+        return;
+      }
       this.player.tryMove(
         this.player.getX() + dX,
         this.player.getY() + dY,
@@ -87,76 +104,44 @@ class playScreen {
       inputData.keyCode == ROT.VK_4 ||
       inputData.keyCode == ROT.VK_LEFT
     ) {
-      if (this.closing) {
-        closeDoor(-1, 0);
-        return;
-      }
       move(-1, 0);
     } else if (
       inputData.keyCode === ROT.VK_L ||
       inputData.keyCode == ROT.VK_6 ||
       inputData.keyCode == ROT.VK_RIGHT
     ) {
-      if (this.closing) {
-        closeDoor(1, 0);
-        return;
-      }
       move(1, 0);
     } else if (
       inputData.keyCode === ROT.VK_K ||
       inputData.keyCode == ROT.VK_8 ||
       inputData.keyCode == ROT.VK_UP
     ) {
-      if (this.closing) {
-        closeDoor(0, -1);
-        return;
-      }
       move(0, -1);
     } else if (
       inputData.keyCode === ROT.VK_J ||
       inputData.keyCode == ROT.VK_2 ||
       inputData.keyCode == ROT.VK_DOWN
     ) {
-      if (this.closing) {
-        closeDoor(0, 1);
-        return;
-      }
       move(0, 1);
     } else if (
       inputData.keyCode === ROT.VK_Y ||
       inputData.keyCode == ROT.VK_7
     ) {
-      if (this.closing) {
-        closeDoor(-1, -1);
-        return;
-      }
       move(-1, -1);
     } else if (
       inputData.keyCode === ROT.VK_U ||
       inputData.keyCode == ROT.VK_9
     ) {
-      if (this.closing) {
-        closeDoor(1, -1);
-        return;
-      }
       move(1, -1);
     } else if (
       inputData.keyCode === ROT.VK_B ||
       inputData.keyCode == ROT.VK_1
     ) {
-      if (this.closing) {
-        closeDoor(-1, 1);
-        return;
-      }
       move(-1, 1);
     } else if (
       inputData.keyCode === ROT.VK_N ||
       inputData.keyCode == ROT.VK_3
     ) {
-      if (this.closing) {
-        closeDoor(1, 1);
-        return;
-      }
       move(1, 1);
     } else if (
       inputData.keyCode === ROT.VK_5 ||
@@ -213,6 +198,21 @@ class playScreen {
       this.game.messageDisplay.add("Nevermind");
       this.closing = false;
     }
+    if (this.firing) {
+      this.game.messageDisplay.add("Nevermind");
+      this.firing = false;
+    }
+    // fire weapon
+
+    if (inputData.keyCode === ROT.VK_F) {
+      if (this.player.weapon && this.player.weapon.hasMixin("Fireable")) {
+        this.game.messageDisplay.add({
+          text: "Fire weapon where?",
+          color: "white"
+        });
+        this.firing = true;
+      }
+    }
     // pick up item
     if (inputData.keyCode === ROT.VK_G || inputData.keyCode == ROT.VK_COMMA) {
       const item = this.level.getItems()[
@@ -255,6 +255,9 @@ class playScreen {
   }
 
   render(Game) {
+    if (!this.player.isAlive()) {
+      this.game.switchScreen(gameOverScreen);
+    }
     const playerStatusDisplay = Game.playerStatusDisplay;
     const display = Game.getDisplay();
     const map = this.level.getMap();
@@ -263,7 +266,8 @@ class playScreen {
       name: this.player.name,
       hp: this.player.hp,
       maxHp: this.player.maxHp,
-      statusEffects: this.player.getTimedStatusEffects()
+      statusEffects: this.player.getTimedStatusEffects(),
+      weapon: this.player.weapon
     });
 
     const items = this.level.getItems();
@@ -385,6 +389,37 @@ class playScreen {
       }
     });
 
+    if (this.rangeWeaponDisplay) {
+      const xMod = this.rangeWeaponDisplay.xMod;
+      const yMod = this.rangeWeaponDisplay.yMod;
+      console.log(xMod, yMod);
+      let char = ""; //"/" : "|" : "\\" :
+      if ((xMod == 1 && yMod == -1) || (xMod == -1 && yMod == 1)) {
+        char = "/";
+      } else if ((xMod == -1 && yMod == -1) || (xMod == 1 && yMod == 1)) {
+        char = "\\";
+      } else if (xMod == 0) {
+        char = "|";
+      } else if (yMod == 0) {
+        char = "-";
+      }
+      this.rangeWeaponDisplay.coords.forEach(coord => {
+        const xy = coord.split(",");
+        display.draw(
+          xy[0] - topLeftX,
+          xy[1] - topLeftY,
+          char,
+          this.player.weapon.fg || Colors.blue,
+          this.player.getBg()
+        );
+      });
+
+      setTimeout(() => {
+        this.rangeWeaponDisplay = null;
+        this.render(this.game);
+      }, 300);
+    }
+
     const entities = this.level.getEntities();
     Object.values(entities).forEach(entity => {
       if (visibleTiles[entity.getX() + "," + entity.getY()]) {
@@ -392,9 +427,10 @@ class playScreen {
           entity.getX() - topLeftX,
           entity.getY() - topLeftY,
           entity.getChar(),
-          entity.getFg(),
-          entity.getBg()
+          entity.hit ? Colors.black : entity.getFg(),
+          entity.hit || entity.getBg()
         );
+        entity.hit = false;
       }
     });
     display.draw(
@@ -407,10 +443,6 @@ class playScreen {
     if (this.subscreen) {
       this.subscreen.render(Game);
       return;
-    }
-
-    if (this.win) {
-      // this.game.switchScreen(WinScreen);
     }
   }
 }

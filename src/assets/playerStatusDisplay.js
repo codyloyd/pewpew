@@ -21,13 +21,16 @@ class PlayerStatusDisplay {
     return this.playerStatus;
   }
 
-  render({ name = "Player Name", hp, maxHp, statusEffects }) {
+  render({ name = "Player Name", hp, maxHp, statusEffects, weapon }) {
     this.playerStatus.innerHTML = "";
     this.playerStatus.innerHTML = `<div style="flex: 1">${name} ♥${hp}/${maxHp}</div>`;
     this.playerStatus.innerHTML += "<div>";
     statusEffects.forEach(s => {
       this.playerStatus.innerHTML += `${s.label}/${s.timer} `;
     });
+    if (weapon && (weapon.charges == 0 || weapon.charges)) {
+      this.playerStatus.innerHTML += ` Weapon charges remaining: ${weapon.charges}`;
+    }
     this.playerStatus.innerHTML += "</div>";
   }
 }

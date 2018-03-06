@@ -30,8 +30,9 @@ export const PlayerTemplate = {
 };
 
 export const MonsterTemplate = {
-  name: "Monster",
-  char: "m",
-  fg: Colors.green,
+  name: "Small Alien",
+  char: "a",
+  fg: Colors.indigo,
+  speed: 800,
   mixins: [Movable, TaskActor, Destructible, Sight, Attacker]
 };

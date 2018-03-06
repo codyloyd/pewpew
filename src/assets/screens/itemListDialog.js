@@ -87,7 +87,12 @@ class ItemListDialog {
   }
 
   renderItemList() {
-    app(this.functions.getState(), this.actions, this.view, this.display);
+    this.functions = app(
+      this.functions.getState(),
+      this.functions,
+      this.view,
+      this.display
+    );
   }
 
   handleInput(inputData) {
@@ -110,6 +115,7 @@ class ItemListDialog {
       this.display.innerHTML = "";
       this.display.appendChild(detailDialog.display);
     } else if (inputData.keyCode == ROT.VK_Q) {
+      this.display.innerHTML = "";
       this.renderItemList();
     } else if (
       inputData.keyCode === ROT.VK_J ||
