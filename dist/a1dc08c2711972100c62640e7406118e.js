@@ -71,7 +71,7 @@ require = (function (modules, cache, entry) {
 
   // Override the current require with this new one
   return newRequire;
-})({11:[function(require,module,exports) {
+})({10:[function(require,module,exports) {
 var bundleURL = null;
 function getBundleURLCached() {
   if (!bundleURL) {
@@ -132,13 +132,13 @@ function reloadCSS() {
 }
 
 module.exports = reloadCSS;
-},{"./bundle-url":11}],2:[function(require,module,exports) {
+},{"./bundle-url":10}],2:[function(require,module,exports) {
 
         var reloadCSS = require('_css_loader');
         module.hot.dispose(reloadCSS);
         module.hot.accept(reloadCSS);
       
-},{"_css_loader":4}],43:[function(require,module,exports) {
+},{"_css_loader":4}],42:[function(require,module,exports) {
 
 var global = (1, eval)('this');
 var OldModule = module.bundle.Module;
@@ -160,7 +160,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = '' || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + '58022' + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + '57856' + '/');
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
 
@@ -261,5 +261,5 @@ function hmrAccept(bundle, id) {
     return hmrAccept(global.require, id);
   });
 }
-},{}]},{},[43])
+},{}]},{},[42])
 //# sourceMappingURL=/dist/a1dc08c2711972100c62640e7406118e.map
