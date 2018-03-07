@@ -44,10 +44,11 @@ export class StatusBooster {
 
 export class Fireable {
   constructor({
+    chargesPerShot = 1,
     charges,
     maxCharges = 20,
     rangeDamage = 10,
-    explosionRange = 2
+    blastRadius = 0
   }) {
     this.name = "Fireable";
     this.maxCharges = maxCharges;
@@ -55,7 +56,8 @@ export class Fireable {
     this.rangeDamage = rangeDamage;
     this.recharge = this._recharge;
     this.fire = this._fire;
-    this.explosionRange = explosionRange;
+    this.blastRadius = blastRadius;
+    this.chargesPerShot = chargesPerShot;
   }
 
   _recharge(charges) {
@@ -63,14 +65,14 @@ export class Fireable {
   }
 
   _fire(targetObj) {
-    if (this.charges <= 0) {
+    if (this.charges - this.chargesPerShot <= 0) {
       game.messageDisplay.add({
         color: "blue",
-        text: "Your weapon is out of charges"
+        text: "Your weapon does not have enough charges to fire"
       });
       return;
     }
-    this.charges -= 1;
+    this.charges -= this.chargesPerShot;
     const targetArray = targetObj.coords;
     const displayArray = [];
     for (let i = 1; i < targetArray.length; i++) {
@@ -82,14 +84,14 @@ export class Fireable {
         (targetArray[i].blocksLight ||
           targetArray[i].constructor.name == "Entity")
       ) {
-        if (this.explosionRange > 0) {
+        if (this.blastRadius > 0) {
           // cause explosion
           const explosionDisplay = [];
           const level = game.currentScreen.gameWorld.currentLevel;
           const area = level.getSurroundingTiles(
             target.x,
             target.y,
-            this.explosionRange
+            this.blastRadius
           );
           area.forEach(tile => {
             if (tile.tile) {
@@ -140,6 +142,7 @@ export class Fireable {
             break;
           }
         }
+        break;
       } else if (!target.blocksLight) {
         displayArray.push(target.x + "," + target.y);
       } else {

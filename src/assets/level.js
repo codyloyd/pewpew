@@ -80,7 +80,14 @@ class Level {
 
       this.addItem(
         // WeaponRepository.createRandom(1),
-        ItemRepository.create("blaster charges"),
+        WeaponRepository.create("mean blaster"),
+        firstRoomPosition.x,
+        firstRoomPosition.y
+      );
+
+      this.addItem(
+        // WeaponRepository.createRandom(1),
+        WeaponRepository.create("light plasma cannon"),
         firstRoomPosition.x,
         firstRoomPosition.y
       );

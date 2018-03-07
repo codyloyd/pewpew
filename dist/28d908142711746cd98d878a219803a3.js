@@ -71,7 +71,7 @@ require = (function (modules, cache, entry) {
 
   // Override the current require with this new one
   return newRequire;
-})({33:[function(require,module,exports) {
+})({32:[function(require,module,exports) {
 
 // shim for using process in browser
 var process = module.exports = {};
@@ -258,7 +258,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],32:[function(require,module,exports) {
+},{}],31:[function(require,module,exports) {
 var global = (1,eval)("this");
 var process = require("process");
 /*
@@ -5883,7 +5883,7 @@ for (var p in ROT) {
   return ROT;
 }));
 
-},{"process":33}],4:[function(require,module,exports) {
+},{"process":32}],4:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5907,7 +5907,7 @@ exports.default = {
   pink: "#ff77a8",
   peach: "#ffccaa"
 };
-},{}],25:[function(require,module,exports) {
+},{}],28:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5961,7 +5961,7 @@ var Glyph = function () {
 }();
 
 exports.default = Glyph;
-},{"./colors":4}],27:[function(require,module,exports) {
+},{"./colors":4}],29:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6043,7 +6043,7 @@ var DynamicGlyph = function (_Glyph) {
 }(_glyph2.default);
 
 exports.default = DynamicGlyph;
-},{"./glyph":25}],15:[function(require,module,exports) {
+},{"./glyph":28}],15:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6192,7 +6192,7 @@ var Entity = function (_DynamicGlyph) {
 }(_dynamicGlyph2.default);
 
 exports.default = Entity;
-},{"../dynamicGlyph":27}],14:[function(require,module,exports) {
+},{"../dynamicGlyph":29}],16:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6242,7 +6242,7 @@ var gameOverScreen = function () {
 }();
 
 exports.default = gameOverScreen;
-},{"rot-js":32,"./startScreen":7}],16:[function(require,module,exports) {
+},{"rot-js":31,"./startScreen":7}],17:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6292,7 +6292,7 @@ var WinScreen = function () {
 }();
 
 exports.default = WinScreen;
-},{"rot-js":32,"./startScreen":7}],38:[function(require,module,exports) {
+},{"rot-js":31,"./startScreen":7}],40:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6575,7 +6575,7 @@ function app(state, actions, view, container) {
     return element;
   }
 }
-},{}],29:[function(require,module,exports) {
+},{}],30:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6661,7 +6661,7 @@ var ItemDetailDialog = function () {
 }();
 
 exports.default = ItemDetailDialog;
-},{"rot-js":32,"hyperapp":38,"../colors":4}],17:[function(require,module,exports) {
+},{"rot-js":31,"hyperapp":40,"../colors":4}],18:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6877,7 +6877,7 @@ var ItemListDialog = function () {
 }();
 
 exports.default = ItemListDialog;
-},{"rot-js":32,"hyperapp":38,"../colors":4,"./itemDetailDialog":29}],18:[function(require,module,exports) {
+},{"rot-js":31,"hyperapp":40,"../colors":4,"./itemDetailDialog":30}],19:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6947,7 +6947,7 @@ var PickUpScreen = function (_ItemListDialog) {
 }(_itemListDialog2.default);
 
 exports.default = PickUpScreen;
-},{"./itemListDialog":17,"rot-js":32}],8:[function(require,module,exports) {
+},{"./itemListDialog":18,"rot-js":31}],8:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7044,7 +7044,7 @@ var Confirmation = function () {
 }();
 
 exports.default = Confirmation;
-},{"hyperapp":38,"rot-js":32}],19:[function(require,module,exports) {
+},{"hyperapp":40,"rot-js":31}],20:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7122,7 +7122,7 @@ var StoryScreen = function () {
 }();
 
 exports.default = StoryScreen;
-},{"hyperapp":38,"rot-js":32}],20:[function(require,module,exports) {
+},{"hyperapp":40,"rot-js":31}],21:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7386,7 +7386,7 @@ var HelpScreen = function () {
 }();
 
 exports.default = HelpScreen;
-},{"hyperapp":38,"rot-js":32}],21:[function(require,module,exports) {
+},{"hyperapp":40,"rot-js":31}],22:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7476,7 +7476,7 @@ var PlayerStatusScreen = function () {
 }();
 
 exports.default = PlayerStatusScreen;
-},{"hyperapp":38,"rot-js":32}],30:[function(require,module,exports) {
+},{"hyperapp":40,"rot-js":31}],35:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7547,7 +7547,7 @@ var Repository = function () {
 }();
 
 exports.default = Repository;
-},{"rot-js":32}],34:[function(require,module,exports) {
+},{"rot-js":31}],36:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7594,7 +7594,7 @@ var Item = function (_DynamicGlyph) {
 }(_dynamicGlyph2.default);
 
 exports.default = Item;
-},{"../dynamicGlyph":27}],12:[function(require,module,exports) {
+},{"../dynamicGlyph":29}],13:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7676,7 +7676,7 @@ var openDoorTile = exports.openDoorTile = new Tile({
   blocksLight: false,
   isWalkable: true
 });
-},{"./glyph":25,"./colors":4}],35:[function(require,module,exports) {
+},{"./glyph":28,"./colors":4}],37:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7762,13 +7762,15 @@ var StatusBooster = exports.StatusBooster = function () {
 
 var Fireable = exports.Fireable = function () {
   function Fireable(_ref3) {
-    var charges = _ref3.charges,
+    var _ref3$chargesPerShot = _ref3.chargesPerShot,
+        chargesPerShot = _ref3$chargesPerShot === undefined ? 1 : _ref3$chargesPerShot,
+        charges = _ref3.charges,
         _ref3$maxCharges = _ref3.maxCharges,
         maxCharges = _ref3$maxCharges === undefined ? 20 : _ref3$maxCharges,
         _ref3$rangeDamage = _ref3.rangeDamage,
         rangeDamage = _ref3$rangeDamage === undefined ? 10 : _ref3$rangeDamage,
-        _ref3$explosionRange = _ref3.explosionRange,
-        explosionRange = _ref3$explosionRange === undefined ? 2 : _ref3$explosionRange;
+        _ref3$blastRadius = _ref3.blastRadius,
+        blastRadius = _ref3$blastRadius === undefined ? 0 : _ref3$blastRadius;
 
     _classCallCheck(this, Fireable);
 
@@ -7778,7 +7780,8 @@ var Fireable = exports.Fireable = function () {
     this.rangeDamage = rangeDamage;
     this.recharge = this._recharge;
     this.fire = this._fire;
-    this.explosionRange = explosionRange;
+    this.blastRadius = blastRadius;
+    this.chargesPerShot = chargesPerShot;
   }
 
   _createClass(Fireable, [{
@@ -7791,14 +7794,14 @@ var Fireable = exports.Fireable = function () {
     value: function _fire(targetObj) {
       var _this = this;
 
-      if (this.charges <= 0) {
+      if (this.charges - this.chargesPerShot <= 0) {
         _game2.default.messageDisplay.add({
           color: "blue",
-          text: "Your weapon is out of charges"
+          text: "Your weapon does not have enough charges to fire"
         });
         return;
       }
-      this.charges -= 1;
+      this.charges -= this.chargesPerShot;
       var targetArray = targetObj.coords;
       var displayArray = [];
 
@@ -7807,11 +7810,11 @@ var Fireable = exports.Fireable = function () {
         var shooter = targetArray[0];
         console.log(targetArray[i]);
         if (targetArray[i] && (targetArray[i].blocksLight || targetArray[i].constructor.name == "Entity")) {
-          if (_this.explosionRange > 0) {
+          if (_this.blastRadius > 0) {
             // cause explosion
             var explosionDisplay = [];
             var level = _game2.default.currentScreen.gameWorld.currentLevel;
-            var area = level.getSurroundingTiles(target.x, target.y, _this.explosionRange);
+            var area = level.getSurroundingTiles(target.x, target.y, _this.blastRadius);
             area.forEach(function (tile) {
               if (tile.tile) {
                 explosionDisplay.push(tile.x + "," + tile.y);
@@ -7861,6 +7864,7 @@ var Fireable = exports.Fireable = function () {
               return "break";
             }
           }
+          return "break";
         } else if (!target.blocksLight) {
           displayArray.push(target.x + "," + target.y);
         } else {
@@ -7879,7 +7883,7 @@ var Fireable = exports.Fireable = function () {
 
   return Fireable;
 }();
-},{"../game":3,"../tile":12,"../colors":4}],22:[function(require,module,exports) {
+},{"../game":3,"../tile":13,"../colors":4}],23:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7927,8 +7931,8 @@ ItemRepository.define({
 
 ItemRepository.define({
   name: "blaster charges",
-  description: "Will add 20 charges the wielded weapon.  Single use.",
-  weaponRecharge: 20,
+  description: "Will add 50 charges the wielded weapon.  Single use.",
+  weaponRecharge: 50,
   char: "*",
   fg: _colors2.default.blue,
   rngWeight: 5,
@@ -8094,10 +8098,11 @@ WeaponRepository.define({
 WeaponRepository.define({
   name: "small blaster",
   char: "┌",
-  description: "doesn't pack much punch, but holds 30 charges... not bad!",
+  description: "doesn't pack much punch, but only costs 1 charge to shoot... not bad!",
   fg: _colors2.default.green,
   wieldable: true,
   maxCharges: 30,
+  chargesPerShot: 1,
   attackValue: 0,
   rangeDamage: 4,
   level: 1,
@@ -8107,16 +8112,47 @@ WeaponRepository.define({
 WeaponRepository.define({
   name: "mean blaster",
   char: "┌",
-  description: "Holds 5 charges.. but packs a mean punch",
+  description: "Holds 30 charges, takes 5 to shoot... but packs a mean punch",
   fg: _colors2.default.blue,
   wieldable: true,
-  maxCharges: 5,
+  maxCharges: 30,
+  chargesPerShot: 3,
   attackValue: 0,
   rangeDamage: 15,
   level: 2,
   mixins: [_itemMixins.Equippable, _itemMixins.Fireable]
 });
-},{"../repository":30,"../colors":4,"./item":34,"./itemMixins":35}],31:[function(require,module,exports) {
+
+WeaponRepository.define({
+  name: "light plasma cannon",
+  char: "┌",
+  description: "Uses up 15 charges per shot. This one really leaves a mark.",
+  fg: _colors2.default.red,
+  wieldable: true,
+  maxCharges: 50,
+  chargesPerShot: 10,
+  attackValue: 0,
+  blastRadius: 1,
+  rangeDamage: 25,
+  level: 2,
+  mixins: [_itemMixins.Equippable, _itemMixins.Fireable]
+});
+
+WeaponRepository.define({
+  name: "heavy plasma cannon",
+  char: "┌",
+  description: "stand back",
+  fg: _colors2.default.white,
+  wieldable: true,
+  maxCharges: 150,
+  chargesPerShot: 25,
+  attackValue: 0,
+  blastRadius: 2,
+  rangeDamage: 20,
+  level: 2,
+  mixins: [_itemMixins.Equippable, _itemMixins.Fireable]
+});
+},{"../repository":35,"../colors":4,"./item":36,"./itemMixins":37}],38:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8709,7 +8745,7 @@ var TimedStatusEffects = exports.TimedStatusEffects = function () {
 
   return TimedStatusEffects;
 }();
-},{"rot-js":32,"../colors":4,"../tile":12}],23:[function(require,module,exports) {
+},{"rot-js":31,"../colors":4,"../tile":13}],24:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8799,7 +8835,37 @@ EnemyRepository.define({
   weapon: _items.WeaponRepository.create("small blaster"),
   mixins: [_entityMixins.Movable, _entityMixins.TaskActor, _entityMixins.Equipper, _entityMixins.InventoryHolder, _entityMixins.Destructible, _entityMixins.Sight, _entityMixins.Attacker]
 });
-},{"../colors":4,"../repository":30,"./entity":15,"../item/items":22,"./entityMixins":31}],37:[function(require,module,exports) {
+
+EnemyRepository.define({
+  name: "Bomber",
+  char: "S",
+  fg: _colors2.default.red,
+  speed: 800,
+  maxHp: 25,
+  sightRadius: 15,
+  strength: 3,
+  rngWeight: 2,
+  tasks: ["shoot", "flee", "wander"],
+  inventory: [_items.WeaponRepository.create("light plasma cannon")],
+  weapon: _items.WeaponRepository.create("light plasma cannon"),
+  mixins: [_entityMixins.Movable, _entityMixins.TaskActor, _entityMixins.Equipper, _entityMixins.InventoryHolder, _entityMixins.Destructible, _entityMixins.Sight, _entityMixins.Attacker]
+});
+
+EnemyRepository.define({
+  name: "Alien with huge gun",
+  char: "X",
+  fg: _colors2.default.pink,
+  speed: 800,
+  maxHp: 25,
+  sightRadius: 25,
+  strength: 3,
+  rngWeight: 1,
+  tasks: ["shoot", "flee", "wander"],
+  inventory: [_items.WeaponRepository.create("heavy plasma cannon")],
+  weapon: _items.WeaponRepository.create("heavy plasma cannon"),
+  mixins: [_entityMixins.Movable, _entityMixins.TaskActor, _entityMixins.Equipper, _entityMixins.InventoryHolder, _entityMixins.Destructible, _entityMixins.Sight, _entityMixins.Attacker]
+});
+},{"../colors":4,"../repository":35,"./entity":15,"../item/items":23,"./entityMixins":38}],41:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8907,7 +8973,7 @@ var DungeonMap = function () {
 }();
 
 exports.default = DungeonMap;
-},{"rot-js":32,"./tile":12}],26:[function(require,module,exports) {
+},{"rot-js":31,"./tile":13}],33:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9011,7 +9077,11 @@ var Level = function () {
 
       this.addItem(
       // WeaponRepository.createRandom(1),
-      _items.ItemRepository.create("blaster charges"), firstRoomPosition.x, firstRoomPosition.y);
+      _items.WeaponRepository.create("mean blaster"), firstRoomPosition.x, firstRoomPosition.y);
+
+      this.addItem(
+      // WeaponRepository.createRandom(1),
+      _items.WeaponRepository.create("light plasma cannon"), firstRoomPosition.x, firstRoomPosition.y);
 
       var otherRoomPosition = this.getRandomRoomPosition();
       var ship = _items.ItemRepository.create("Space Ship");
@@ -9180,7 +9250,7 @@ var Level = function () {
 }();
 
 exports.default = Level;
-},{"./dungeonMap":37,"./entity/entity":15,"./item/items":22,"./entity/entities":23,"./tile":12}],11:[function(require,module,exports) {
+},{"./dungeonMap":41,"./entity/entity":15,"./item/items":23,"./entity/entities":24,"./tile":13}],12:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9201,10 +9271,13 @@ var GameWorld = function () {
   function GameWorld(Game) {
     _classCallCheck(this, GameWorld);
 
-    var firstLevel = new _level2.default({ Game: Game, gameWorld: this, topLevel: true });
-    var secondLevel = new _level2.default({ Game: Game, gameWorld: this });
-    var thirdLevel = new _level2.default({ Game: Game, gameWorld: this, bottomLevel: true });
-    this.levels = [firstLevel, secondLevel, thirdLevel];
+    var topLevel = new _level2.default({ Game: Game, gameWorld: this, topLevel: true });
+    var bottomLevel = new _level2.default({ Game: Game, gameWorld: this, bottomLevel: true });
+    var middleLevels = [];
+    for (var i = 0; i < 3; i++) {
+      middleLevels.push(new _level2.default({ Game: Game, gameWorld: this }));
+    }
+    this.levels = [topLevel].concat(middleLevels, [bottomLevel]);
     this.currentLevel = this.levels[0];
   }
 
@@ -9239,7 +9312,7 @@ var GameWorld = function () {
 }();
 
 exports.default = GameWorld;
-},{"./level":26}],13:[function(require,module,exports) {
+},{"./level":33}],14:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9253,7 +9326,7 @@ var text = {
 };
 
 exports.default = text;
-},{}],9:[function(require,module,exports) {
+},{}],10:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9710,7 +9783,7 @@ var playScreen = function () {
 }();
 
 exports.default = playScreen;
-},{"rot-js":32,"../colors":4,"../entity/entity":15,"./gameOverScreen":14,"./winScreen":16,"./itemListDialog":17,"./pickUpDialog":18,"./confirmation":8,"./storyScreen":19,"./helpScreen":20,"./playerStatusScreen":21,"../item/items":22,"../entity/entities":23,"../gameWorld":11,"../tile":12,"../text":13}],7:[function(require,module,exports) {
+},{"rot-js":31,"../colors":4,"../entity/entity":15,"./gameOverScreen":16,"./winScreen":17,"./itemListDialog":18,"./pickUpDialog":19,"./confirmation":8,"./storyScreen":20,"./helpScreen":21,"./playerStatusScreen":22,"../item/items":23,"../entity/entities":24,"../gameWorld":12,"../tile":13,"../text":14}],7:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9761,7 +9834,7 @@ var startScreen = function () {
 }();
 
 exports.default = startScreen;
-},{"rot-js":32,"./playScreen":9}],6:[function(require,module,exports) {
+},{"rot-js":31,"./playScreen":10}],5:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9842,7 +9915,7 @@ var MessageDisplay = function () {
 }();
 
 exports.default = MessageDisplay;
-},{"./colors":4}],5:[function(require,module,exports) {
+},{"./colors":4}],6:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9900,8 +9973,9 @@ var PlayerStatusDisplay = function () {
           x = _ref.x,
           y = _ref.y;
 
+      var hpColor = hp <= 10 ? "red" : "";
       this.playerStatus.innerHTML = "";
-      this.playerStatus.innerHTML = "<div style=\"flex: 1\">" + name + " \u2665" + hp + "/" + maxHp + "  x:" + x + "y:" + y + "</div>";
+      this.playerStatus.innerHTML = "<div class=\"" + hpColor + "\" style=\"flex: 1\">HEALTH \u2665" + hp + "/" + maxHp + "</div>";
       this.playerStatus.innerHTML += "<div>";
       statusEffects.forEach(function (s) {
         _this.playerStatus.innerHTML += s.label + "/" + s.timer + " ";
@@ -10044,4 +10118,4 @@ window.onload = function () {
     game.switchScreen(_startScreen2.default);
   }
 };
-},{"rot-js":32,"./colors":4,"./screens/startScreen":7,"./messageDisplay":6,"./playerStatusDisplay":5,"./screens/confirmation":8}]},{},[3])
+},{"rot-js":31,"./colors":4,"./screens/startScreen":7,"./messageDisplay":5,"./playerStatusDisplay":6,"./screens/confirmation":8}]},{},[3])

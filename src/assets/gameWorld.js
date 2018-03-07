@@ -2,10 +2,13 @@ import Level from "./level";
 
 class GameWorld {
   constructor(Game) {
-    const firstLevel = new Level({ Game, gameWorld: this, topLevel: true });
-    const secondLevel = new Level({ Game, gameWorld: this });
-    const thirdLevel = new Level({ Game, gameWorld: this, bottomLevel: true });
-    this.levels = [firstLevel, secondLevel, thirdLevel];
+    const topLevel = new Level({ Game, gameWorld: this, topLevel: true });
+    const bottomLevel = new Level({ Game, gameWorld: this, bottomLevel: true });
+    const middleLevels = [];
+    for (let i = 0; i < 3; i++) {
+      middleLevels.push(new Level({ Game, gameWorld: this }));
+    }
+    this.levels = [topLevel, ...middleLevels, bottomLevel];
     this.currentLevel = this.levels[0];
   }
 

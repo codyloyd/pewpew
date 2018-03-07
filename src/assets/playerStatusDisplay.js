@@ -21,9 +21,10 @@ class PlayerStatusDisplay {
     return this.playerStatus;
   }
 
-  render({ name = "Player Name", hp, maxHp, statusEffects, weapon, x,y}) {
+  render({ name = "Player Name", hp, maxHp, statusEffects, weapon, x, y }) {
+    const hpColor = hp <= 10 ? "red" : "";
     this.playerStatus.innerHTML = "";
-    this.playerStatus.innerHTML = `<div style="flex: 1">${name} ♥${hp}/${maxHp}  x:${x}y:${y}</div>`;
+    this.playerStatus.innerHTML = `<div class="${hpColor}" style="flex: 1">HEALTH ♥${hp}/${maxHp}</div>`;
     this.playerStatus.innerHTML += "<div>";
     statusEffects.forEach(s => {
       this.playerStatus.innerHTML += `${s.label}/${s.timer} `;

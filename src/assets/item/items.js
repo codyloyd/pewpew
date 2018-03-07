@@ -27,8 +27,8 @@ ItemRepository.define({
 
 ItemRepository.define({
   name: "blaster charges",
-  description: "Will add 20 charges the wielded weapon.  Single use.",
-  weaponRecharge: 20,
+  description: "Will add 50 charges the wielded weapon.  Single use.",
+  weaponRecharge: 50,
   char: "*",
   fg: Colors.blue,
   rngWeight: 5,
@@ -203,10 +203,12 @@ WeaponRepository.define({
 WeaponRepository.define({
   name: "small blaster",
   char: "┌",
-  description: "doesn't pack much punch, but holds 30 charges... not bad!",
+  description:
+    "doesn't pack much punch, but only costs 1 charge to shoot... not bad!",
   fg: Colors.green,
   wieldable: true,
   maxCharges: 30,
+  chargesPerShot: 1,
   attackValue: 0,
   rangeDamage: 4,
   level: 1,
@@ -216,12 +218,43 @@ WeaponRepository.define({
 WeaponRepository.define({
   name: "mean blaster",
   char: "┌",
-  description: "Holds 5 charges.. but packs a mean punch",
+  description: "Holds 30 charges, takes 5 to shoot... but packs a mean punch",
   fg: Colors.blue,
   wieldable: true,
-  maxCharges: 5,
+  maxCharges: 30,
+  chargesPerShot: 3,
   attackValue: 0,
   rangeDamage: 15,
+  level: 2,
+  mixins: [Equippable, Fireable]
+});
+
+WeaponRepository.define({
+  name: "light plasma cannon",
+  char: "┌",
+  description: "Uses up 15 charges per shot. This one really leaves a mark.",
+  fg: Colors.red,
+  wieldable: true,
+  maxCharges: 50,
+  chargesPerShot: 10,
+  attackValue: 0,
+  blastRadius: 1,
+  rangeDamage: 25,
+  level: 2,
+  mixins: [Equippable, Fireable]
+});
+
+WeaponRepository.define({
+  name: "heavy plasma cannon",
+  char: "┌",
+  description: "stand back",
+  fg: Colors.white,
+  wieldable: true,
+  maxCharges: 150,
+  chargesPerShot: 25,
+  attackValue: 0,
+  blastRadius: 2,
+  rangeDamage: 20,
   level: 2,
   mixins: [Equippable, Fireable]
 });

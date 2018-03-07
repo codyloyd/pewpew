@@ -95,3 +95,49 @@ EnemyRepository.define({
     Attacker
   ]
 });
+
+EnemyRepository.define({
+  name: "Bomber",
+  char: "S",
+  fg: Colors.red,
+  speed: 800,
+  maxHp: 25,
+  sightRadius: 15,
+  strength: 3,
+  rngWeight: 2,
+  tasks: ["shoot", "flee", "wander"],
+  inventory: [WeaponRepository.create("light plasma cannon")],
+  weapon: WeaponRepository.create("light plasma cannon"),
+  mixins: [
+    Movable,
+    TaskActor,
+    Equipper,
+    InventoryHolder,
+    Destructible,
+    Sight,
+    Attacker
+  ]
+});
+
+EnemyRepository.define({
+  name: "Alien with huge gun",
+  char: "X",
+  fg: Colors.pink,
+  speed: 800,
+  maxHp: 25,
+  sightRadius: 25,
+  strength: 3,
+  rngWeight: 1,
+  tasks: ["shoot", "flee", "wander"],
+  inventory: [WeaponRepository.create("heavy plasma cannon")],
+  weapon: WeaponRepository.create("heavy plasma cannon"),
+  mixins: [
+    Movable,
+    TaskActor,
+    Equipper,
+    InventoryHolder,
+    Destructible,
+    Sight,
+    Attacker
+  ]
+});
