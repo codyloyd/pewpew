@@ -1,6 +1,5 @@
 import game from "../game";
 import Colors from "../colors";
-import { hit00, hit01, hit02, blip } from "../sounds/sounds";
 
 export class Equippable {
   constructor({
@@ -58,19 +57,29 @@ export class Fireable {
     this.charges -= 1;
     const targetArray = targetObj.coords;
     const displayArray = [];
-    for (let i = 0; i < targetArray.length; i++) {
+    for (let i = 1; i < targetArray.length; i++) {
       const target = targetArray[i];
+      const shooter = targetArray[0];
       if (targetArray[i] && targetArray[i].constructor.name == "Entity") {
         if (target.hasMixin("Destructible")) {
           const attack = this.rangeDamage;
           const defense = target.getDefenseValue();
           const damage = Math.max(attack - defense, 0);
-          game.messageDisplay.add({
-            color: "white",
-            text: `You hit the ${target.name} for ${damage} damage.`
-          });
-          target.takeDamage(damage, this.fg);
-          break;
+          if (shooter.name == "ME") {
+            game.messageDisplay.add({
+              color: "white",
+              text: `You hit the ${target.name} for ${damage} damage.`
+            });
+            target.takeDamage(damage, this.fg);
+            break;
+          } else if (target.name == "ME") {
+            game.messageDisplay.add({
+              color: "red",
+              text: `The ${shooter.name} shoots you for ${damage} damage!`
+            });
+            target.takeDamage(damage, this.fg);
+            break;
+          }
         }
       } else if (!target.blocksLight) {
         console.log(target);

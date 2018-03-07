@@ -13,8 +13,12 @@ class PickUpScreen extends ItemListDialog {
     }
     if (inputData.keyCode == ROT.VK_RETURN) {
       const item = this.functions.getSelectedItem();
-      this.player.addItem(item);
-      this.functions.removeItem(item);
+      if (item.canPickUp) {
+        this.player.addItem(item);
+        this.functions.removeItem(item);
+      } else {
+        this.masterScreen.level.game.messageDisplay.add("Can't pick that up!");
+      }
       const items = this.functions.getItems();
       this.masterScreen.level.setItemsAt(
         this.player.getX(),

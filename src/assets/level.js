@@ -1,7 +1,11 @@
 import DungeonMap from "./dungeonMap";
 import Entity from "./entity/entity";
-import { WeaponRepository, ItemRepository } from "./item/items";
-import { MonsterTemplate, PlayerTemplate } from "./entity/entities";
+import {
+  WeaponRepository,
+  ItemRepository,
+  ArmorRepository
+} from "./item/items";
+import { Bug, EnemyRepository, PlayerTemplate } from "./entity/entities";
 import { floorTile, wallTile, stairsUpTile, stairsDownTile } from "./tile";
 
 class Level {
@@ -9,7 +13,7 @@ class Level {
     this.game = Game;
     this.gameWorld = gameWorld;
     this.width = this.game.getScreenWidth();
-    this.height = this.game.getScreenHeight();
+    this.height = this.game.getScreenHeight() * 1.5;
     this.entities = {};
     this.map = new DungeonMap({
       width: this.width,
@@ -35,27 +39,49 @@ class Level {
       this.map.setTile(this.stairsDown.x, this.stairsDown.y, stairsDownTile);
     }
 
-    // add Entities to Map
-    for (let i = 0; i < 10; i++) {
-      this.addEntityAtRandomPosition(
-        new Entity(
-          Object.assign(MonsterTemplate, { level: this, Game: this.game })
-        )
-      );
+    for (let i = 0; i < 8; i++) {
+      const alien = EnemyRepository.createRandom();
+      this.addEntityAtRandomPosition(alien);
+    }
+    if (!topLevel) {
+      for (let i = 0; i < 10; i++) {
+        const alien = EnemyRepository.createRandom();
+        this.addEntityAtRandomPosition(alien);
+      }
     }
 
-    for (let i = 0; i < 2; i++) {
+    if (!topLevel && Math.random < 0.8) {
+      const bugRoom = this.map.getRooms()[1];
+      for (let i = 0; i < 10; i++) {
+        const roomPosition = this.getRandomRoomPosition(bugRoom);
+        const bug = EnemyRepository.create("Flying Insect");
+        bug.setPosition(roomPosition.x, roomPosition.y);
+        this.addEntity(bug);
+      }
+    }
+
+    for (let i = 0; i < 5; i++) {
       this.addItemAtRandomPosition(ItemRepository.createRandom());
     }
-    this.addItemAtRandomPosition(WeaponRepository.createRandom());
+
+    const weaponOrArmor =
+      Math.random() > 0.5 ? ArmorRepository : WeaponRepository;
+
+    this.addItemAtRandomPosition(weaponOrArmor.createRandom());
 
     if (topLevel) {
       let firstRoomPosition = this.getRandomRoomPosition(this.firstRoom);
       this.addItem(
-        WeaponRepository.createRandom(1),
+        // WeaponRepository.createRandom(1),
+        WeaponRepository.create("small blaster"),
         firstRoomPosition.x,
         firstRoomPosition.y
       );
+
+      const shooter = EnemyRepository.create("Shooter");
+      firstRoomPosition = this.getRandomRoomPosition(this.firstRoom);
+      shooter.setPosition(firstRoomPosition.x, firstRoomPosition.y);
+      this.addEntity(shooter);
 
       const otherRoomPosition = this.getRandomRoomPosition();
       const ship = ItemRepository.create("Space Ship");
@@ -66,11 +92,11 @@ class Level {
     }
   }
 
-  lookInDirection(xMod, yMod, range = 25) {
+  lookInDirection(xMod, yMod, entity = this.player, range = 25) {
     const coords = [];
-    for (let i = 1; i < range + 1; i++) {
-      const x = this.player.getX() + xMod * i;
-      const y = this.player.getY() + yMod * i;
+    for (let i = 0; i < range + 1; i++) {
+      const x = entity.getX() + xMod * i;
+      const y = entity.getY() + yMod * i;
       if (this.getEntityAt(x, y)) {
         coords.push(this.getEntityAt(x, y));
       } else if (this.map.getTile(x, y)) {
@@ -158,9 +184,15 @@ class Level {
   }
 
   addEntity(entity) {
-    this.entities[entity.getX() + "," + entity.getY()] = entity;
-    if (entity.hasMixin("Actor")) {
-      this.game.getScheduler().add(entity, true);
+    if (!this.getEntityAt(entity.getX(), entity.getY())) {
+      this.entities[entity.getX() + "," + entity.getY()] = entity;
+      entity.setLevel(this);
+      entity.setGame(this.game);
+      if (entity.hasMixin("Actor")) {
+        this.game.getScheduler().add(entity, true);
+      }
+    } else {
+      console.log(this.entities, entity);
     }
   }
 

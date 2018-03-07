@@ -1,4 +1,5 @@
 import ROT from "rot-js";
+import Colors from "../colors";
 import { closedDoorTile } from "../tile";
 
 export class PlayerActor {
@@ -48,7 +49,7 @@ export class Destructible {
     this.hp = Math.min(this.hp + value, this.maxHp);
   }
 
-  _takeDamage(damage, color) {
+  _takeDamage(damage, color = Colors.red) {
     this.hp -= damage;
     this.hit = color;
     if (this.hp <= 0) {
@@ -135,6 +136,8 @@ export class TaskActor {
     this.canDoTask = this._canDoTask;
     this.wander = this._wander;
     this.hunt = this._hunt;
+    this.flee = this._flee;
+    this.shoot = this._shoot;
   }
   _act() {
     if (this.level.gameWorld.currentLevel !== this.level) {
@@ -155,11 +158,58 @@ export class TaskActor {
         this.hasMixin("Sight") &&
         (this.canSee(this.getLevel().player) || this.huntingTarget)
       );
+    } else if (task === "shoot") {
+      const player = this.getLevel().player;
+      const xOffset = this.getX() - player.getX();
+      const yOffset = this.getY() - player.getY();
+      if (this.canSee(player)) {
+        if (
+          Math.abs(xOffset) == Math.abs(yOffset) ||
+          xOffset == 0 ||
+          yOffset == 0
+        ) {
+          return true;
+        }
+      }
+      return false;
+    } else if (task === "flee") {
+      const player = this.getLevel().player;
+      const otherX = player.getX();
+      const otherY = player.getY();
+      if (
+        (otherX - this.getX()) * (otherX - this.getX()) +
+          (otherY - this.getY()) * (otherY - this.getY()) <
+        9
+      ) {
+        return true;
+      }
+      return false;
     } else if (task === "wander") {
       return true;
     } else {
       throw new Error("tried to perform undefined task");
     }
+  }
+
+  _shoot() {
+    const player = this.getLevel().player;
+    const xOffset = this.getX() - player.getX();
+    const yOffset = this.getY() - player.getY();
+    const dX = xOffset == 0 ? 0 : xOffset > 0 ? -1 : 1;
+    const dY = yOffset == 0 ? 0 : yOffset > 0 ? -1 : 1;
+    const fireArray = this.getLevel().lookInDirection(dX, dY, this);
+    this.game.rangeWeaponDisplay = Object.assign(this.weapon.fire(fireArray), {
+      color: this.weapon.fg
+    });
+  }
+
+  _flee() {
+    const player = this.getLevel().player;
+    const xOffset = this.getX() - player.getX();
+    const yOffset = this.getY() - player.getY();
+    const dX = xOffset == 0 ? 0 : xOffset > 0 ? 1 : -1;
+    const dY = yOffset == 0 ? 0 : yOffset > 0 ? 1 : -1;
+    this.tryMove(this.getX() + dX, this.getY() + dY, this.getLevel());
   }
 
   _hunt() {
@@ -203,7 +253,7 @@ export class TaskActor {
   _wander() {
     const dX = Math.floor(Math.random() * 3) - 1;
     const dY = Math.floor(Math.random() * 3) - 1;
-    if (this.level.player && this.canSee(this.level.player)) {
+    if (this.level.player) {
       this.tryMove(this.getX() + dX, this.getY() + dY, this.getLevel());
     }
   }
@@ -318,9 +368,10 @@ export class Attacker {
   _attack(target) {
     const game = this.getGame();
     if (target.hasMixin("PlayerActor")) {
-      const attack = this.getAttackValue();
+      const dieRoll = parseInt(Math.random() * 3) - 1;
+      const attack = this.getAttackValue() + dieRoll;
       const defense = target.getDefenseValue();
-      const damage = Math.max(attack - defense, 0);
+      const damage = Math.max(attack - defense, 1);
       if (game) {
         game.messageDisplay.add({
           color: "red",

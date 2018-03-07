@@ -7,10 +7,21 @@ export const ItemRepository = new Repository({ name: "Items", ctor: Item });
 
 ItemRepository.define({
   name: "med pack",
-  description: "Will restore a moderate amount of health.  Single use.",
+  description: "Will restore a small amount of health.  Single use.",
   char: "+",
   fg: Colors.pink,
-  hpUp: 5,
+  hpUp: 10,
+  rngWeight: 10,
+  mixins: [StatusBooster]
+});
+
+ItemRepository.define({
+  name: "big med pack",
+  description: "Will restore a moderate amount of health.  Single use.",
+  char: "+",
+  fg: Colors.red,
+  hpUp: 25,
+  rngWeight: 5,
   mixins: [StatusBooster]
 });
 
@@ -21,6 +32,7 @@ ItemRepository.define({
   char: "!",
   fg: Colors.darkPurple,
   hpDown: 3,
+  rngWeight: 5,
   statusEffect: {
     property: "strength",
     value: 10,
@@ -36,6 +48,7 @@ ItemRepository.define({
     "A syringe filled with a dark liquid that smells of coffee.  Will temporarily increase your speed.",
   char: "!",
   fg: Colors.darkGreen,
+  rngWeight: 5,
   statusEffect: {
     property: "speed",
     value: 1000,
@@ -51,6 +64,7 @@ ItemRepository.define({
     "No clue how this tech is supposed to work.. but shooting this baby up will temporarily increase your defense value.  It's a game, get over it.",
   char: "!",
   fg: Colors.darkGreen,
+  rngWeight: 5,
   statusEffect: {
     property: "speed",
     value: 10,
@@ -78,7 +92,9 @@ ItemRepository.define({
   disableRandomCreation: true
 });
 
-ItemRepository.define({
+export const ArmorRepository = new Repository({ name: "Items", ctor: Item });
+
+ArmorRepository.define({
   name: "backpack",
   description:
     "Increases your inventory size and provides a teeny-tiny amount of defense, might slow you down a bit though.",
@@ -87,10 +103,11 @@ ItemRepository.define({
   wearable: true,
   defenseValue: 2,
   inventoryBoost: 5,
+  rngWeight: 3,
   mixins: [Equippable]
 });
 
-ItemRepository.define({
+ArmorRepository.define({
   name: "night-vision goggles",
   char: "[",
   fg: Colors.green,
@@ -99,10 +116,11 @@ ItemRepository.define({
   wearable: true,
   sightBoost: 8,
   defenseValue: 3,
+  rngWeight: 5,
   mixins: [Equippable]
 });
 
-ItemRepository.define({
+ArmorRepository.define({
   name: "techno chain mail shirt",
   char: "[",
   fg: Colors.indigo,
@@ -110,6 +128,7 @@ ItemRepository.define({
     "Huh... why do these aliens have bits of armor just randomly strewn about their weirdo cave system?  No matter, I guess I'll take the defense boost.",
   wearable: true,
   defenseValue: 8,
+  rngWeight: 1,
   mixins: [Equippable]
 });
 
@@ -179,7 +198,7 @@ WeaponRepository.define({
   wieldable: true,
   maxCharges: 100,
   attackValue: 1,
-  rangeDamage: 3,
+  rangeDamage: 4,
   level: 1,
   mixins: [Equippable, Fireable]
 });

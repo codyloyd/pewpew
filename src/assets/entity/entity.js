@@ -45,6 +45,9 @@ class Entity extends DynamicGlyph {
     return Math.max(this.speed + mod, 100);
   }
 
+  setGame(game) {
+    this.game = game;
+  }
   getGame() {
     return this.game;
   }

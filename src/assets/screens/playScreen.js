@@ -27,18 +27,12 @@ class playScreen {
     this.foundShip = false;
     this.gameOver = false;
     this.win = false;
-    this.rangeWeaponDisplay = null;
-
-    this.game.messageDisplay.add({
-      color: "white",
-      text: "Press ? at any time for help"
-    });
+    this.game.rangeWeaponDisplay = null;
 
     this.game.player = new Entity(
       Object.assign(PlayerTemplate, { map: this.map, Game: this.game })
     );
     this.player = this.game.player;
-    this.player.alive = true;
     this.level.player = this.game.player;
 
     this.game.messageDisplay.clear();
@@ -81,8 +75,8 @@ class playScreen {
     const move = function(dX, dY) {
       if (this.firing) {
         const array = this.level.lookInDirection(dX, dY);
-        this.rangeWeaponDisplay = this.player.weapon.fire(array);
-        console.log(this.rangeWeaponDisplay);
+        this.game.rangeWeaponDisplay = this.player.weapon.fire(array);
+        this.game.rangeWeaponDisplay.color = this.player.weapon.fg;
         this.firing = false;
         this.game.getEngine().unlock();
         return;
@@ -227,13 +221,12 @@ class playScreen {
       const item = this.level.getItems()[
         this.player.getX() + "," + this.player.getY()
       ];
-      if (
-        item.length == 1 &&
-        item[0].canPickUp &&
-        this.player.addItem(item[0])
-      ) {
+      if (item.length == 1 && this.player.addItem(item[0])) {
         this.level.setItemsAt(this.player.getX(), this.player.getY(), []);
         this.game.messageDisplay.add("you pick up " + item[0].describeA());
+        if (item[0].hasMixin("Fireable")) {
+          this.game.messageDisplay.add("press 'f' to shoot it");
+        }
       }
       if (item.length > 1) {
         this.enterSubscreen(new PickUpDialog(item, this, this.player));
@@ -276,7 +269,9 @@ class playScreen {
       hp: this.player.hp,
       maxHp: this.player.maxHp,
       statusEffects: this.player.getTimedStatusEffects(),
-      weapon: this.player.weapon
+      weapon: this.player.weapon,
+      x: this.player.x,
+      y: this.player.y
     });
 
     const items = this.level.getItems();
@@ -325,11 +320,23 @@ class playScreen {
           text: "you see " + item[0].describeA(),
           color: "light-gray"
         });
+        if (this.player.inventory.length <= 0) {
+          this.game.messageDisplay.add({
+            text: "press 'g' to pick it up",
+            color: "light-gray"
+          });
+        }
       } else {
         this.game.messageDisplay.add({
           text: "you see several items here",
           color: "light-gray"
         });
+        if (this.player.inventory.length <= 0) {
+          this.game.messageDisplay.add({
+            text: "press 'g' to pick them up",
+            color: "light-gray"
+          });
+        }
       }
     }
 
@@ -398,9 +405,9 @@ class playScreen {
       }
     });
 
-    if (this.rangeWeaponDisplay) {
-      const xMod = this.rangeWeaponDisplay.xMod;
-      const yMod = this.rangeWeaponDisplay.yMod;
+    if (this.game.rangeWeaponDisplay) {
+      const xMod = this.game.rangeWeaponDisplay.xMod;
+      const yMod = this.game.rangeWeaponDisplay.yMod;
       console.log(xMod, yMod);
       let char = ""; //"/" : "|" : "\\" :
       if ((xMod == 1 && yMod == -1) || (xMod == -1 && yMod == 1)) {
@@ -412,21 +419,22 @@ class playScreen {
       } else if (yMod == 0) {
         char = "-";
       }
-      this.rangeWeaponDisplay.coords.forEach(coord => {
+      this.game.rangeWeaponDisplay.coords.forEach(coord => {
         const xy = coord.split(",");
+        const fg = this.game.rangeWeaponDisplay.color || Colors.blue;
         display.draw(
           xy[0] - topLeftX,
           xy[1] - topLeftY,
           char,
-          this.player.weapon.fg || Colors.blue,
+          fg,
           this.player.getBg()
         );
       });
 
       setTimeout(() => {
-        this.rangeWeaponDisplay = null;
+        this.game.rangeWeaponDisplay = null;
         this.render(this.game);
-      }, 300);
+      }, 100);
     }
 
     const entities = this.level.getEntities();
@@ -439,16 +447,27 @@ class playScreen {
           entity.hit ? Colors.black : entity.getFg(),
           entity.hit || entity.getBg()
         );
-        entity.hit = false;
+        if (entity.hit) {
+          setTimeout(() => {
+            entity.hit = false;
+            this.render(this.game);
+          }, 100);
+        }
       }
     });
     display.draw(
       this.player.getX() - topLeftX,
       this.player.getY() - topLeftY,
       this.player.getChar(),
-      this.player.getFg(),
-      this.player.getBg()
+      this.player.hit ? Colors.black : this.player.getFg(),
+      this.player.hit || this.player.getBg()
     );
+    if (this.player.hit) {
+      setTimeout(() => {
+        this.player.hit = false;
+        this.render(this.game);
+      }, 300);
+    }
     if (this.subscreen) {
       this.subscreen.render(Game);
       return;
