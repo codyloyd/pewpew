@@ -26,6 +26,16 @@ ItemRepository.define({
 });
 
 ItemRepository.define({
+  name: "blaster charges",
+  description: "Will add 20 charges the wielded weapon.  Single use.",
+  weaponRecharge: 20,
+  char: "*",
+  fg: Colors.blue,
+  rngWeight: 5,
+  mixins: [StatusBooster]
+});
+
+ItemRepository.define({
   name: "strength stim syringe",
   description:
     "A syringe filled with a thick, dark liquid.  Will temporarily increase your strength. May reduce HP.",
@@ -192,13 +202,26 @@ WeaponRepository.define({
 
 WeaponRepository.define({
   name: "small blaster",
-  char: "(",
-  description: "doesn't pack much punch, but holds 100 charges... not bad!",
+  char: "┌",
+  description: "doesn't pack much punch, but holds 30 charges... not bad!",
   fg: Colors.green,
   wieldable: true,
-  maxCharges: 100,
-  attackValue: 1,
+  maxCharges: 30,
+  attackValue: 0,
   rangeDamage: 4,
   level: 1,
+  mixins: [Equippable, Fireable]
+});
+
+WeaponRepository.define({
+  name: "mean blaster",
+  char: "┌",
+  description: "Holds 5 charges.. but packs a mean punch",
+  fg: Colors.blue,
+  wieldable: true,
+  maxCharges: 5,
+  attackValue: 0,
+  rangeDamage: 15,
+  level: 2,
   mixins: [Equippable, Fireable]
 });

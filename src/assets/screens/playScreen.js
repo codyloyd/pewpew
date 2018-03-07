@@ -257,6 +257,7 @@ class playScreen {
   }
 
   render(Game) {
+    this.level.getSurroundingTiles(this.player.getX(), this.player.getY());
     if (!this.player.isAlive()) {
       this.game.switchScreen(gameOverScreen);
     }
@@ -405,10 +406,27 @@ class playScreen {
       }
     });
 
+    if (this.game.explosionDisplay) {
+      console.log(this.game.explosionDisplay);
+      this.game.explosionDisplay.forEach(coord => {
+        const xy = coord.split(",");
+        display.draw(
+          xy[0] - topLeftX,
+          xy[1] - topLeftY,
+          "•",
+          Colors.orange,
+          Colors.black
+        );
+      });
+      setTimeout(() => {
+        this.game.explosionDisplay = null;
+        this.render(this.game);
+      }, 100);
+    }
+
     if (this.game.rangeWeaponDisplay) {
       const xMod = this.game.rangeWeaponDisplay.xMod;
       const yMod = this.game.rangeWeaponDisplay.yMod;
-      console.log(xMod, yMod);
       let char = ""; //"/" : "|" : "\\" :
       if ((xMod == 1 && yMod == -1) || (xMod == -1 && yMod == 1)) {
         char = "/";

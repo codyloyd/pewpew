@@ -78,10 +78,12 @@ class Level {
         firstRoomPosition.y
       );
 
-      const shooter = EnemyRepository.create("Shooter");
-      firstRoomPosition = this.getRandomRoomPosition(this.firstRoom);
-      shooter.setPosition(firstRoomPosition.x, firstRoomPosition.y);
-      this.addEntity(shooter);
+      this.addItem(
+        // WeaponRepository.createRandom(1),
+        ItemRepository.create("blaster charges"),
+        firstRoomPosition.x,
+        firstRoomPosition.y
+      );
 
       const otherRoomPosition = this.getRandomRoomPosition();
       const ship = ItemRepository.create("Space Ship");
@@ -90,6 +92,23 @@ class Level {
     if (bottomLevel) {
       this.addItemAtRandomPosition(ItemRepository.create("keys"));
     }
+  }
+
+  getSurroundingTiles(originX, originY, range = 2) {
+    // returns an array of all the surrounding tiles with an optional range
+    const coords = [];
+    for (let i = -range; i < range + 1; i++) {
+      for (let j = -range; j < range + 1; j++) {
+        const x = originX + i;
+        const y = originY + j;
+        if (this.getEntityAt(x, y)) {
+          coords.push(this.getEntityAt(x, y));
+        } else if (this.map.getTile(x, y)) {
+          coords.push({ x, y, tile: this.map.getTile(x, y) });
+        }
+      }
+    }
+    return coords;
   }
 
   lookInDirection(xMod, yMod, entity = this.player, range = 25) {
@@ -191,8 +210,6 @@ class Level {
       if (entity.hasMixin("Actor")) {
         this.game.getScheduler().add(entity, true);
       }
-    } else {
-      console.log(this.entities, entity);
     }
   }
 
