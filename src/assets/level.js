@@ -54,11 +54,21 @@ class Level {
       }
     }
 
-    if (Math.random < 0.8) {
-      const bugRoom = this.map.getRooms()[1];
+    if (Math.random() < 0.8) {
+      const bugRoom = this.map.getRooms()[4];
       for (let i = 0; i < 10; i++) {
         const roomPosition = this.getRandomRoomPosition(bugRoom);
         const bug = EnemyRepository.create("Flying Insect");
+        bug.setPosition(roomPosition.x, roomPosition.y);
+        this.addEntity(bug);
+      }
+    }
+
+    if (!topLevel && Math.random() < 0.5) {
+      const bugRoom = this.map.getRooms()[3];
+      for (let i = 0; i < 10; i++) {
+        const roomPosition = this.getRandomRoomPosition(bugRoom);
+        const bug = EnemyRepository.create("Turret");
         bug.setPosition(roomPosition.x, roomPosition.y);
         this.addEntity(bug);
       }
@@ -93,10 +103,10 @@ class Level {
       //   firstRoomPosition.x,
       //   firstRoomPosition.y
       // );
-      const roomPosition = this.getRandomRoomPosition(this.firstRoom);
-      const bug = EnemyRepository.create("Turret");
-      bug.setPosition(roomPosition.x, roomPosition.y);
-      this.addEntity(bug);
+      // const roomPosition = this.getRandomRoomPosition(this.firstRoom);
+      // const bug = EnemyRepository.create("Turret");
+      // bug.setPosition(roomPosition.x, roomPosition.y);
+      // this.addEntity(bug);
 
       const otherRoomPosition = this.getRandomRoomPosition();
       const ship = ItemRepository.create("Space Ship");

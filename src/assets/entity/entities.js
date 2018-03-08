@@ -148,7 +148,7 @@ EnemyRepository.define({
   sightRadius: 10,
   strength: 3,
   rngWeight: 4,
-  rank: 2,
+  rank: 1,
   tasks: ["shoot"],
   inventoryConstructor: () => WeaponRepository.create("turret blaster"),
   weapon: "inventory",

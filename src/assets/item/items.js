@@ -240,7 +240,7 @@ WeaponRepository.define({
   description: "a blaster ripped off of a turret",
   fg: Colors.darkPurple,
   wieldable: true,
-  maxCharges: 20,
+  maxCharges: 30,
   chargesPerShot: 5,
   attackValue: 0,
   rangeDamage: 6,

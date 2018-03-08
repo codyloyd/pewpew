@@ -6,6 +6,7 @@
   "scripts": {
     "start": "parcel src/index.html",
     "build": "parcel build src/index.html --public-url ./ --no-minify",
+    "buildItch": "parcel build src/index.html --public-url ./ -d build --no-minify",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
