@@ -5907,7 +5907,7 @@ exports.default = {
   pink: "#ff77a8",
   peach: "#ffccaa"
 };
-},{}],24:[function(require,module,exports) {
+},{}],26:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5961,7 +5961,7 @@ var Glyph = function () {
 }();
 
 exports.default = Glyph;
-},{"./colors":4}],26:[function(require,module,exports) {
+},{"./colors":4}],28:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6050,7 +6050,7 @@ var DynamicGlyph = function (_Glyph) {
 }(_glyph2.default);
 
 exports.default = DynamicGlyph;
-},{"./glyph":24}],14:[function(require,module,exports) {
+},{"./glyph":26}],14:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6199,7 +6199,7 @@ var Entity = function (_DynamicGlyph) {
 }(_dynamicGlyph2.default);
 
 exports.default = Entity;
-},{"../dynamicGlyph":26}],15:[function(require,module,exports) {
+},{"../dynamicGlyph":28}],15:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6299,7 +6299,7 @@ var WinScreen = function () {
 }();
 
 exports.default = WinScreen;
-},{"rot-js":33,"./startScreen":7}],35:[function(require,module,exports) {
+},{"rot-js":33,"./startScreen":7}],39:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6582,7 +6582,7 @@ function app(state, actions, view, container) {
     return element;
   }
 }
-},{}],28:[function(require,module,exports) {
+},{}],32:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6668,7 +6668,7 @@ var ItemDetailDialog = function () {
 }();
 
 exports.default = ItemDetailDialog;
-},{"rot-js":33,"hyperapp":35,"../colors":4}],17:[function(require,module,exports) {
+},{"rot-js":33,"hyperapp":39,"../colors":4}],17:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6885,7 +6885,7 @@ var ItemListDialog = function () {
 }();
 
 exports.default = ItemListDialog;
-},{"rot-js":33,"hyperapp":35,"../colors":4,"./itemDetailDialog":28}],18:[function(require,module,exports) {
+},{"rot-js":33,"hyperapp":39,"../colors":4,"./itemDetailDialog":32}],18:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7052,7 +7052,7 @@ var Confirmation = function () {
 }();
 
 exports.default = Confirmation;
-},{"hyperapp":35,"rot-js":33}],19:[function(require,module,exports) {
+},{"hyperapp":39,"rot-js":33}],19:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7130,7 +7130,7 @@ var StoryScreen = function () {
 }();
 
 exports.default = StoryScreen;
-},{"hyperapp":35,"rot-js":33}],20:[function(require,module,exports) {
+},{"hyperapp":39,"rot-js":33}],20:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7394,7 +7394,7 @@ var HelpScreen = function () {
 }();
 
 exports.default = HelpScreen;
-},{"hyperapp":35,"rot-js":33}],21:[function(require,module,exports) {
+},{"hyperapp":39,"rot-js":33}],21:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7484,7 +7484,7 @@ var PlayerStatusScreen = function () {
 }();
 
 exports.default = PlayerStatusScreen;
-},{"hyperapp":35,"rot-js":33}],27:[function(require,module,exports) {
+},{"hyperapp":39,"rot-js":33}],29:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7564,7 +7564,7 @@ var Repository = function () {
 }();
 
 exports.default = Repository;
-},{"rot-js":33}],29:[function(require,module,exports) {
+},{"rot-js":33}],35:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7611,7 +7611,7 @@ var Item = function (_DynamicGlyph) {
 }(_dynamicGlyph2.default);
 
 exports.default = Item;
-},{"../dynamicGlyph":26}],12:[function(require,module,exports) {
+},{"../dynamicGlyph":28}],12:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7693,7 +7693,7 @@ var openDoorTile = exports.openDoorTile = new Tile({
   blocksLight: false,
   isWalkable: true
 });
-},{"./glyph":24,"./colors":4}],30:[function(require,module,exports) {
+},{"./glyph":26,"./colors":4}],36:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7879,6 +7879,8 @@ var Fireable = exports.Fireable = function () {
               });
               target.takeDamage(damage, _this.fg);
               return "break";
+            } else {
+              target.takeDamage(damage, _this.fg);
             }
           }
           return "break";
@@ -7929,7 +7931,7 @@ var ItemRepository = exports.ItemRepository = new _repository2.default({ name: "
 ItemRepository.define({
   name: "med pack",
   description: "Will restore a small amount of health.  Single use.",
-  char: "+",
+  char: "†",
   fg: _colors2.default.pink,
   hpUp: 10,
   rngWeight: 10,
@@ -7938,12 +7940,24 @@ ItemRepository.define({
 });
 
 ItemRepository.define({
+  name: "health generator",
+  description: "Using this item will increase you maxHP by 10 points, but installing it hurts and will decrease your health points by 10.. you might want to have a medpack handy.",
+  fg: _colors2.default.orange,
+  char: "‡",
+  hpUp: -10,
+  rngWeight: 3,
+  rank: 3,
+  mixins: [_itemMixins.StatusBooster]
+});
+
+ItemRepository.define({
   name: "big med pack",
   description: "Will restore a moderate amount of health.  Single use.",
-  char: "+",
+  char: "†",
   fg: _colors2.default.red,
   hpUp: 25,
   rngWeight: 5,
+  rank: 2,
   mixins: [_itemMixins.StatusBooster]
 });
 
@@ -7954,6 +7968,7 @@ ItemRepository.define({
   char: "*",
   fg: _colors2.default.blue,
   rngWeight: 5,
+  rank: 1,
   mixins: [_itemMixins.StatusBooster]
 });
 
@@ -7964,6 +7979,7 @@ ItemRepository.define({
   fg: _colors2.default.darkPurple,
   hpDown: 3,
   rngWeight: 5,
+  rank: 1,
   statusEffect: {
     property: "strength",
     value: 10,
@@ -7978,6 +7994,7 @@ ItemRepository.define({
   description: "A syringe filled with a dark liquid that smells of coffee.  Will temporarily increase your speed.",
   char: "!",
   fg: _colors2.default.darkGreen,
+  rank: 1,
   rngWeight: 5,
   statusEffect: {
     property: "speed",
@@ -7994,6 +8011,7 @@ ItemRepository.define({
   char: "!",
   fg: _colors2.default.darkGreen,
   rngWeight: 5,
+  rank: 1,
   statusEffect: {
     property: "speed",
     value: 10,
@@ -8170,7 +8188,7 @@ WeaponRepository.define({
   rank: 2,
   mixins: [_itemMixins.Equippable, _itemMixins.Fireable]
 });
-},{"../repository":27,"../colors":4,"./item":29,"./itemMixins":30}],31:[function(require,module,exports) {
+},{"../repository":29,"../colors":4,"./item":35,"./itemMixins":36}],31:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8952,7 +8970,7 @@ EnemyRepository.define({
   weapon: "inventory",
   mixins: [_entityMixins.Movable, _entityMixins.TaskActor, _entityMixins.Equipper, _entityMixins.InventoryHolder, _entityMixins.Destructible, _entityMixins.Sight, _entityMixins.Attacker]
 });
-},{"../colors":4,"../repository":27,"./entity":14,"../item/items":22,"./entityMixins":31}],32:[function(require,module,exports) {
+},{"../colors":4,"../repository":29,"./entity":14,"../item/items":22,"./entityMixins":31}],38:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9060,7 +9078,7 @@ var DungeonMap = function () {
 }();
 
 exports.default = DungeonMap;
-},{"rot-js":33,"./tile":12}],25:[function(require,module,exports) {
+},{"rot-js":33,"./tile":12}],27:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9170,6 +9188,15 @@ var Level = function () {
     if (topLevel) {
       var firstRoomPosition = this.getRandomRoomPosition(this.firstRoom);
       this.addItem(_items.WeaponRepository.createRandom(1), firstRoomPosition.x, firstRoomPosition.y);
+
+      var _roomPosition = this.getRandomRoomPosition(this.firstRoom);
+      var _bug = _entities.EnemyRepository.create("Flying Insect");
+      _bug.setPosition(_roomPosition.x, _roomPosition.y);
+      this.addEntity(_bug);
+      _roomPosition = this.getRandomRoomPosition(this.firstRoom);
+      _bug = _entities.EnemyRepository.create("Shooter");
+      _bug.setPosition(_roomPosition.x, _roomPosition.y);
+      this.addEntity(_bug);
 
       var otherRoomPosition = this.getRandomRoomPosition();
       var ship = _items.ItemRepository.create("Space Ship");
@@ -9340,7 +9367,7 @@ var Level = function () {
 }();
 
 exports.default = Level;
-},{"./dungeonMap":32,"./entity/entity":14,"./item/items":22,"./entity/entities":23,"./tile":12}],11:[function(require,module,exports) {
+},{"./dungeonMap":38,"./entity/entity":14,"./item/items":22,"./entity/entities":23,"./tile":12}],11:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9402,7 +9429,7 @@ var GameWorld = function () {
 }();
 
 exports.default = GameWorld;
-},{"./level":25}],13:[function(require,module,exports) {
+},{"./level":27}],13:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9479,7 +9506,7 @@ var _gameWorld = require("../gameWorld");
 
 var _gameWorld2 = _interopRequireDefault(_gameWorld);
 
-var _tile = require("../tile");
+var _tile2 = require("../tile");
 
 var _text = require("../text");
 
@@ -9588,7 +9615,7 @@ var playScreen = function () {
       } else if (inputData.keyCode === _rotJs2.default.VK_5 || inputData.keyCode === _rotJs2.default.VK_NUMPAD5 || inputData.keyCode === _rotJs2.default.VK_PERIOD) {
         if (inputData.shiftKey) {
           // go down level
-          if (this.level.getMap().getTile(this.player.getX(), this.player.getY()) !== _tile.stairsDownTile) {
+          if (this.level.getMap().getTile(this.player.getX(), this.player.getY()) !== _tile2.stairsDownTile) {
             return false;
           }
           var newLevel = this.gameWorld.goDownLevel();
@@ -9606,7 +9633,7 @@ var playScreen = function () {
         this.game.getEngine().unlock();
       } else if (inputData.keyCode === _rotJs2.default.VK_COMMA && inputData.shiftKey) {
         // go up level
-        if (this.level.getMap().getTile(this.player.getX(), this.player.getY()) !== _tile.stairsUpTile) {
+        if (this.level.getMap().getTile(this.player.getX(), this.player.getY()) !== _tile2.stairsUpTile) {
           return false;
         }
         var _newLevel = this.gameWorld.goUpLevel();
@@ -9645,7 +9672,7 @@ var playScreen = function () {
       // pick up item
       if (inputData.keyCode === _rotJs2.default.VK_G || inputData.keyCode == _rotJs2.default.VK_COMMA) {
         var item = this.level.getItems()[this.player.getX() + "," + this.player.getY()];
-        if (item.length == 1 && this.player.addItem(item[0])) {
+        if (item.length == 1 && item[0].canPickUp && this.player.addItem(item[0])) {
           this.level.setItemsAt(this.player.getX(), this.player.getY(), []);
           this.game.messageDisplay.add("you pick up " + item[0].describeA());
           if (item[0].hasMixin("Fireable")) {
@@ -9702,6 +9729,20 @@ var playScreen = function () {
         y: this.player.y
       });
 
+      var tile = this.level.getMap().getTile(this.player.getX(), this.player.getY());
+      if (tile == _tile2.stairsDownTile) {
+        this.game.messageDisplay.add({
+          color: "white",
+          text: "You see a staircase, press > to go down"
+        });
+      }
+
+      if (tile == _tile2.stairsUpTile) {
+        this.game.messageDisplay.add({
+          color: "white",
+          text: "You see a staircase, press < to go up"
+        });
+      }
       var items = this.level.getItems();
       if (items[this.player.getX() + "," + this.player.getY()]) {
         var item = items[this.player.getX() + "," + this.player.getY()];
@@ -9778,11 +9819,11 @@ var playScreen = function () {
 
       for (var x = topLeftX; x < topLeftX + screenWidth; x++) {
         for (var y = topLeftY; y < topLeftY + screenHeight; y++) {
-          var tile = map.getTile(x, y);
+          var _tile = map.getTile(x, y);
           if (visibleTiles[x + "," + y]) {
-            display.draw(x - topLeftX, y - topLeftY, tile.getChar(), tile.getFg(), tile.getBg());
+            display.draw(x - topLeftX, y - topLeftY, _tile.getChar(), _tile.getFg(), _tile.getBg());
           } else if (this.level.exploredTiles[x + "," + y]) {
-            display.draw(x - topLeftX, y - topLeftY, tile.getChar(), _colors2.default.darkBlue, _colors2.default.black);
+            display.draw(x - topLeftX, y - topLeftY, _tile.getChar(), _colors2.default.darkBlue, _colors2.default.black);
           }
         }
       }
@@ -9950,7 +9991,7 @@ var startScreen = function () {
 }();
 
 exports.default = startScreen;
-},{"./playScreen":9,"hyperapp":35,"rot-js":33}],6:[function(require,module,exports) {
+},{"./playScreen":9,"hyperapp":39,"rot-js":33}],5:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10031,7 +10072,7 @@ var MessageDisplay = function () {
 }();
 
 exports.default = MessageDisplay;
-},{"./colors":4}],5:[function(require,module,exports) {
+},{"./colors":4}],6:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10234,4 +10275,4 @@ window.onload = function () {
     game.switchScreen(_startScreen2.default);
   }
 };
-},{"rot-js":33,"./colors":4,"./screens/startScreen":7,"./messageDisplay":6,"./playerStatusDisplay":5,"./screens/confirmation":8}]},{},[3])
+},{"rot-js":33,"./colors":4,"./screens/startScreen":7,"./messageDisplay":5,"./playerStatusDisplay":6,"./screens/confirmation":8}]},{},[3])
