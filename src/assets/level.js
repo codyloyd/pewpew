@@ -88,6 +88,15 @@ class Level {
         firstRoomPosition.y
       );
 
+      let roomPosition = this.getRandomRoomPosition(this.firstRoom);
+      let bug = EnemyRepository.create("Flying Insect");
+      bug.setPosition(roomPosition.x, roomPosition.y);
+      this.addEntity(bug);
+      roomPosition = this.getRandomRoomPosition(this.firstRoom);
+      bug = EnemyRepository.create("Shooter");
+      bug.setPosition(roomPosition.x, roomPosition.y);
+      this.addEntity(bug);
+
       const otherRoomPosition = this.getRandomRoomPosition();
       const ship = ItemRepository.create("Space Ship");
       this.addItem(ship, otherRoomPosition.x, otherRoomPosition.y);

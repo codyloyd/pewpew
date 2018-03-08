@@ -230,7 +230,11 @@ class playScreen {
       const item = this.level.getItems()[
         this.player.getX() + "," + this.player.getY()
       ];
-      if (item.length == 1 && this.player.addItem(item[0])) {
+      if (
+        item.length == 1 &&
+        item[0].canPickUp &&
+        this.player.addItem(item[0])
+      ) {
         this.level.setItemsAt(this.player.getX(), this.player.getY(), []);
         this.game.messageDisplay.add("you pick up " + item[0].describeA());
         if (item[0].hasMixin("Fireable")) {
@@ -284,6 +288,22 @@ class playScreen {
       y: this.player.y
     });
 
+    const tile = this.level
+      .getMap()
+      .getTile(this.player.getX(), this.player.getY());
+    if (tile == stairsDownTile) {
+      this.game.messageDisplay.add({
+        color: "white",
+        text: "You see a staircase, press > to go down"
+      });
+    }
+
+    if (tile == stairsUpTile) {
+      this.game.messageDisplay.add({
+        color: "white",
+        text: "You see a staircase, press < to go up"
+      });
+    }
     const items = this.level.getItems();
     if (items[this.player.getX() + "," + this.player.getY()]) {
       const item = items[this.player.getX() + "," + this.player.getY()];

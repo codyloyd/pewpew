@@ -140,6 +140,8 @@ export class Fireable {
             });
             target.takeDamage(damage, this.fg);
             break;
+          } else {
+            target.takeDamage(damage, this.fg);
           }
         }
         break;

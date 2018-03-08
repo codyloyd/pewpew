@@ -8,7 +8,7 @@ export const ItemRepository = new Repository({ name: "Items", ctor: Item });
 ItemRepository.define({
   name: "med pack",
   description: "Will restore a small amount of health.  Single use.",
-  char: "+",
+  char: "†",
   fg: Colors.pink,
   hpUp: 10,
   rngWeight: 10,
@@ -17,12 +17,25 @@ ItemRepository.define({
 });
 
 ItemRepository.define({
+  name: "health generator",
+  description:
+    "Using this item will increase you maxHP by 10 points, but installing it hurts and will decrease your health points by 10.. you might want to have a medpack handy.",
+  fg: Colors.orange,
+  char: "‡",
+  hpUp: -10,
+  rngWeight: 3,
+  rank: 3,
+  mixins: [StatusBooster]
+});
+
+ItemRepository.define({
   name: "big med pack",
   description: "Will restore a moderate amount of health.  Single use.",
-  char: "+",
+  char: "†",
   fg: Colors.red,
   hpUp: 25,
   rngWeight: 5,
+  rank: 2,
   mixins: [StatusBooster]
 });
 
@@ -33,6 +46,7 @@ ItemRepository.define({
   char: "*",
   fg: Colors.blue,
   rngWeight: 5,
+  rank: 1,
   mixins: [StatusBooster]
 });
 
@@ -44,6 +58,7 @@ ItemRepository.define({
   fg: Colors.darkPurple,
   hpDown: 3,
   rngWeight: 5,
+  rank: 1,
   statusEffect: {
     property: "strength",
     value: 10,
@@ -59,6 +74,7 @@ ItemRepository.define({
     "A syringe filled with a dark liquid that smells of coffee.  Will temporarily increase your speed.",
   char: "!",
   fg: Colors.darkGreen,
+  rank: 1,
   rngWeight: 5,
   statusEffect: {
     property: "speed",
@@ -76,6 +92,7 @@ ItemRepository.define({
   char: "!",
   fg: Colors.darkGreen,
   rngWeight: 5,
+  rank: 1,
   statusEffect: {
     property: "speed",
     value: 10,
