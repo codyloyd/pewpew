@@ -71,7 +71,7 @@ require = (function (modules, cache, entry) {
 
   // Override the current require with this new one
   return newRequire;
-})({37:[function(require,module,exports) {
+})({36:[function(require,module,exports) {
 
 // shim for using process in browser
 var process = module.exports = {};
@@ -258,7 +258,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],36:[function(require,module,exports) {
+},{}],15:[function(require,module,exports) {
 var global = (1,eval)("this");
 var process = require("process");
 /*
@@ -5883,7 +5883,7 @@ for (var p in ROT) {
   return ROT;
 }));
 
-},{"process":37}],5:[function(require,module,exports) {
+},{"process":36}],5:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5907,7 +5907,7 @@ exports.default = {
   pink: "#ff77a8",
   peach: "#ffccaa"
 };
-},{}],26:[function(require,module,exports) {
+},{}],38:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5961,7 +5961,7 @@ var Glyph = function () {
 }();
 
 exports.default = Glyph;
-},{"./colors":5}],27:[function(require,module,exports) {
+},{"./colors":5}],40:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6050,7 +6050,7 @@ var DynamicGlyph = function (_Glyph) {
 }(_glyph2.default);
 
 exports.default = DynamicGlyph;
-},{"./glyph":26}],16:[function(require,module,exports) {
+},{"./glyph":38}],19:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6202,7 +6202,7 @@ var Entity = function (_DynamicGlyph) {
 }(_dynamicGlyph2.default);
 
 exports.default = Entity;
-},{"../dynamicGlyph":27}],15:[function(require,module,exports) {
+},{"../dynamicGlyph":40}],20:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6252,7 +6252,7 @@ var gameOverScreen = function () {
 }();
 
 exports.default = gameOverScreen;
-},{"rot-js":36,"./startScreen":8}],17:[function(require,module,exports) {
+},{"rot-js":15,"./startScreen":8}],21:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6302,7 +6302,7 @@ var WinScreen = function () {
 }();
 
 exports.default = WinScreen;
-},{"rot-js":36,"./startScreen":8}],38:[function(require,module,exports) {
+},{"rot-js":15,"./startScreen":8}],47:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6585,7 +6585,7 @@ function app(state, actions, view, container) {
     return element;
   }
 }
-},{}],30:[function(require,module,exports) {
+},{}],42:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6679,7 +6679,7 @@ var ItemDetailDialog = function () {
 }();
 
 exports.default = ItemDetailDialog;
-},{"rot-js":36,"hyperapp":38,"../colors":5}],18:[function(require,module,exports) {
+},{"rot-js":15,"hyperapp":47,"../colors":5}],22:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6785,7 +6785,7 @@ var ItemListDialog = function () {
             null,
             (0, _hyperapp.h)(
               "span",
-              { style: { color: item.fg, marginRight: '4px' } },
+              { style: { color: item.fg, marginRight: "4px" } },
               item.char
             ),
             (0, _hyperapp.h)(
@@ -6905,7 +6905,7 @@ var ItemListDialog = function () {
 }();
 
 exports.default = ItemListDialog;
-},{"rot-js":36,"hyperapp":38,"../colors":5,"./itemDetailDialog":30}],19:[function(require,module,exports) {
+},{"rot-js":15,"hyperapp":47,"../colors":5,"./itemDetailDialog":42}],23:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6975,7 +6975,7 @@ var PickUpScreen = function (_ItemListDialog) {
 }(_itemListDialog2.default);
 
 exports.default = PickUpScreen;
-},{"./itemListDialog":18,"rot-js":36}],54:[function(require,module,exports) {
+},{"./itemListDialog":22,"rot-js":15}],24:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7041,7 +7041,7 @@ var VisibleThingsDialog = function (_ItemListDialog) {
 }(_itemListDialog2.default);
 
 exports.default = VisibleThingsDialog;
-},{"./itemListDialog":18,"./itemDetailDialog":30,"rot-js":36}],9:[function(require,module,exports) {
+},{"./itemListDialog":22,"./itemDetailDialog":42,"rot-js":15}],9:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7127,7 +7127,6 @@ var Confirmation = function () {
   }, {
     key: "handleInput",
     value: function handleInput(inputData) {
-      console.log(inputData.keyCode);
       if (inputData.keyCode === _rotJs2.default.VK_ESCAPE) {
         this.cancel();
       }
@@ -7141,7 +7140,7 @@ var Confirmation = function () {
 }();
 
 exports.default = Confirmation;
-},{"hyperapp":38,"rot-js":36}],20:[function(require,module,exports) {
+},{"hyperapp":47,"rot-js":15}],25:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7219,7 +7218,7 @@ var StoryScreen = function () {
 }();
 
 exports.default = StoryScreen;
-},{"hyperapp":38,"rot-js":36}],21:[function(require,module,exports) {
+},{"hyperapp":47,"rot-js":15}],26:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7420,11 +7419,6 @@ var HelpScreen = function () {
           "f - fire weapon"
         ),
         (0, _hyperapp.h)(
-          "div",
-          null,
-          "v - inspect visible creatures and items"
-        ),
-        (0, _hyperapp.h)(
           "p",
           { "class": "gray" },
           "(press < or > to view more help topics)"
@@ -7493,7 +7487,7 @@ var HelpScreen = function () {
 }();
 
 exports.default = HelpScreen;
-},{"hyperapp":38,"rot-js":36}],22:[function(require,module,exports) {
+},{"hyperapp":47,"rot-js":15}],27:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7583,7 +7577,7 @@ var PlayerStatusScreen = function () {
 }();
 
 exports.default = PlayerStatusScreen;
-},{"hyperapp":38,"rot-js":36}],28:[function(require,module,exports) {
+},{"hyperapp":47,"rot-js":15}],41:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7663,7 +7657,7 @@ var Repository = function () {
 }();
 
 exports.default = Repository;
-},{"rot-js":36}],31:[function(require,module,exports) {
+},{"rot-js":15}],43:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7710,7 +7704,7 @@ var Item = function (_DynamicGlyph) {
 }(_dynamicGlyph2.default);
 
 exports.default = Item;
-},{"../dynamicGlyph":27}],13:[function(require,module,exports) {
+},{"../dynamicGlyph":40}],17:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7792,7 +7786,7 @@ var openDoorTile = exports.openDoorTile = new Tile({
   blocksLight: false,
   isWalkable: true
 });
-},{"./glyph":26,"./colors":5}],32:[function(require,module,exports) {
+},{"./glyph":38,"./colors":5}],44:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8010,7 +8004,7 @@ var Fireable = exports.Fireable = function () {
 
   return Fireable;
 }();
-},{"../game":3,"../tile":13,"../colors":5}],23:[function(require,module,exports) {
+},{"../game":3,"../tile":17,"../colors":5}],28:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8311,7 +8305,7 @@ WeaponRepository.define({
   rank: 2,
   mixins: [_itemMixins.Equippable, _itemMixins.Fireable]
 });
-},{"../repository":28,"../colors":5,"./item":31,"./itemMixins":32}],33:[function(require,module,exports) {
+},{"../repository":41,"../colors":5,"./item":43,"./itemMixins":44}],45:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8988,7 +8982,7 @@ var TimedStatusEffects = exports.TimedStatusEffects = function () {
 
   return TimedStatusEffects;
 }();
-},{"rot-js":36,"../colors":5,"../screens/confirmation":9,"../tile":13}],24:[function(require,module,exports) {
+},{"rot-js":15,"../colors":5,"../screens/confirmation":9,"../tile":17}],29:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9180,7 +9174,7 @@ EnemyRepository.define({
   weapon: "inventory",
   mixins: [_entityMixins.Movable, _entityMixins.TaskActor, _entityMixins.Equipper, _entityMixins.InventoryHolder, _entityMixins.Destructible, _entityMixins.Sight, _entityMixins.Attacker]
 });
-},{"../colors":5,"../repository":28,"./entity":16,"../item/items":23,"./entityMixins":33}],35:[function(require,module,exports) {
+},{"../colors":5,"../repository":41,"./entity":19,"../item/items":28,"./entityMixins":45}],46:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9288,7 +9282,7 @@ var DungeonMap = function () {
 }();
 
 exports.default = DungeonMap;
-},{"rot-js":36,"./tile":13}],25:[function(require,module,exports) {
+},{"rot-js":15,"./tile":17}],37:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9582,7 +9576,7 @@ var Level = function () {
 }();
 
 exports.default = Level;
-},{"./dungeonMap":35,"./entity/entity":16,"./item/items":23,"./entity/entities":24,"./tile":13}],12:[function(require,module,exports) {
+},{"./dungeonMap":46,"./entity/entity":19,"./item/items":28,"./entity/entities":29,"./tile":17}],16:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9644,7 +9638,7 @@ var GameWorld = function () {
 }();
 
 exports.default = GameWorld;
-},{"./level":25}],14:[function(require,module,exports) {
+},{"./level":37}],18:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9658,7 +9652,7 @@ var text = {
 };
 
 exports.default = text;
-},{}],11:[function(require,module,exports) {
+},{}],13:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10127,7 +10121,7 @@ var playScreen = function () {
 }();
 
 exports.default = playScreen;
-},{"rot-js":36,"../colors":5,"../entity/entity":16,"./gameOverScreen":15,"./winScreen":17,"./itemListDialog":18,"./pickUpDialog":19,"./visibleThingsDialog":54,"./confirmation":9,"./storyScreen":20,"./helpScreen":21,"./playerStatusScreen":22,"../item/items":23,"../entity/entities":24,"../gameWorld":12,"../tile":13,"../text":14}],8:[function(require,module,exports) {
+},{"rot-js":15,"../colors":5,"../entity/entity":19,"./gameOverScreen":20,"./winScreen":21,"./itemListDialog":22,"./pickUpDialog":23,"./visibleThingsDialog":24,"./confirmation":9,"./storyScreen":25,"./helpScreen":26,"./playerStatusScreen":27,"../item/items":28,"../entity/entities":29,"../gameWorld":16,"../tile":17,"../text":18}],8:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10211,7 +10205,7 @@ var startScreen = function () {
 }();
 
 exports.default = startScreen;
-},{"./playScreen":11,"hyperapp":38,"rot-js":36}],6:[function(require,module,exports) {
+},{"./playScreen":13,"hyperapp":47,"rot-js":15}],6:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10496,128 +10490,4 @@ window.onload = function () {
     game.switchScreen(_startScreen2.default);
   }
 };
-},{"rot-js":36,"./colors":5,"./screens/startScreen":8,"./messageDisplay":6,"./playerStatusDisplay":7,"./screens/confirmation":9}],61:[function(require,module,exports) {
-
-var global = (1, eval)('this');
-var OldModule = module.bundle.Module;
-function Module(moduleName) {
-  OldModule.call(this, moduleName);
-  this.hot = {
-    accept: function (fn) {
-      this._acceptCallback = fn || function () {};
-    },
-    dispose: function (fn) {
-      this._disposeCallback = fn;
-    }
-  };
-}
-
-module.bundle.Module = Module;
-
-var parent = module.bundle.parent;
-if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
-  var hostname = '' || location.hostname;
-  var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + '54269' + '/');
-  ws.onmessage = function (event) {
-    var data = JSON.parse(event.data);
-
-    if (data.type === 'update') {
-      data.assets.forEach(function (asset) {
-        hmrApply(global.require, asset);
-      });
-
-      data.assets.forEach(function (asset) {
-        if (!asset.isNew) {
-          hmrAccept(global.require, asset.id);
-        }
-      });
-    }
-
-    if (data.type === 'reload') {
-      ws.close();
-      ws.onclose = function () {
-        location.reload();
-      };
-    }
-
-    if (data.type === 'error-resolved') {
-      console.log('[parcel] ✨ Error resolved');
-    }
-
-    if (data.type === 'error') {
-      console.error('[parcel] 🚨  ' + data.error.message + '\n' + 'data.error.stack');
-    }
-  };
-}
-
-function getParents(bundle, id) {
-  var modules = bundle.modules;
-  if (!modules) {
-    return [];
-  }
-
-  var parents = [];
-  var k, d, dep;
-
-  for (k in modules) {
-    for (d in modules[k][1]) {
-      dep = modules[k][1][d];
-      if (dep === id || Array.isArray(dep) && dep[dep.length - 1] === id) {
-        parents.push(+k);
-      }
-    }
-  }
-
-  if (bundle.parent) {
-    parents = parents.concat(getParents(bundle.parent, id));
-  }
-
-  return parents;
-}
-
-function hmrApply(bundle, asset) {
-  var modules = bundle.modules;
-  if (!modules) {
-    return;
-  }
-
-  if (modules[asset.id] || !bundle.parent) {
-    var fn = new Function('require', 'module', 'exports', asset.generated.js);
-    asset.isNew = !modules[asset.id];
-    modules[asset.id] = [fn, asset.deps];
-  } else if (bundle.parent) {
-    hmrApply(bundle.parent, asset);
-  }
-}
-
-function hmrAccept(bundle, id) {
-  var modules = bundle.modules;
-  if (!modules) {
-    return;
-  }
-
-  if (!modules[id] && bundle.parent) {
-    return hmrAccept(bundle.parent, id);
-  }
-
-  var cached = bundle.cache[id];
-  if (cached && cached.hot._disposeCallback) {
-    cached.hot._disposeCallback();
-  }
-
-  delete bundle.cache[id];
-  bundle(id);
-
-  cached = bundle.cache[id];
-  if (cached && cached.hot && cached.hot._acceptCallback) {
-    cached.hot._acceptCallback();
-    return true;
-  }
-
-  return getParents(global.require, id).some(function (id) {
-    return hmrAccept(global.require, id);
-  });
-}
-},{}]},{},[61,3])
-//# sourceMappingURL=/dist/28d908142711746cd98d878a219803a3.map
+},{"rot-js":15,"./colors":5,"./screens/startScreen":8,"./messageDisplay":6,"./playerStatusDisplay":7,"./screens/confirmation":9}]},{},[3])
