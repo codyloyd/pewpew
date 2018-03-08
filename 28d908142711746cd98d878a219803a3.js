@@ -71,7 +71,7 @@ require = (function (modules, cache, entry) {
 
   // Override the current require with this new one
   return newRequire;
-})({36:[function(require,module,exports) {
+})({40:[function(require,module,exports) {
 
 // shim for using process in browser
 var process = module.exports = {};
@@ -258,7 +258,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],15:[function(require,module,exports) {
+},{}],22:[function(require,module,exports) {
 var global = (1,eval)("this");
 var process = require("process");
 /*
@@ -5883,7 +5883,7 @@ for (var p in ROT) {
   return ROT;
 }));
 
-},{"process":36}],5:[function(require,module,exports) {
+},{"process":40}],9:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5907,7 +5907,7 @@ exports.default = {
   pink: "#ff77a8",
   peach: "#ffccaa"
 };
-},{}],38:[function(require,module,exports) {
+},{}],47:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5961,7 +5961,7 @@ var Glyph = function () {
 }();
 
 exports.default = Glyph;
-},{"./colors":5}],40:[function(require,module,exports) {
+},{"./colors":9}],46:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6050,7 +6050,7 @@ var DynamicGlyph = function (_Glyph) {
 }(_glyph2.default);
 
 exports.default = DynamicGlyph;
-},{"./glyph":38}],19:[function(require,module,exports) {
+},{"./glyph":47}],27:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6202,7 +6202,7 @@ var Entity = function (_DynamicGlyph) {
 }(_dynamicGlyph2.default);
 
 exports.default = Entity;
-},{"../dynamicGlyph":40}],20:[function(require,module,exports) {
+},{"../dynamicGlyph":46}],28:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6252,7 +6252,7 @@ var gameOverScreen = function () {
 }();
 
 exports.default = gameOverScreen;
-},{"rot-js":15,"./startScreen":8}],21:[function(require,module,exports) {
+},{"rot-js":22,"./startScreen":11}],29:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6302,7 +6302,7 @@ var WinScreen = function () {
 }();
 
 exports.default = WinScreen;
-},{"rot-js":15,"./startScreen":8}],47:[function(require,module,exports) {
+},{"rot-js":22,"./startScreen":11}],45:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6585,7 +6585,7 @@ function app(state, actions, view, container) {
     return element;
   }
 }
-},{}],42:[function(require,module,exports) {
+},{}],48:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6679,7 +6679,7 @@ var ItemDetailDialog = function () {
 }();
 
 exports.default = ItemDetailDialog;
-},{"rot-js":15,"hyperapp":47,"../colors":5}],22:[function(require,module,exports) {
+},{"rot-js":22,"hyperapp":45,"../colors":9}],30:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6905,7 +6905,7 @@ var ItemListDialog = function () {
 }();
 
 exports.default = ItemListDialog;
-},{"rot-js":15,"hyperapp":47,"../colors":5,"./itemDetailDialog":42}],23:[function(require,module,exports) {
+},{"rot-js":22,"hyperapp":45,"../colors":9,"./itemDetailDialog":48}],31:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6975,7 +6975,7 @@ var PickUpScreen = function (_ItemListDialog) {
 }(_itemListDialog2.default);
 
 exports.default = PickUpScreen;
-},{"./itemListDialog":22,"rot-js":15}],24:[function(require,module,exports) {
+},{"./itemListDialog":30,"rot-js":22}],32:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7041,7 +7041,7 @@ var VisibleThingsDialog = function (_ItemListDialog) {
 }(_itemListDialog2.default);
 
 exports.default = VisibleThingsDialog;
-},{"./itemListDialog":22,"./itemDetailDialog":42,"rot-js":15}],9:[function(require,module,exports) {
+},{"./itemListDialog":30,"./itemDetailDialog":48,"rot-js":22}],12:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7140,7 +7140,7 @@ var Confirmation = function () {
 }();
 
 exports.default = Confirmation;
-},{"hyperapp":47,"rot-js":15}],25:[function(require,module,exports) {
+},{"hyperapp":45,"rot-js":22}],33:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7218,7 +7218,7 @@ var StoryScreen = function () {
 }();
 
 exports.default = StoryScreen;
-},{"hyperapp":47,"rot-js":15}],26:[function(require,module,exports) {
+},{"hyperapp":45,"rot-js":22}],34:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7487,7 +7487,7 @@ var HelpScreen = function () {
 }();
 
 exports.default = HelpScreen;
-},{"hyperapp":47,"rot-js":15}],27:[function(require,module,exports) {
+},{"hyperapp":45,"rot-js":22}],37:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7577,7 +7577,7 @@ var PlayerStatusScreen = function () {
 }();
 
 exports.default = PlayerStatusScreen;
-},{"hyperapp":47,"rot-js":15}],41:[function(require,module,exports) {
+},{"hyperapp":45,"rot-js":22}],41:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7657,7 +7657,7 @@ var Repository = function () {
 }();
 
 exports.default = Repository;
-},{"rot-js":15}],43:[function(require,module,exports) {
+},{"rot-js":22}],42:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7704,7 +7704,7 @@ var Item = function (_DynamicGlyph) {
 }(_dynamicGlyph2.default);
 
 exports.default = Item;
-},{"../dynamicGlyph":40}],17:[function(require,module,exports) {
+},{"../dynamicGlyph":46}],25:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7786,7 +7786,7 @@ var openDoorTile = exports.openDoorTile = new Tile({
   blocksLight: false,
   isWalkable: true
 });
-},{"./glyph":38,"./colors":5}],44:[function(require,module,exports) {
+},{"./glyph":47,"./colors":9}],43:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8004,7 +8004,7 @@ var Fireable = exports.Fireable = function () {
 
   return Fireable;
 }();
-},{"../game":3,"../tile":17,"../colors":5}],28:[function(require,module,exports) {
+},{"../game":4,"../tile":25,"../colors":9}],35:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8254,7 +8254,7 @@ WeaponRepository.define({
   description: "a blaster ripped off of a turret",
   fg: _colors2.default.darkPurple,
   wieldable: true,
-  maxCharges: 20,
+  maxCharges: 30,
   chargesPerShot: 5,
   attackValue: 0,
   rangeDamage: 6,
@@ -8305,7 +8305,7 @@ WeaponRepository.define({
   rank: 2,
   mixins: [_itemMixins.Equippable, _itemMixins.Fireable]
 });
-},{"../repository":41,"../colors":5,"./item":43,"./itemMixins":44}],45:[function(require,module,exports) {
+},{"../repository":41,"../colors":9,"./item":42,"./itemMixins":43}],44:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8982,7 +8982,7 @@ var TimedStatusEffects = exports.TimedStatusEffects = function () {
 
   return TimedStatusEffects;
 }();
-},{"rot-js":15,"../colors":5,"../screens/confirmation":9,"../tile":17}],29:[function(require,module,exports) {
+},{"rot-js":22,"../colors":9,"../screens/confirmation":12,"../tile":25}],36:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9128,7 +9128,7 @@ EnemyRepository.define({
   sightRadius: 10,
   strength: 3,
   rngWeight: 4,
-  rank: 2,
+  rank: 1,
   tasks: ["shoot"],
   inventoryConstructor: function inventoryConstructor() {
     return _items.WeaponRepository.create("turret blaster");
@@ -9174,7 +9174,7 @@ EnemyRepository.define({
   weapon: "inventory",
   mixins: [_entityMixins.Movable, _entityMixins.TaskActor, _entityMixins.Equipper, _entityMixins.InventoryHolder, _entityMixins.Destructible, _entityMixins.Sight, _entityMixins.Attacker]
 });
-},{"../colors":5,"../repository":41,"./entity":19,"../item/items":28,"./entityMixins":45}],46:[function(require,module,exports) {
+},{"../colors":9,"../repository":41,"./entity":27,"../item/items":35,"./entityMixins":44}],50:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9282,7 +9282,7 @@ var DungeonMap = function () {
 }();
 
 exports.default = DungeonMap;
-},{"rot-js":15,"./tile":17}],37:[function(require,module,exports) {
+},{"rot-js":22,"./tile":25}],49:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9364,8 +9364,8 @@ var Level = function () {
       }
     }
 
-    if (Math.random < 0.8) {
-      var bugRoom = this.map.getRooms()[1];
+    if (Math.random() < 0.8) {
+      var bugRoom = this.map.getRooms()[4];
       for (var _i3 = 0; _i3 < 10; _i3++) {
         var roomPosition = this.getRandomRoomPosition(bugRoom);
         var bug = _entities.EnemyRepository.create("Flying Insect");
@@ -9374,14 +9374,24 @@ var Level = function () {
       }
     }
 
+    if (!topLevel && Math.random() < 0.5) {
+      var _bugRoom = this.map.getRooms()[3];
+      for (var _i4 = 0; _i4 < 10; _i4++) {
+        var _roomPosition = this.getRandomRoomPosition(_bugRoom);
+        var _bug = _entities.EnemyRepository.create("Turret");
+        _bug.setPosition(_roomPosition.x, _roomPosition.y);
+        this.addEntity(_bug);
+      }
+    }
+
     if (bottomLevel) {
-      for (var _i4 = 0; _i4 < 6; _i4++) {
+      for (var _i5 = 0; _i5 < 6; _i5++) {
         var _alien3 = _entities.EnemyRepository.createRandom(4);
         this.addEntityAtRandomPosition(_alien3);
       }
     }
 
-    for (var _i5 = 0; _i5 < 2; _i5++) {
+    for (var _i6 = 0; _i6 < 2; _i6++) {
       this.addItemAtRandomPosition(_items.ItemRepository.createRandom());
     }
 
@@ -9402,10 +9412,10 @@ var Level = function () {
       //   firstRoomPosition.x,
       //   firstRoomPosition.y
       // );
-      var _roomPosition = this.getRandomRoomPosition(this.firstRoom);
-      var _bug = _entities.EnemyRepository.create("Turret");
-      _bug.setPosition(_roomPosition.x, _roomPosition.y);
-      this.addEntity(_bug);
+      // const roomPosition = this.getRandomRoomPosition(this.firstRoom);
+      // const bug = EnemyRepository.create("Turret");
+      // bug.setPosition(roomPosition.x, roomPosition.y);
+      // this.addEntity(bug);
 
       var otherRoomPosition = this.getRandomRoomPosition();
       var ship = _items.ItemRepository.create("Space Ship");
@@ -9576,7 +9586,7 @@ var Level = function () {
 }();
 
 exports.default = Level;
-},{"./dungeonMap":46,"./entity/entity":19,"./item/items":28,"./entity/entities":29,"./tile":17}],16:[function(require,module,exports) {
+},{"./dungeonMap":50,"./entity/entity":27,"./item/items":35,"./entity/entities":36,"./tile":25}],24:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9638,7 +9648,7 @@ var GameWorld = function () {
 }();
 
 exports.default = GameWorld;
-},{"./level":37}],18:[function(require,module,exports) {
+},{"./level":49}],26:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9652,7 +9662,7 @@ var text = {
 };
 
 exports.default = text;
-},{}],13:[function(require,module,exports) {
+},{}],20:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10121,7 +10131,7 @@ var playScreen = function () {
 }();
 
 exports.default = playScreen;
-},{"rot-js":15,"../colors":5,"../entity/entity":19,"./gameOverScreen":20,"./winScreen":21,"./itemListDialog":22,"./pickUpDialog":23,"./visibleThingsDialog":24,"./confirmation":9,"./storyScreen":25,"./helpScreen":26,"./playerStatusScreen":27,"../item/items":28,"../entity/entities":29,"../gameWorld":16,"../tile":17,"../text":18}],8:[function(require,module,exports) {
+},{"rot-js":22,"../colors":9,"../entity/entity":27,"./gameOverScreen":28,"./winScreen":29,"./itemListDialog":30,"./pickUpDialog":31,"./visibleThingsDialog":32,"./confirmation":12,"./storyScreen":33,"./helpScreen":34,"./playerStatusScreen":37,"../item/items":35,"../entity/entities":36,"../gameWorld":24,"../tile":25,"../text":26}],11:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10205,7 +10215,7 @@ var startScreen = function () {
 }();
 
 exports.default = startScreen;
-},{"./playScreen":13,"hyperapp":47,"rot-js":15}],6:[function(require,module,exports) {
+},{"./playScreen":20,"hyperapp":45,"rot-js":22}],8:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10286,7 +10296,7 @@ var MessageDisplay = function () {
 }();
 
 exports.default = MessageDisplay;
-},{"./colors":5}],7:[function(require,module,exports) {
+},{"./colors":9}],10:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10363,7 +10373,7 @@ var PlayerStatusDisplay = function () {
 }();
 
 exports.default = PlayerStatusDisplay;
-},{"./colors":5}],3:[function(require,module,exports) {
+},{"./colors":9}],4:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10490,4 +10500,128 @@ window.onload = function () {
     game.switchScreen(_startScreen2.default);
   }
 };
-},{"rot-js":15,"./colors":5,"./screens/startScreen":8,"./messageDisplay":6,"./playerStatusDisplay":7,"./screens/confirmation":9}]},{},[3])
+},{"rot-js":22,"./colors":9,"./screens/startScreen":11,"./messageDisplay":8,"./playerStatusDisplay":10,"./screens/confirmation":12}],52:[function(require,module,exports) {
+
+var global = (1, eval)('this');
+var OldModule = module.bundle.Module;
+function Module(moduleName) {
+  OldModule.call(this, moduleName);
+  this.hot = {
+    accept: function (fn) {
+      this._acceptCallback = fn || function () {};
+    },
+    dispose: function (fn) {
+      this._disposeCallback = fn;
+    }
+  };
+}
+
+module.bundle.Module = Module;
+
+var parent = module.bundle.parent;
+if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
+  var hostname = '' || location.hostname;
+  var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + '56043' + '/');
+  ws.onmessage = function (event) {
+    var data = JSON.parse(event.data);
+
+    if (data.type === 'update') {
+      data.assets.forEach(function (asset) {
+        hmrApply(global.require, asset);
+      });
+
+      data.assets.forEach(function (asset) {
+        if (!asset.isNew) {
+          hmrAccept(global.require, asset.id);
+        }
+      });
+    }
+
+    if (data.type === 'reload') {
+      ws.close();
+      ws.onclose = function () {
+        location.reload();
+      };
+    }
+
+    if (data.type === 'error-resolved') {
+      console.log('[parcel] ✨ Error resolved');
+    }
+
+    if (data.type === 'error') {
+      console.error('[parcel] 🚨  ' + data.error.message + '\n' + 'data.error.stack');
+    }
+  };
+}
+
+function getParents(bundle, id) {
+  var modules = bundle.modules;
+  if (!modules) {
+    return [];
+  }
+
+  var parents = [];
+  var k, d, dep;
+
+  for (k in modules) {
+    for (d in modules[k][1]) {
+      dep = modules[k][1][d];
+      if (dep === id || Array.isArray(dep) && dep[dep.length - 1] === id) {
+        parents.push(+k);
+      }
+    }
+  }
+
+  if (bundle.parent) {
+    parents = parents.concat(getParents(bundle.parent, id));
+  }
+
+  return parents;
+}
+
+function hmrApply(bundle, asset) {
+  var modules = bundle.modules;
+  if (!modules) {
+    return;
+  }
+
+  if (modules[asset.id] || !bundle.parent) {
+    var fn = new Function('require', 'module', 'exports', asset.generated.js);
+    asset.isNew = !modules[asset.id];
+    modules[asset.id] = [fn, asset.deps];
+  } else if (bundle.parent) {
+    hmrApply(bundle.parent, asset);
+  }
+}
+
+function hmrAccept(bundle, id) {
+  var modules = bundle.modules;
+  if (!modules) {
+    return;
+  }
+
+  if (!modules[id] && bundle.parent) {
+    return hmrAccept(bundle.parent, id);
+  }
+
+  var cached = bundle.cache[id];
+  if (cached && cached.hot._disposeCallback) {
+    cached.hot._disposeCallback();
+  }
+
+  delete bundle.cache[id];
+  bundle(id);
+
+  cached = bundle.cache[id];
+  if (cached && cached.hot && cached.hot._acceptCallback) {
+    cached.hot._acceptCallback();
+    return true;
+  }
+
+  return getParents(global.require, id).some(function (id) {
+    return hmrAccept(global.require, id);
+  });
+}
+},{}]},{},[52,4])
+//# sourceMappingURL=/dist/28d908142711746cd98d878a219803a3.map
