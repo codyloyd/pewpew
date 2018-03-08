@@ -369,38 +369,38 @@ class playScreen {
     for (var x = topLeftX; x < topLeftX + screenWidth; x++) {
       for (var y = topLeftY; y < topLeftY + screenHeight; y++) {
         const tile = map.getTile(x, y);
-        // if (visibleTiles[x + "," + y]) {
-        display.draw(
-          x - topLeftX,
-          y - topLeftY,
-          tile.getChar(),
-          tile.getFg(),
-          tile.getBg()
-        );
-        // } else if (this.level.exploredTiles[x + "," + y]) {
-        //   display.draw(
-        //     x - topLeftX,
-        //     y - topLeftY,
-        //     tile.getChar(),
-        //     Colors.darkBlue,
-        //     Colors.black
-        //   );
-        // }
+        if (visibleTiles[x + "," + y]) {
+          display.draw(
+            x - topLeftX,
+            y - topLeftY,
+            tile.getChar(),
+            tile.getFg(),
+            tile.getBg()
+          );
+        } else if (this.level.exploredTiles[x + "," + y]) {
+          display.draw(
+            x - topLeftX,
+            y - topLeftY,
+            tile.getChar(),
+            Colors.darkBlue,
+            Colors.black
+          );
+        }
       }
     }
 
     Object.keys(items).forEach(itemKey => {
       const [x, y] = itemKey.split(",");
       const item = items[itemKey];
-      // if (visibleTiles[x + "," + y]) {
-      display.draw(
-        parseInt(x) - topLeftX,
-        parseInt(y) - topLeftY,
-        item[0].getChar(),
-        item[0].getFg(),
-        item[0].getBg()
-      );
-      // }
+      if (visibleTiles[x + "," + y]) {
+        display.draw(
+          parseInt(x) - topLeftX,
+          parseInt(y) - topLeftY,
+          item[0].getChar(),
+          item[0].getFg(),
+          item[0].getBg()
+        );
+      }
     });
 
     if (this.game.explosionDisplay) {
@@ -453,21 +453,21 @@ class playScreen {
 
     const entities = this.level.getEntities();
     Object.values(entities).forEach(entity => {
-      // if (visibleTiles[entity.getX() + "," + entity.getY()]) {
-      display.draw(
-        entity.getX() - topLeftX,
-        entity.getY() - topLeftY,
-        entity.getChar(),
-        entity.hit ? Colors.black : entity.getFg(),
-        entity.hit || entity.getBg()
-      );
-      if (entity.hit) {
-        setTimeout(() => {
-          entity.hit = false;
-          this.render(this.game);
-        }, 100);
+      if (visibleTiles[entity.getX() + "," + entity.getY()]) {
+        display.draw(
+          entity.getX() - topLeftX,
+          entity.getY() - topLeftY,
+          entity.getChar(),
+          entity.hit ? Colors.black : entity.getFg(),
+          entity.hit || entity.getBg()
+        );
+        if (entity.hit) {
+          setTimeout(() => {
+            entity.hit = false;
+            this.render(this.game);
+          }, 100);
+        }
       }
-      // }
     });
     display.draw(
       this.player.getX() - topLeftX,
