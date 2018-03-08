@@ -42,11 +42,12 @@ EnemyRepository.define({
   name: "Small Alien",
   char: "a",
   fg: Colors.indigo,
+  rank: 1,
   speed: 800,
   strength: 3,
   maxHp: 10,
   rngWeight: 10,
-  inventory: [ItemRepository.createRandom()],
+  inventoryConstructor: () => ItemRepository.maybeCreateRandom(1, 0.5),
   mixins: [Movable, InventoryHolder, TaskActor, Destructible, Sight, Attacker]
 });
 
@@ -66,6 +67,7 @@ EnemyRepository.define({
   name: "Flying Insect",
   char: "b",
   fg: Colors.darkGreen,
+  rank: 1,
   speed: 1500,
   strength: 2,
   maxHp: 8,
@@ -78,11 +80,13 @@ EnemyRepository.define({
   name: "Big Alien",
   char: "A",
   fg: Colors.pink,
+  rank: 2,
   speed: 600,
   maxHp: 32,
   sightRadius: 10,
   strength: 7,
   rngWeight: 4,
+  inventoryConstructor: () => ItemRepository.maybeCreateRandom(3, 0.5),
   mixins: [Movable, TaskActor, Destructible, Sight, Attacker]
 });
 
@@ -95,6 +99,8 @@ EnemyRepository.define({
   sightRadius: 10,
   strength: 9,
   rngWeight: 3,
+  rank: 3,
+  inventoryConstructor: () => WeaponRepository.createRandom(),
   mixins: [Movable, TaskActor, Destructible, Sight, Attacker]
 });
 
@@ -107,9 +113,10 @@ EnemyRepository.define({
   sightRadius: 10,
   strength: 3,
   rngWeight: 4,
+  rank: 2,
   tasks: ["shoot", "flee", "wander"],
-  inventory: [WeaponRepository.create("small blaster")],
-  weapon: WeaponRepository.create("small blaster"),
+  inventoryConstructor: () => WeaponRepository.create("small blaster"),
+  weapon: "inventory",
   mixins: [
     Movable,
     TaskActor,
@@ -130,9 +137,10 @@ EnemyRepository.define({
   sightRadius: 15,
   strength: 3,
   rngWeight: 2,
+  rank: 3,
   tasks: ["shoot", "flee", "wander"],
-  inventory: [WeaponRepository.create("light plasma cannon")],
-  weapon: WeaponRepository.create("light plasma cannon"),
+  inventoryConstructor: () => WeaponRepository.create("light plasma cannon"),
+  weapon: "inventory",
   mixins: [
     Movable,
     TaskActor,
@@ -153,9 +161,10 @@ EnemyRepository.define({
   sightRadius: 25,
   strength: 3,
   rngWeight: 1,
+  rank: 4,
   tasks: ["shoot", "flee", "wander"],
-  inventory: [WeaponRepository.create("heavy plasma cannon")],
-  weapon: WeaponRepository.create("heavy plasma cannon"),
+  inventoryConstructor: () => WeaponRepository.create("heavy plasma cannon"),
+  weapon: "inventory",
   mixins: [
     Movable,
     TaskActor,

@@ -71,7 +71,7 @@ require = (function (modules, cache, entry) {
 
   // Override the current require with this new one
   return newRequire;
-})({34:[function(require,module,exports) {
+})({30:[function(require,module,exports) {
 
 // shim for using process in browser
 var process = module.exports = {};
@@ -258,7 +258,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],33:[function(require,module,exports) {
+},{}],13:[function(require,module,exports) {
 var global = (1,eval)("this");
 var process = require("process");
 /*
@@ -5883,7 +5883,7 @@ for (var p in ROT) {
   return ROT;
 }));
 
-},{"process":34}],4:[function(require,module,exports) {
+},{"process":30}],5:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5907,7 +5907,7 @@ exports.default = {
   pink: "#ff77a8",
   peach: "#ffccaa"
 };
-},{}],26:[function(require,module,exports) {
+},{}],31:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5961,7 +5961,7 @@ var Glyph = function () {
 }();
 
 exports.default = Glyph;
-},{"./colors":4}],28:[function(require,module,exports) {
+},{"./colors":5}],33:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5999,6 +5999,7 @@ var DynamicGlyph = function (_Glyph) {
     _this.name = name;
     _this.attachedMixins = {};
     _this.attachedMixinGroups = {};
+    _this.setupFunctions = [];
 
     mixins.forEach(function (mixinFactory) {
       var mixin = new (Function.prototype.bind.apply(mixinFactory, [null].concat(Array.prototype.slice.call(_arguments))))();
@@ -6009,7 +6010,13 @@ var DynamicGlyph = function (_Glyph) {
         _this.attachedMixinGroups[mixin.groupName] = true;
         delete mixin.groupName;
       }
+      if (mixin.setup) {
+        _this.setupFunctions.push(mixin.setup.bind(_this));
+      }
       Object.assign(_this, mixin);
+    });
+    _this.setupFunctions.forEach(function (fun) {
+      return fun();
     });
     return _this;
   }
@@ -6043,7 +6050,7 @@ var DynamicGlyph = function (_Glyph) {
 }(_glyph2.default);
 
 exports.default = DynamicGlyph;
-},{"./glyph":26}],15:[function(require,module,exports) {
+},{"./glyph":31}],21:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6192,7 +6199,7 @@ var Entity = function (_DynamicGlyph) {
 }(_dynamicGlyph2.default);
 
 exports.default = Entity;
-},{"../dynamicGlyph":28}],14:[function(require,module,exports) {
+},{"../dynamicGlyph":33}],17:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6242,7 +6249,7 @@ var gameOverScreen = function () {
 }();
 
 exports.default = gameOverScreen;
-},{"rot-js":33,"./startScreen":7}],16:[function(require,module,exports) {
+},{"rot-js":13,"./startScreen":8}],18:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6292,7 +6299,7 @@ var WinScreen = function () {
 }();
 
 exports.default = WinScreen;
-},{"rot-js":33,"./startScreen":7}],39:[function(require,module,exports) {
+},{"rot-js":13,"./startScreen":8}],37:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6661,7 +6668,7 @@ var ItemDetailDialog = function () {
 }();
 
 exports.default = ItemDetailDialog;
-},{"rot-js":33,"hyperapp":39,"../colors":4}],17:[function(require,module,exports) {
+},{"rot-js":13,"hyperapp":37,"../colors":5}],19:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6878,7 +6885,7 @@ var ItemListDialog = function () {
 }();
 
 exports.default = ItemListDialog;
-},{"rot-js":33,"hyperapp":39,"../colors":4,"./itemDetailDialog":35}],18:[function(require,module,exports) {
+},{"rot-js":13,"hyperapp":37,"../colors":5,"./itemDetailDialog":35}],20:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6948,7 +6955,7 @@ var PickUpScreen = function (_ItemListDialog) {
 }(_itemListDialog2.default);
 
 exports.default = PickUpScreen;
-},{"./itemListDialog":17,"rot-js":33}],8:[function(require,module,exports) {
+},{"./itemListDialog":19,"rot-js":13}],9:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7045,7 +7052,7 @@ var Confirmation = function () {
 }();
 
 exports.default = Confirmation;
-},{"hyperapp":39,"rot-js":33}],19:[function(require,module,exports) {
+},{"hyperapp":37,"rot-js":13}],22:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7123,7 +7130,7 @@ var StoryScreen = function () {
 }();
 
 exports.default = StoryScreen;
-},{"hyperapp":39,"rot-js":33}],20:[function(require,module,exports) {
+},{"hyperapp":37,"rot-js":13}],23:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7387,7 +7394,7 @@ var HelpScreen = function () {
 }();
 
 exports.default = HelpScreen;
-},{"hyperapp":39,"rot-js":33}],21:[function(require,module,exports) {
+},{"hyperapp":37,"rot-js":13}],24:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7477,7 +7484,7 @@ var PlayerStatusScreen = function () {
 }();
 
 exports.default = PlayerStatusScreen;
-},{"hyperapp":39,"rot-js":33}],29:[function(require,module,exports) {
+},{"hyperapp":37,"rot-js":13}],38:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7528,19 +7535,28 @@ var Repository = function () {
       }
     }
   }, {
+    key: "maybeCreateRandom",
+    value: function maybeCreateRandom(rank, probability) {
+      if (Math.random() < probability) {
+        return this.createRandom(rank);
+      }
+    }
+  }, {
     key: "createRandom",
-    value: function createRandom(level) {
+    value: function createRandom(rank) {
       var _this = this;
 
       var weightMap = Object.keys(this.randomTemplates).reduce(function (obj, template) {
         var item = _this.randomTemplates[template];
-        if (level && item.level == level || !level) {
+        if (rank && item.rank <= rank || !rank) {
           obj[template] = item.rngWeight || 1;
         }
         return obj;
       }, {});
       var item = _rotJs2.default.RNG.getWeightedValue(weightMap);
-      return this.create(item);
+      if (item) {
+        return this.create(item);
+      }
     }
   }]);
 
@@ -7548,7 +7564,7 @@ var Repository = function () {
 }();
 
 exports.default = Repository;
-},{"rot-js":33}],31:[function(require,module,exports) {
+},{"rot-js":13}],39:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7577,14 +7593,14 @@ var Item = function (_DynamicGlyph) {
         canPickUp = _ref$canPickUp === undefined ? true : _ref$canPickUp,
         _ref$description = _ref.description,
         description = _ref$description === undefined ? "" : _ref$description,
-        _ref$level = _ref.level,
-        level = _ref$level === undefined ? 1 : _ref$level;
+        _ref$rank = _ref.rank,
+        rank = _ref$rank === undefined ? 1 : _ref$rank;
 
     _classCallCheck(this, Item);
 
     var _this = _possibleConstructorReturn(this, (Item.__proto__ || Object.getPrototypeOf(Item)).apply(this, arguments));
 
-    _this.level = level;
+    _this.rank = rank;
     _this.name = name;
     _this.canPickUp = canPickUp;
     _this.description = description;
@@ -7595,7 +7611,7 @@ var Item = function (_DynamicGlyph) {
 }(_dynamicGlyph2.default);
 
 exports.default = Item;
-},{"../dynamicGlyph":28}],12:[function(require,module,exports) {
+},{"../dynamicGlyph":33}],14:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7677,7 +7693,7 @@ var openDoorTile = exports.openDoorTile = new Tile({
   blocksLight: false,
   isWalkable: true
 });
-},{"./glyph":26,"./colors":4}],32:[function(require,module,exports) {
+},{"./glyph":31,"./colors":5}],40:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7884,7 +7900,7 @@ var Fireable = exports.Fireable = function () {
 
   return Fireable;
 }();
-},{"../game":3,"../tile":12,"../colors":4}],22:[function(require,module,exports) {
+},{"../game":4,"../tile":14,"../colors":5}],25:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7917,6 +7933,7 @@ ItemRepository.define({
   fg: _colors2.default.pink,
   hpUp: 10,
   rngWeight: 10,
+  rank: 1,
   mixins: [_itemMixins.StatusBooster]
 });
 
@@ -8059,7 +8076,7 @@ WeaponRepository.define({
   fg: _colors2.default.gray,
   wieldable: true,
   attackValue: 3,
-  level: 1,
+  rank: 1,
   mixins: [_itemMixins.Equippable]
 });
 
@@ -8070,7 +8087,7 @@ WeaponRepository.define({
   fg: _colors2.default.gray,
   wieldable: true,
   attackValue: 3,
-  level: 1,
+  rank: 1,
   mixins: [_itemMixins.Equippable]
 });
 
@@ -8081,7 +8098,7 @@ WeaponRepository.define({
   fg: _colors2.default.pink,
   wieldable: true,
   attackValue: 15,
-  level: 2,
+  rank: 2,
   mixins: [_itemMixins.Equippable]
 });
 
@@ -8092,7 +8109,7 @@ WeaponRepository.define({
   fg: _colors2.default.brown,
   wieldable: true,
   attackValue: 3,
-  level: 1,
+  rank: 1,
   mixins: [_itemMixins.Equippable]
 });
 
@@ -8106,7 +8123,7 @@ WeaponRepository.define({
   chargesPerShot: 1,
   attackValue: 0,
   rangeDamage: 4,
-  level: 1,
+  rank: 1,
   mixins: [_itemMixins.Equippable, _itemMixins.Fireable]
 });
 
@@ -8120,7 +8137,7 @@ WeaponRepository.define({
   chargesPerShot: 3,
   attackValue: 0,
   rangeDamage: 15,
-  level: 2,
+  rank: 2,
   mixins: [_itemMixins.Equippable, _itemMixins.Fireable]
 });
 
@@ -8135,7 +8152,7 @@ WeaponRepository.define({
   attackValue: 0,
   blastRadius: 1,
   rangeDamage: 25,
-  level: 2,
+  rank: 2,
   mixins: [_itemMixins.Equippable, _itemMixins.Fireable]
 });
 
@@ -8150,10 +8167,10 @@ WeaponRepository.define({
   attackValue: 0,
   blastRadius: 2,
   rangeDamage: 20,
-  level: 2,
+  rank: 2,
   mixins: [_itemMixins.Equippable, _itemMixins.Fireable]
 });
-},{"../repository":29,"../colors":4,"./item":31,"./itemMixins":32}],36:[function(require,module,exports) {
+},{"../repository":38,"../colors":5,"./item":39,"./itemMixins":40}],41:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8261,8 +8278,11 @@ var Destructible = exports.Destructible = function () {
         this.kill();
         if (this.hasMixin("InventoryHolder")) {
           // drop items
-          console.log("inventory", this.inventory);
-          this.level.setItemsAt(this.getX(), this.getY(), this.inventory);
+          if (this.inventory.filter(function (i) {
+            return i;
+          }).length) {
+            this.level.setItemsAt(this.getX(), this.getY(), this.inventory);
+          }
         }
       }
     }
@@ -8469,7 +8489,9 @@ var InventoryHolder = exports.InventoryHolder = function () {
     var _ref4$inventorySize = _ref4.inventorySize,
         inventorySize = _ref4$inventorySize === undefined ? 8 : _ref4$inventorySize,
         _ref4$inventory = _ref4.inventory,
-        inventory = _ref4$inventory === undefined ? [] : _ref4$inventory;
+        inventory = _ref4$inventory === undefined ? [] : _ref4$inventory,
+        _ref4$inventoryConstr = _ref4.inventoryConstructor,
+        inventoryConstructor = _ref4$inventoryConstr === undefined ? null : _ref4$inventoryConstr;
 
     _classCallCheck(this, InventoryHolder);
 
@@ -8480,6 +8502,9 @@ var InventoryHolder = exports.InventoryHolder = function () {
     this.removeItem = this._removeItem;
     this.hasItem = this._hasItem;
     this.getInventorySize = this._getInventorySize;
+    if (inventoryConstructor) {
+      this.inventory.push(inventoryConstructor());
+    }
   }
 
   _createClass(InventoryHolder, [{
@@ -8669,9 +8694,17 @@ var Equipper = exports.Equipper = function () {
     this.takeOff = this._takeOff;
     this.unequip = this._unequip;
     this.isWearing = this._isWearing;
+    this.setup = this._setup;
   }
 
   _createClass(Equipper, [{
+    key: "_setup",
+    value: function _setup() {
+      if (this.weapon === "inventory" && this.hasMixin("InventoryHolder")) {
+        this.wield(this.inventory[0]);
+      }
+    }
+  }, {
     key: "_isWearing",
     value: function _isWearing(item) {
       return this.armor.includes(item);
@@ -8699,7 +8732,7 @@ var Equipper = exports.Equipper = function () {
   }, {
     key: "_unequip",
     value: function _unequip(item) {
-      if (item === this.armor) {
+      if (this.armor.includes(item)) {
         this.takeOff(item);
       }
       if (item === this.weapon) {
@@ -8753,7 +8786,7 @@ var TimedStatusEffects = exports.TimedStatusEffects = function () {
 
   return TimedStatusEffects;
 }();
-},{"rot-js":33,"../colors":4,"../tile":12}],23:[function(require,module,exports) {
+},{"rot-js":13,"../colors":5,"../tile":14}],26:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8798,11 +8831,14 @@ EnemyRepository.define({
   name: "Small Alien",
   char: "a",
   fg: _colors2.default.indigo,
+  rank: 1,
   speed: 800,
   strength: 3,
   maxHp: 10,
   rngWeight: 10,
-  inventory: [_items.ItemRepository.createRandom()],
+  inventoryConstructor: function inventoryConstructor() {
+    return _items.ItemRepository.maybeCreateRandom(1, 0.5);
+  },
   mixins: [_entityMixins.Movable, _entityMixins.InventoryHolder, _entityMixins.TaskActor, _entityMixins.Destructible, _entityMixins.Sight, _entityMixins.Attacker]
 });
 
@@ -8822,6 +8858,7 @@ EnemyRepository.define({
   name: "Flying Insect",
   char: "b",
   fg: _colors2.default.darkGreen,
+  rank: 1,
   speed: 1500,
   strength: 2,
   maxHp: 8,
@@ -8834,11 +8871,15 @@ EnemyRepository.define({
   name: "Big Alien",
   char: "A",
   fg: _colors2.default.pink,
+  rank: 2,
   speed: 600,
   maxHp: 32,
   sightRadius: 10,
   strength: 7,
   rngWeight: 4,
+  inventoryConstructor: function inventoryConstructor() {
+    return _items.ItemRepository.maybeCreateRandom(3, 0.5);
+  },
   mixins: [_entityMixins.Movable, _entityMixins.TaskActor, _entityMixins.Destructible, _entityMixins.Sight, _entityMixins.Attacker]
 });
 
@@ -8851,6 +8892,10 @@ EnemyRepository.define({
   sightRadius: 10,
   strength: 9,
   rngWeight: 3,
+  rank: 3,
+  inventoryConstructor: function inventoryConstructor() {
+    return _items.WeaponRepository.createRandom();
+  },
   mixins: [_entityMixins.Movable, _entityMixins.TaskActor, _entityMixins.Destructible, _entityMixins.Sight, _entityMixins.Attacker]
 });
 
@@ -8863,9 +8908,12 @@ EnemyRepository.define({
   sightRadius: 10,
   strength: 3,
   rngWeight: 4,
+  rank: 2,
   tasks: ["shoot", "flee", "wander"],
-  inventory: [_items.WeaponRepository.create("small blaster")],
-  weapon: _items.WeaponRepository.create("small blaster"),
+  inventoryConstructor: function inventoryConstructor() {
+    return _items.WeaponRepository.create("small blaster");
+  },
+  weapon: "inventory",
   mixins: [_entityMixins.Movable, _entityMixins.TaskActor, _entityMixins.Equipper, _entityMixins.InventoryHolder, _entityMixins.Destructible, _entityMixins.Sight, _entityMixins.Attacker]
 });
 
@@ -8878,9 +8926,12 @@ EnemyRepository.define({
   sightRadius: 15,
   strength: 3,
   rngWeight: 2,
+  rank: 3,
   tasks: ["shoot", "flee", "wander"],
-  inventory: [_items.WeaponRepository.create("light plasma cannon")],
-  weapon: _items.WeaponRepository.create("light plasma cannon"),
+  inventoryConstructor: function inventoryConstructor() {
+    return _items.WeaponRepository.create("light plasma cannon");
+  },
+  weapon: "inventory",
   mixins: [_entityMixins.Movable, _entityMixins.TaskActor, _entityMixins.Equipper, _entityMixins.InventoryHolder, _entityMixins.Destructible, _entityMixins.Sight, _entityMixins.Attacker]
 });
 
@@ -8893,12 +8944,15 @@ EnemyRepository.define({
   sightRadius: 25,
   strength: 3,
   rngWeight: 1,
+  rank: 4,
   tasks: ["shoot", "flee", "wander"],
-  inventory: [_items.WeaponRepository.create("heavy plasma cannon")],
-  weapon: _items.WeaponRepository.create("heavy plasma cannon"),
+  inventoryConstructor: function inventoryConstructor() {
+    return _items.WeaponRepository.create("heavy plasma cannon");
+  },
+  weapon: "inventory",
   mixins: [_entityMixins.Movable, _entityMixins.TaskActor, _entityMixins.Equipper, _entityMixins.InventoryHolder, _entityMixins.Destructible, _entityMixins.Sight, _entityMixins.Attacker]
 });
-},{"../colors":4,"../repository":29,"./entity":15,"../item/items":22,"./entityMixins":36}],38:[function(require,module,exports) {
+},{"../colors":5,"../repository":38,"./entity":21,"../item/items":25,"./entityMixins":41}],45:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9006,7 +9060,7 @@ var DungeonMap = function () {
 }();
 
 exports.default = DungeonMap;
-},{"rot-js":33,"./tile":12}],27:[function(require,module,exports) {
+},{"rot-js":13,"./tile":14}],32:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9074,19 +9128,23 @@ var Level = function () {
     }
 
     for (var i = 0; i < 8; i++) {
-      var alien = _entities.EnemyRepository.createRandom();
+      var alien = _entities.EnemyRepository.createRandom(1);
       this.addEntityAtRandomPosition(alien);
     }
     if (!topLevel) {
-      for (var _i = 0; _i < 15; _i++) {
-        var _alien = _entities.EnemyRepository.createRandom();
+      for (var _i = 0; _i < 10; _i++) {
+        var _alien = _entities.EnemyRepository.createRandom(2);
         this.addEntityAtRandomPosition(_alien);
+      }
+      for (var _i2 = 0; _i2 < 6; _i2++) {
+        var _alien2 = _entities.EnemyRepository.createRandom();
+        this.addEntityAtRandomPosition(_alien2);
       }
     }
 
-    if (!topLevel && Math.random < 0.8) {
+    if (Math.random < 0.8) {
       var bugRoom = this.map.getRooms()[1];
-      for (var _i2 = 0; _i2 < 10; _i2++) {
+      for (var _i3 = 0; _i3 < 10; _i3++) {
         var roomPosition = this.getRandomRoomPosition(bugRoom);
         var bug = _entities.EnemyRepository.create("Flying Insect");
         bug.setPosition(roomPosition.x, roomPosition.y);
@@ -9094,7 +9152,14 @@ var Level = function () {
       }
     }
 
-    for (var _i3 = 0; _i3 < 5; _i3++) {
+    if (bottomLevel) {
+      for (var _i4 = 0; _i4 < 6; _i4++) {
+        var _alien3 = _entities.EnemyRepository.createRandom(4);
+        this.addEntityAtRandomPosition(_alien3);
+      }
+    }
+
+    for (var _i5 = 0; _i5 < 2; _i5++) {
       this.addItemAtRandomPosition(_items.ItemRepository.createRandom());
     }
 
@@ -9104,21 +9169,13 @@ var Level = function () {
 
     if (topLevel) {
       var firstRoomPosition = this.getRandomRoomPosition(this.firstRoom);
-      this.addItem(
-      // WeaponRepository.createRandom(1),
-      _items.WeaponRepository.create("small blaster"), firstRoomPosition.x, firstRoomPosition.y);
-
-      this.addItem(
-      // WeaponRepository.createRandom(1),
-      _items.WeaponRepository.create("mean blaster"), firstRoomPosition.x, firstRoomPosition.y);
-
-      this.addItem(
-      // WeaponRepository.createRandom(1),
-      _items.WeaponRepository.create("light plasma cannon"), firstRoomPosition.x, firstRoomPosition.y);
+      this.addItem(_items.WeaponRepository.createRandom(1), firstRoomPosition.x, firstRoomPosition.y);
 
       var otherRoomPosition = this.getRandomRoomPosition();
       var ship = _items.ItemRepository.create("Space Ship");
       this.addItem(ship, otherRoomPosition.x, otherRoomPosition.y);
+      this.addItem(_items.WeaponRepository.create("crowbar"), otherRoomPosition.x, otherRoomPosition.y);
+      this.addItem(_items.ItemRepository.createRandom(), otherRoomPosition.x, otherRoomPosition.y);
     }
     if (bottomLevel) {
       this.addItemAtRandomPosition(_items.ItemRepository.create("keys"));
@@ -9283,7 +9340,7 @@ var Level = function () {
 }();
 
 exports.default = Level;
-},{"./dungeonMap":38,"./entity/entity":15,"./item/items":22,"./entity/entities":23,"./tile":12}],11:[function(require,module,exports) {
+},{"./dungeonMap":45,"./entity/entity":21,"./item/items":25,"./entity/entities":26,"./tile":14}],15:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9345,7 +9402,7 @@ var GameWorld = function () {
 }();
 
 exports.default = GameWorld;
-},{"./level":27}],13:[function(require,module,exports) {
+},{"./level":32}],16:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9353,13 +9410,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 var text = {
   introduction: ["You wake up in a dimly lit room struggling to remember where you are and how you got there.  ", "Slowly it comes to you...", "You are the pilot of a small mining ship, and you were on your way back to the main station when you came across a large undocumented asteroid. You, the grand opportunist you are, undocked your drilling rig and floated over to check it out. Turns out it was occupied. You're a bit foggy on what came next, but you need to get to your rig and get off this rock.", "Fast."],
-  foundShipNoKeys: ["Great!  Your rig!", "You jump into the one-man mining rig and start to fire it up only to discover that your keys have gone missing.  Frantically you check your pockets but come up with nothing but lint.  These alien monsters must have taken the keys when they ripped you from the cockpit.  Fortunately, the thing seems to be in working order.", "You find an old crowbar in the back. Wielding that should help as you explore the strange caverns that have been carved into this asteroid.", "Let's find those keys."],
+  foundShipNoKeys: ["You've found your ship!", "You jump into the one-man mining rig and start to fire it up only to discover that your keys have gone missing.  Frantically you check your pockets but come up with nothing but lint.  These alien monsters must have taken the keys when they ripped you from the cockpit.  Fortunately, the thing seems to be in working order.", "You find a couple of useful items in the back. (Pick them up with 'g')", "Let's find those keys."],
   foundKeys: ["Your keys... now don't lose them.", "Back to the ship!"],
   foundKeysAndShip: ["You jam your keys into the ignition and the rig fires up.", "Now that you're back in the cockpit blasting yourself free from this cavern is a simple task, and this time you won't let those slimy space-bugs surround you.", "You blast yourself free, turn on your navigational systems and head home.", "You win."]
 };
 
 exports.default = text;
-},{}],9:[function(require,module,exports) {
+},{}],11:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9512,13 +9569,13 @@ var playScreen = function () {
         this.game.getEngine().unlock();
       }.bind(this);
 
-      if (inputData.keyCode === _rotJs2.default.VK_H || inputData.keyCode == _rotJs2.default.VK_4 || inputData.keyCode == _rotJs2.default.VK_LEFT) {
+      if (inputData.keyCode === _rotJs2.default.VK_H || inputData.keyCode == _rotJs2.default.VK_4 || inputData.keyCode === _rotJs2.default.VK_NUMPAD4 || inputData.keyCode == _rotJs2.default.VK_LEFT) {
         move(-1, 0);
-      } else if (inputData.keyCode === _rotJs2.default.VK_L || inputData.keyCode == _rotJs2.default.VK_6 || inputData.keyCode == _rotJs2.default.VK_RIGHT) {
+      } else if (inputData.keyCode === _rotJs2.default.VK_L || inputData.keyCode == _rotJs2.default.VK_6 || inputData.keyCode === _rotJs2.default.VK_NUMPAD6 || inputData.keyCode == _rotJs2.default.VK_RIGHT) {
         move(1, 0);
-      } else if (inputData.keyCode === _rotJs2.default.VK_K || inputData.keyCode == _rotJs2.default.VK_8 || inputData.keyCode == _rotJs2.default.VK_UP) {
+      } else if (inputData.keyCode === _rotJs2.default.VK_K || inputData.keyCode == _rotJs2.default.VK_8 || inputData.keyCode === _rotJs2.default.VK_NUMPAD8 || inputData.keyCode == _rotJs2.default.VK_UP) {
         move(0, -1);
-      } else if (inputData.keyCode === _rotJs2.default.VK_J || inputData.keyCode == _rotJs2.default.VK_2 || inputData.keyCode == _rotJs2.default.VK_DOWN) {
+      } else if (inputData.keyCode === _rotJs2.default.VK_J || inputData.keyCode == _rotJs2.default.VK_2 || inputData.keyCode === _rotJs2.default.VK_NUMPAD2 || inputData.keyCode == _rotJs2.default.VK_DOWN) {
         move(0, 1);
       } else if (inputData.keyCode === _rotJs2.default.VK_Y || inputData.keyCode === _rotJs2.default.VK_NUMPAD7 || inputData.keyCode == _rotJs2.default.VK_7) {
         move(-1, -1);
@@ -9652,18 +9709,7 @@ var playScreen = function () {
           return i.name == "Space Ship";
         }).length > 0) {
           this.foundShip = true;
-          this.enterSubscreen(new _storyScreen2.default(this, _text2.default.foundShipNoKeys, function () {
-            _this2.player.addItem(_items.WeaponRepository.create("crowbar"));
-            _this2.player.addItem(_items.WeaponRepository.create("small blaster"));
-            _this2.game.messageDisplay.add({
-              text: "You have found your rig, don't forget where it is!",
-              color: "blue"
-            });
-            _this2.game.messageDisplay.add({
-              text: "crowbar and small blaster added to inventory",
-              color: "blue"
-            });
-          }));
+          this.enterSubscreen(new _storyScreen2.default(this, _text2.default.foundShipNoKeys));
           return;
         }
         if (!this.foundKeys && item.filter(function (i) {
@@ -9733,11 +9779,17 @@ var playScreen = function () {
       for (var x = topLeftX; x < topLeftX + screenWidth; x++) {
         for (var y = topLeftY; y < topLeftY + screenHeight; y++) {
           var tile = map.getTile(x, y);
-          if (visibleTiles[x + "," + y]) {
-            display.draw(x - topLeftX, y - topLeftY, tile.getChar(), tile.getFg(), tile.getBg());
-          } else if (this.level.exploredTiles[x + "," + y]) {
-            display.draw(x - topLeftX, y - topLeftY, tile.getChar(), _colors2.default.darkBlue, _colors2.default.black);
-          }
+          // if (visibleTiles[x + "," + y]) {
+          display.draw(x - topLeftX, y - topLeftY, tile.getChar(), tile.getFg(), tile.getBg());
+          // } else if (this.level.exploredTiles[x + "," + y]) {
+          //   display.draw(
+          //     x - topLeftX,
+          //     y - topLeftY,
+          //     tile.getChar(),
+          //     Colors.darkBlue,
+          //     Colors.black
+          //   );
+          // }
         }
       }
 
@@ -9748,13 +9800,12 @@ var playScreen = function () {
             y = _itemKey$split2[1];
 
         var item = items[itemKey];
-        if (visibleTiles[x + "," + y]) {
-          display.draw(parseInt(x) - topLeftX, parseInt(y) - topLeftY, item[0].getChar(), item[0].getFg(), item[0].getBg());
-        }
+        // if (visibleTiles[x + "," + y]) {
+        display.draw(parseInt(x) - topLeftX, parseInt(y) - topLeftY, item[0].getChar(), item[0].getFg(), item[0].getBg());
+        // }
       });
 
       if (this.game.explosionDisplay) {
-        console.log(this.game.explosionDisplay);
         this.game.explosionDisplay.forEach(function (coord) {
           var xy = coord.split(",");
           display.draw(xy[0] - topLeftX, xy[1] - topLeftY, "•", _colors2.default.orange, _colors2.default.black);
@@ -9792,15 +9843,15 @@ var playScreen = function () {
 
       var entities = this.level.getEntities();
       Object.values(entities).forEach(function (entity) {
-        if (visibleTiles[entity.getX() + "," + entity.getY()]) {
-          display.draw(entity.getX() - topLeftX, entity.getY() - topLeftY, entity.getChar(), entity.hit ? _colors2.default.black : entity.getFg(), entity.hit || entity.getBg());
-          if (entity.hit) {
-            setTimeout(function () {
-              entity.hit = false;
-              _this2.render(_this2.game);
-            }, 100);
-          }
+        // if (visibleTiles[entity.getX() + "," + entity.getY()]) {
+        display.draw(entity.getX() - topLeftX, entity.getY() - topLeftY, entity.getChar(), entity.hit ? _colors2.default.black : entity.getFg(), entity.hit || entity.getBg());
+        if (entity.hit) {
+          setTimeout(function () {
+            entity.hit = false;
+            _this2.render(_this2.game);
+          }, 100);
         }
+        // }
       });
       display.draw(this.player.getX() - topLeftX, this.player.getY() - topLeftY, this.player.getChar(), this.player.hit ? _colors2.default.black : this.player.getFg(), this.player.hit || this.player.getBg());
       if (this.player.hit) {
@@ -9820,7 +9871,7 @@ var playScreen = function () {
 }();
 
 exports.default = playScreen;
-},{"rot-js":33,"../colors":4,"../entity/entity":15,"./gameOverScreen":14,"./winScreen":16,"./itemListDialog":17,"./pickUpDialog":18,"./confirmation":8,"./storyScreen":19,"./helpScreen":20,"./playerStatusScreen":21,"../item/items":22,"../entity/entities":23,"../gameWorld":11,"../tile":12,"../text":13}],7:[function(require,module,exports) {
+},{"rot-js":13,"../colors":5,"../entity/entity":21,"./gameOverScreen":17,"./winScreen":18,"./itemListDialog":19,"./pickUpDialog":20,"./confirmation":9,"./storyScreen":22,"./helpScreen":23,"./playerStatusScreen":24,"../item/items":25,"../entity/entities":26,"../gameWorld":15,"../tile":14,"../text":16}],8:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9829,13 +9880,15 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _rotJs = require("rot-js");
-
-var _rotJs2 = _interopRequireDefault(_rotJs);
-
 var _playScreen = require("./playScreen");
 
 var _playScreen2 = _interopRequireDefault(_playScreen);
+
+var _hyperapp = require("hyperapp");
+
+var _rotJs = require("rot-js");
+
+var _rotJs2 = _interopRequireDefault(_rotJs);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -9846,24 +9899,56 @@ var startScreen = function () {
     _classCallCheck(this, startScreen);
 
     this.game = Game;
-    this.game.player = null;
+    this.display = document.createElement("div");
+    this.display.classList.add("start-screen");
+    (0, _hyperapp.app)({}, {}, this.view, this.display);
   }
 
   _createClass(startScreen, [{
-    key: "exit",
-    value: function exit() {}
+    key: "view",
+    value: function view(_ref) {
+      var text = _ref.text,
+          confirm = _ref.confirm,
+          cancel = _ref.cancel;
+
+      return (0, _hyperapp.h)(
+        "div",
+        null,
+        (0, _hyperapp.h)(
+          "h1",
+          null,
+          "SPACE DUNGEON"
+        ),
+        (0, _hyperapp.h)(
+          "h1",
+          { id: "pew" },
+          "PEW PEW"
+        ),
+        (0, _hyperapp.h)(
+          "p",
+          null,
+          "PRESS ENTER TO START"
+        )
+      );
+    }
   }, {
-    key: "handleInput",
-    value: function handleInput(inputData) {
-      if (inputData.keyCode == _rotJs2.default.VK_RETURN) {
-        this.game.switchScreen(_playScreen2.default);
-      }
+    key: "exit",
+    value: function exit() {
+      this.display.remove();
     }
   }, {
     key: "render",
-    value: function render(Game) {
-      var display = Game.getDisplay();
-      display.drawText(0, 0, "press enter to start");
+    value: function render() {
+      document.body.appendChild(this.display);
+    }
+  }, {
+    key: "handleInput",
+    value: function handleInput(inputData) {
+      console.log;
+      if (inputData.keyCode == _rotJs2.default.VK_RETURN) {
+        this.game.switchScreen(_playScreen2.default);
+        this.display.remove();
+      }
     }
   }]);
 
@@ -9871,7 +9956,7 @@ var startScreen = function () {
 }();
 
 exports.default = startScreen;
-},{"rot-js":33,"./playScreen":9}],5:[function(require,module,exports) {
+},{"./playScreen":11,"hyperapp":37,"rot-js":13}],6:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9952,7 +10037,7 @@ var MessageDisplay = function () {
 }();
 
 exports.default = MessageDisplay;
-},{"./colors":4}],6:[function(require,module,exports) {
+},{"./colors":5}],7:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10028,7 +10113,7 @@ var PlayerStatusDisplay = function () {
 }();
 
 exports.default = PlayerStatusDisplay;
-},{"./colors":4}],3:[function(require,module,exports) {
+},{"./colors":5}],4:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10155,4 +10240,4 @@ window.onload = function () {
     game.switchScreen(_startScreen2.default);
   }
 };
-},{"rot-js":33,"./colors":4,"./screens/startScreen":7,"./messageDisplay":5,"./playerStatusDisplay":6,"./screens/confirmation":8}]},{},[3])
+},{"rot-js":13,"./colors":5,"./screens/startScreen":8,"./messageDisplay":6,"./playerStatusDisplay":7,"./screens/confirmation":9}]},{},[4])

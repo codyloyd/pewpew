@@ -6,9 +6,9 @@ const text = {
     "Fast."
   ],
   foundShipNoKeys: [
-    "Great!  Your rig!",
+    "You've found your ship!",
     "You jump into the one-man mining rig and start to fire it up only to discover that your keys have gone missing.  Frantically you check your pockets but come up with nothing but lint.  These alien monsters must have taken the keys when they ripped you from the cockpit.  Fortunately, the thing seems to be in working order.",
-    "You find an old crowbar in the back. Wielding that should help as you explore the strange caverns that have been carved into this asteroid.",
+    "You find a couple of useful items in the back. (Pick them up with 'g')",
     "Let's find those keys."
   ],
   foundKeys: ["Your keys... now don't lose them.", "Back to the ship!"],

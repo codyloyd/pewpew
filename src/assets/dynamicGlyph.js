@@ -6,6 +6,7 @@ class DynamicGlyph extends Glyph {
     this.name = name;
     this.attachedMixins = {};
     this.attachedMixinGroups = {};
+    this.setupFunctions = [];
 
     mixins.forEach(mixinFactory => {
       const mixin = new mixinFactory(...arguments);
@@ -16,8 +17,12 @@ class DynamicGlyph extends Glyph {
         this.attachedMixinGroups[mixin.groupName] = true;
         delete mixin.groupName;
       }
+      if (mixin.setup) {
+        this.setupFunctions.push(mixin.setup.bind(this));
+      }
       Object.assign(this, mixin);
     });
+    this.setupFunctions.forEach(fun => fun());
   }
 
   hasMixin(mixin) {

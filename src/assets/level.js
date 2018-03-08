@@ -40,17 +40,21 @@ class Level {
     }
 
     for (let i = 0; i < 8; i++) {
-      const alien = EnemyRepository.createRandom();
+      const alien = EnemyRepository.createRandom(1);
       this.addEntityAtRandomPosition(alien);
     }
     if (!topLevel) {
-      for (let i = 0; i < 15; i++) {
+      for (let i = 0; i < 10; i++) {
+        const alien = EnemyRepository.createRandom(2);
+        this.addEntityAtRandomPosition(alien);
+      }
+      for (let i = 0; i < 6; i++) {
         const alien = EnemyRepository.createRandom();
         this.addEntityAtRandomPosition(alien);
       }
     }
 
-    if (!topLevel && Math.random < 0.8) {
+    if (Math.random < 0.8) {
       const bugRoom = this.map.getRooms()[1];
       for (let i = 0; i < 10; i++) {
         const roomPosition = this.getRandomRoomPosition(bugRoom);
@@ -60,7 +64,14 @@ class Level {
       }
     }
 
-    for (let i = 0; i < 5; i++) {
+    if (bottomLevel) {
+      for (let i = 0; i < 6; i++) {
+        const alien = EnemyRepository.createRandom(4);
+        this.addEntityAtRandomPosition(alien);
+      }
+    }
+
+    for (let i = 0; i < 2; i++) {
       this.addItemAtRandomPosition(ItemRepository.createRandom());
     }
 
@@ -72,22 +83,7 @@ class Level {
     if (topLevel) {
       let firstRoomPosition = this.getRandomRoomPosition(this.firstRoom);
       this.addItem(
-        // WeaponRepository.createRandom(1),
-        WeaponRepository.create("small blaster"),
-        firstRoomPosition.x,
-        firstRoomPosition.y
-      );
-
-      this.addItem(
-        // WeaponRepository.createRandom(1),
-        WeaponRepository.create("mean blaster"),
-        firstRoomPosition.x,
-        firstRoomPosition.y
-      );
-
-      this.addItem(
-        // WeaponRepository.createRandom(1),
-        WeaponRepository.create("light plasma cannon"),
+        WeaponRepository.createRandom(1),
         firstRoomPosition.x,
         firstRoomPosition.y
       );
@@ -95,6 +91,16 @@ class Level {
       const otherRoomPosition = this.getRandomRoomPosition();
       const ship = ItemRepository.create("Space Ship");
       this.addItem(ship, otherRoomPosition.x, otherRoomPosition.y);
+      this.addItem(
+        WeaponRepository.create("crowbar"),
+        otherRoomPosition.x,
+        otherRoomPosition.y
+      );
+      this.addItem(
+        ItemRepository.createRandom(),
+        otherRoomPosition.x,
+        otherRoomPosition.y
+      );
     }
     if (bottomLevel) {
       this.addItemAtRandomPosition(ItemRepository.create("keys"));

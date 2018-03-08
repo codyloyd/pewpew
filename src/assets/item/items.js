@@ -12,6 +12,7 @@ ItemRepository.define({
   fg: Colors.pink,
   hpUp: 10,
   rngWeight: 10,
+  rank: 1,
   mixins: [StatusBooster]
 });
 
@@ -161,7 +162,7 @@ WeaponRepository.define({
   fg: Colors.gray,
   wieldable: true,
   attackValue: 3,
-  level: 1,
+  rank: 1,
   mixins: [Equippable]
 });
 
@@ -173,7 +174,7 @@ WeaponRepository.define({
   fg: Colors.gray,
   wieldable: true,
   attackValue: 3,
-  level: 1,
+  rank: 1,
   mixins: [Equippable]
 });
 
@@ -184,7 +185,7 @@ WeaponRepository.define({
   fg: Colors.pink,
   wieldable: true,
   attackValue: 15,
-  level: 2,
+  rank: 2,
   mixins: [Equippable]
 });
 
@@ -196,7 +197,7 @@ WeaponRepository.define({
   fg: Colors.brown,
   wieldable: true,
   attackValue: 3,
-  level: 1,
+  rank: 1,
   mixins: [Equippable]
 });
 
@@ -211,7 +212,7 @@ WeaponRepository.define({
   chargesPerShot: 1,
   attackValue: 0,
   rangeDamage: 4,
-  level: 1,
+  rank: 1,
   mixins: [Equippable, Fireable]
 });
 
@@ -225,7 +226,7 @@ WeaponRepository.define({
   chargesPerShot: 3,
   attackValue: 0,
   rangeDamage: 15,
-  level: 2,
+  rank: 2,
   mixins: [Equippable, Fireable]
 });
 
@@ -240,7 +241,7 @@ WeaponRepository.define({
   attackValue: 0,
   blastRadius: 1,
   rangeDamage: 25,
-  level: 2,
+  rank: 2,
   mixins: [Equippable, Fireable]
 });
 
@@ -255,6 +256,6 @@ WeaponRepository.define({
   attackValue: 0,
   blastRadius: 2,
   rangeDamage: 20,
-  level: 2,
+  rank: 2,
   mixins: [Equippable, Fireable]
 });

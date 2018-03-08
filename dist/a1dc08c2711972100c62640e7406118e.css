@@ -44,6 +44,27 @@ pre {
   color: var(--blue);
 }
 
+.start-screen {
+  top: 0;
+  position: absolute;
+  justify-content: center;
+  align-items: center;
+  width: 800px;
+  height: 450px;
+  display: flex;
+}
+
+.start-screen h1 {
+  font-size: 3em;
+  text-align: center;
+  text-decoration: none;
+}
+
+.start-screen p {
+  margin-top: 4em;
+  text-align: center;
+}
+
 .subscreen {
   max-width: 40em;
   position: absolute;

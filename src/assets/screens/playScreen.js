@@ -105,24 +105,28 @@ class playScreen {
     if (
       inputData.keyCode === ROT.VK_H ||
       inputData.keyCode == ROT.VK_4 ||
+      inputData.keyCode === ROT.VK_NUMPAD4 ||
       inputData.keyCode == ROT.VK_LEFT
     ) {
       move(-1, 0);
     } else if (
       inputData.keyCode === ROT.VK_L ||
       inputData.keyCode == ROT.VK_6 ||
+      inputData.keyCode === ROT.VK_NUMPAD6 ||
       inputData.keyCode == ROT.VK_RIGHT
     ) {
       move(1, 0);
     } else if (
       inputData.keyCode === ROT.VK_K ||
       inputData.keyCode == ROT.VK_8 ||
+      inputData.keyCode === ROT.VK_NUMPAD8 ||
       inputData.keyCode == ROT.VK_UP
     ) {
       move(0, -1);
     } else if (
       inputData.keyCode === ROT.VK_J ||
       inputData.keyCode == ROT.VK_2 ||
+      inputData.keyCode === ROT.VK_NUMPAD2 ||
       inputData.keyCode == ROT.VK_DOWN
     ) {
       move(0, 1);
@@ -288,20 +292,7 @@ class playScreen {
         item.filter(i => i.name == "Space Ship").length > 0
       ) {
         this.foundShip = true;
-        this.enterSubscreen(
-          new StoryScreen(this, text.foundShipNoKeys, () => {
-            this.player.addItem(WeaponRepository.create("crowbar"));
-            this.player.addItem(WeaponRepository.create("small blaster"));
-            this.game.messageDisplay.add({
-              text: "You have found your rig, don't forget where it is!",
-              color: "blue"
-            });
-            this.game.messageDisplay.add({
-              text: "crowbar and small blaster added to inventory",
-              color: "blue"
-            });
-          })
-        );
+        this.enterSubscreen(new StoryScreen(this, text.foundShipNoKeys));
         return;
       }
       if (!this.foundKeys && item.filter(i => i.name == "keys").length > 0) {
@@ -378,42 +369,41 @@ class playScreen {
     for (var x = topLeftX; x < topLeftX + screenWidth; x++) {
       for (var y = topLeftY; y < topLeftY + screenHeight; y++) {
         const tile = map.getTile(x, y);
-        if (visibleTiles[x + "," + y]) {
-          display.draw(
-            x - topLeftX,
-            y - topLeftY,
-            tile.getChar(),
-            tile.getFg(),
-            tile.getBg()
-          );
-        } else if (this.level.exploredTiles[x + "," + y]) {
-          display.draw(
-            x - topLeftX,
-            y - topLeftY,
-            tile.getChar(),
-            Colors.darkBlue,
-            Colors.black
-          );
-        }
+        // if (visibleTiles[x + "," + y]) {
+        display.draw(
+          x - topLeftX,
+          y - topLeftY,
+          tile.getChar(),
+          tile.getFg(),
+          tile.getBg()
+        );
+        // } else if (this.level.exploredTiles[x + "," + y]) {
+        //   display.draw(
+        //     x - topLeftX,
+        //     y - topLeftY,
+        //     tile.getChar(),
+        //     Colors.darkBlue,
+        //     Colors.black
+        //   );
+        // }
       }
     }
 
     Object.keys(items).forEach(itemKey => {
       const [x, y] = itemKey.split(",");
       const item = items[itemKey];
-      if (visibleTiles[x + "," + y]) {
-        display.draw(
-          parseInt(x) - topLeftX,
-          parseInt(y) - topLeftY,
-          item[0].getChar(),
-          item[0].getFg(),
-          item[0].getBg()
-        );
-      }
+      // if (visibleTiles[x + "," + y]) {
+      display.draw(
+        parseInt(x) - topLeftX,
+        parseInt(y) - topLeftY,
+        item[0].getChar(),
+        item[0].getFg(),
+        item[0].getBg()
+      );
+      // }
     });
 
     if (this.game.explosionDisplay) {
-      console.log(this.game.explosionDisplay);
       this.game.explosionDisplay.forEach(coord => {
         const xy = coord.split(",");
         display.draw(
@@ -463,21 +453,21 @@ class playScreen {
 
     const entities = this.level.getEntities();
     Object.values(entities).forEach(entity => {
-      if (visibleTiles[entity.getX() + "," + entity.getY()]) {
-        display.draw(
-          entity.getX() - topLeftX,
-          entity.getY() - topLeftY,
-          entity.getChar(),
-          entity.hit ? Colors.black : entity.getFg(),
-          entity.hit || entity.getBg()
-        );
-        if (entity.hit) {
-          setTimeout(() => {
-            entity.hit = false;
-            this.render(this.game);
-          }, 100);
-        }
+      // if (visibleTiles[entity.getX() + "," + entity.getY()]) {
+      display.draw(
+        entity.getX() - topLeftX,
+        entity.getY() - topLeftY,
+        entity.getChar(),
+        entity.hit ? Colors.black : entity.getFg(),
+        entity.hit || entity.getBg()
+      );
+      if (entity.hit) {
+        setTimeout(() => {
+          entity.hit = false;
+          this.render(this.game);
+        }, 100);
       }
+      // }
     });
     display.draw(
       this.player.getX() - topLeftX,

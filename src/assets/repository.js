@@ -24,18 +24,26 @@ class Repository {
     }
   }
 
-  createRandom(level) {
+  maybeCreateRandom(rank, probability) {
+    if (Math.random() < probability) {
+      return this.createRandom(rank);
+    }
+  }
+
+  createRandom(rank) {
     const weightMap = Object.keys(
       this.randomTemplates
     ).reduce((obj, template) => {
       const item = this.randomTemplates[template];
-      if ((level && item.level == level) || !level) {
+      if ((rank && item.rank <= rank) || !rank) {
         obj[template] = item.rngWeight || 1;
       }
       return obj;
     }, {});
     const item = ROT.RNG.getWeightedValue(weightMap);
-    return this.create(item);
+    if (item) {
+      return this.create(item);
+    }
   }
 }
 

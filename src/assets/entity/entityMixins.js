@@ -64,8 +64,9 @@ export class Destructible {
       this.kill();
       if (this.hasMixin("InventoryHolder")) {
         // drop items
-        console.log("inventory", this.inventory);
-        this.level.setItemsAt(this.getX(), this.getY(), this.inventory);
+        if (this.inventory.filter(i => i).length) {
+          this.level.setItemsAt(this.getX(), this.getY(), this.inventory);
+        }
       }
     }
   }
@@ -265,7 +266,11 @@ export class TaskActor {
 }
 
 export class InventoryHolder {
-  constructor({ inventorySize = 8, inventory = [] }) {
+  constructor({
+    inventorySize = 8,
+    inventory = [],
+    inventoryConstructor = null
+  }) {
     this.name = "InventoryHolder";
     this.inventorySize = inventorySize;
     this.inventory = inventory;
@@ -273,6 +278,9 @@ export class InventoryHolder {
     this.removeItem = this._removeItem;
     this.hasItem = this._hasItem;
     this.getInventorySize = this._getInventorySize;
+    if (inventoryConstructor) {
+      this.inventory.push(inventoryConstructor());
+    }
   }
 
   _getInventorySize() {
@@ -411,6 +419,13 @@ export class Equipper {
     this.takeOff = this._takeOff;
     this.unequip = this._unequip;
     this.isWearing = this._isWearing;
+    this.setup = this._setup;
+  }
+
+  _setup() {
+    if (this.weapon === "inventory" && this.hasMixin("InventoryHolder")) {
+      this.wield(this.inventory[0]);
+    }
   }
 
   _isWearing(item) {
@@ -430,7 +445,7 @@ export class Equipper {
     this.armor.splice(this.armor.indexOf(item), 1);
   }
   _unequip(item) {
-    if (item === this.armor) {
+    if (this.armor.includes(item)) {
       this.takeOff(item);
     }
     if (item === this.weapon) {
