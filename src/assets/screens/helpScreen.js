@@ -121,7 +121,6 @@ class HelpScreen {
         <div>p - view player status</div>
         <div>c - close door</div>
         <div>f - fire weapon</div>
-        <div>v - inspect visible creatures and items</div>
         <p class="gray">(press &lt; or &gt; to view more help topics)</p>
       </div>
     );
