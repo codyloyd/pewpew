@@ -29,7 +29,6 @@ class startScreen {
   }
 
   handleInput(inputData) {
-    console.log;
     if (inputData.keyCode == ROT.VK_RETURN) {
       this.game.switchScreen(playScreen);
       this.display.remove();

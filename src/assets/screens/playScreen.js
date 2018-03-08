@@ -5,6 +5,7 @@ import gameOverScreen from "./gameOverScreen";
 import WinScreen from "./winScreen";
 import ItemListDialog from "./itemListDialog";
 import PickUpDialog from "./pickUpDialog";
+import VisibleThingsDialog from "./visibleThingsDialog";
 import Confirmation from "./confirmation";
 import StoryScreen from "./storyScreen";
 import HelpScreen from "./helpScreen";
@@ -59,24 +60,15 @@ class playScreen {
       this.subscreen.handleInput(inputData);
       return;
     }
-    if (inputData.keyCode === ROT.VK_ESCAPE) {
-      const exitFunction = () => {
-        this.game.switchScreen(gameOverScreen);
-      };
-      this.enterSubscreen(
-        new Confirmation(
-          "Are you SURE you want to INSTA-LOSE?",
-          exitFunction,
-          this
-        )
-      );
-    }
     //movement
     const move = function(dX, dY) {
       if (this.firing) {
         const array = this.level.lookInDirection(dX, dY);
-        this.game.rangeWeaponDisplay = this.player.weapon.fire(array);
-        this.game.rangeWeaponDisplay.color = this.player.weapon.fg;
+        const fireArray = this.player.weapon.fire(array);
+        if (fireArray) {
+          this.game.rangeWeaponDisplay = this.player.weapon.fire(array);
+          this.game.rangeWeaponDisplay.color = this.player.weapon.fg;
+        }
         this.firing = false;
         this.game.getEngine().unlock();
         return;
@@ -237,8 +229,11 @@ class playScreen {
       ) {
         this.level.setItemsAt(this.player.getX(), this.player.getY(), []);
         this.game.messageDisplay.add("you pick up " + item[0].describeA());
+        if (item[0].hasMixin("Equippable")) {
+          this.game.messageDisplay.add("wield it from the (i)nventory screen");
+        }
         if (item[0].hasMixin("Fireable")) {
-          this.game.messageDisplay.add("press 'f' to shoot it");
+          this.game.messageDisplay.add("then (f)ire it with 'f'");
         }
       }
       if (item.length > 1) {
@@ -256,6 +251,12 @@ class playScreen {
     }
     if (inputData.keyCode == ROT.VK_P) {
       this.enterSubscreen(new PlayerStatusScreen(this));
+    }
+    if (inputData.keyCode === ROT.VK_V) {
+      const visibleThings = this.player.getVisible();
+      this.enterSubscreen(
+        new VisibleThingsDialog(visibleThings, this, this.player)
+      );
     }
   }
 

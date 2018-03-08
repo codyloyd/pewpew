@@ -19,10 +19,11 @@ ItemRepository.define({
 ItemRepository.define({
   name: "health generator",
   description:
-    "Using this item will increase you maxHP by 10 points, but installing it hurts and will decrease your health points by 10.. you might want to have a medpack handy.",
+    "Using this item will increase you maxHP by 15 points, but installing it hurts and will decrease your health points by 15.. you might want to have a medpack handy.",
   fg: Colors.orange,
   char: "‡",
-  hpUp: -10,
+  hpUp: -15,
+  maxHpUp: 10,
   rngWeight: 3,
   rank: 3,
   mixins: [StatusBooster]
@@ -94,7 +95,7 @@ ItemRepository.define({
   rngWeight: 5,
   rank: 1,
   statusEffect: {
-    property: "speed",
+    property: "defense",
     value: 10,
     label: "Armor boost",
     timer: 25
@@ -229,6 +230,20 @@ WeaponRepository.define({
   chargesPerShot: 1,
   attackValue: 0,
   rangeDamage: 4,
+  rank: 1,
+  mixins: [Equippable, Fireable]
+});
+
+WeaponRepository.define({
+  name: "turret blaster",
+  char: "┌",
+  description: "a blaster ripped off of a turret",
+  fg: Colors.darkPurple,
+  wieldable: true,
+  maxCharges: 20,
+  chargesPerShot: 5,
+  attackValue: 0,
+  rangeDamage: 6,
   rank: 1,
   mixins: [Equippable, Fireable]
 });

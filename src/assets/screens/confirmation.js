@@ -2,10 +2,11 @@ import { h, app } from "hyperapp";
 import ROT from "rot-js";
 
 class Confirmation {
-  constructor(text, func, masterScreen) {
+  constructor(text, func, cancelFunction, masterScreen) {
     this.text = text;
     this.masterScreen = masterScreen;
     this.function = func;
+    this.cancelFunction = cancelFunction;
     this.display = document.createElement("div");
     this.display.classList.add("subscreen");
     this.display.classList.add("confirmation");
@@ -46,6 +47,7 @@ class Confirmation {
   cancel() {
     this.masterScreen.exitSubscreen();
     this.display.remove();
+    this.cancelFunction();
   }
 
   handleInput(inputData) {

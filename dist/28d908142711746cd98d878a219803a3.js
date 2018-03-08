@@ -71,7 +71,7 @@ require = (function (modules, cache, entry) {
 
   // Override the current require with this new one
   return newRequire;
-})({34:[function(require,module,exports) {
+})({37:[function(require,module,exports) {
 
 // shim for using process in browser
 var process = module.exports = {};
@@ -258,7 +258,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],33:[function(require,module,exports) {
+},{}],36:[function(require,module,exports) {
 var global = (1,eval)("this");
 var process = require("process");
 /*
@@ -5883,7 +5883,7 @@ for (var p in ROT) {
   return ROT;
 }));
 
-},{"process":34}],4:[function(require,module,exports) {
+},{"process":37}],5:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5961,7 +5961,7 @@ var Glyph = function () {
 }();
 
 exports.default = Glyph;
-},{"./colors":4}],28:[function(require,module,exports) {
+},{"./colors":5}],27:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6050,7 +6050,7 @@ var DynamicGlyph = function (_Glyph) {
 }(_glyph2.default);
 
 exports.default = DynamicGlyph;
-},{"./glyph":26}],14:[function(require,module,exports) {
+},{"./glyph":26}],16:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6086,7 +6086,9 @@ var Entity = function (_DynamicGlyph) {
         _ref$Game = _ref.Game,
         Game = _ref$Game === undefined ? null : _ref$Game,
         _ref$speed = _ref.speed,
-        speed = _ref$speed === undefined ? 1000 : _ref$speed;
+        speed = _ref$speed === undefined ? 1000 : _ref$speed,
+        _ref$description = _ref.description,
+        description = _ref$description === undefined ? "" : _ref$description;
 
     _classCallCheck(this, Entity);
 
@@ -6094,6 +6096,7 @@ var Entity = function (_DynamicGlyph) {
 
     _this.x = x;
     _this.y = y;
+    _this.description = description;
     _this.name = name;
     _this.level = level;
     _this.game = Game;
@@ -6199,7 +6202,7 @@ var Entity = function (_DynamicGlyph) {
 }(_dynamicGlyph2.default);
 
 exports.default = Entity;
-},{"../dynamicGlyph":28}],15:[function(require,module,exports) {
+},{"../dynamicGlyph":27}],15:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6249,7 +6252,7 @@ var gameOverScreen = function () {
 }();
 
 exports.default = gameOverScreen;
-},{"rot-js":33,"./startScreen":7}],16:[function(require,module,exports) {
+},{"rot-js":36,"./startScreen":8}],17:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6299,7 +6302,7 @@ var WinScreen = function () {
 }();
 
 exports.default = WinScreen;
-},{"rot-js":33,"./startScreen":7}],39:[function(require,module,exports) {
+},{"rot-js":36,"./startScreen":8}],38:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6582,7 +6585,7 @@ function app(state, actions, view, container) {
     return element;
   }
 }
-},{}],32:[function(require,module,exports) {
+},{}],30:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6607,20 +6610,24 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var ItemDetailDialog = function () {
   function ItemDetailDialog(item) {
+    var simple = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
     _classCallCheck(this, ItemDetailDialog);
 
     this.item = item;
     this.display = document.createElement("div");
     this.display.classList.add("item-detail-dialog");
     this.actions = {};
-    this.state = { item: this.item };
+    this.simple = simple;
+    this.state = { item: this.item, simple: this.simple };
     this.functions = (0, _hyperapp.app)(this.state, this.actions, this.view, this.display);
   }
 
   _createClass(ItemDetailDialog, [{
     key: "view",
     value: function view(_ref, actions) {
-      var item = _ref.item;
+      var item = _ref.item,
+          simple = _ref.simple;
 
       return (0, _hyperapp.h)(
         "div",
@@ -6635,30 +6642,34 @@ var ItemDetailDialog = function () {
           null,
           item.description
         ),
-        (0, _hyperapp.h)(
+        simple ? "" : (0, _hyperapp.h)(
           "div",
           null,
-          "Actions:"
-        ),
-        (0, _hyperapp.h)(
-          "div",
-          null,
-          "(d)rop"
-        ),
-        (0, _hyperapp.h)(
-          "div",
-          null,
-          item.equipped ? "(u)nequip" : item.wieldable ? "(w)ield" : item.wearable ? "(w)ear" : item.hasMixin("Usable") ? "(a)pply" : ""
-        ),
-        (0, _hyperapp.h)(
-          "p",
-          null,
-          "Press key to use, press 'q' to go back"
-        ),
-        (0, _hyperapp.h)(
-          "p",
-          null,
-          "hint: you can use the letter shortcuts above from the main inventory screen"
+          (0, _hyperapp.h)(
+            "div",
+            null,
+            "Actions:"
+          ),
+          (0, _hyperapp.h)(
+            "div",
+            null,
+            "(d)rop"
+          ),
+          (0, _hyperapp.h)(
+            "div",
+            null,
+            item.equipped ? "(u)nequip" : item.wieldable ? "(w)ield" : item.wearable ? "(w)ear" : item.hasMixin("Usable") ? "(a)pply" : ""
+          ),
+          (0, _hyperapp.h)(
+            "p",
+            null,
+            "Press key to use, press 'q' to go back"
+          ),
+          (0, _hyperapp.h)(
+            "p",
+            null,
+            "hint: you can use the letter shortcuts above from the main inventory screen"
+          )
         )
       );
     }
@@ -6668,7 +6679,7 @@ var ItemDetailDialog = function () {
 }();
 
 exports.default = ItemDetailDialog;
-},{"rot-js":33,"hyperapp":39,"../colors":4}],17:[function(require,module,exports) {
+},{"rot-js":36,"hyperapp":38,"../colors":5}],18:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6771,11 +6782,20 @@ var ItemListDialog = function () {
         items.map(function (item, i) {
           return (0, _hyperapp.h)(
             "div",
-            { "class": i == selectedItemIndex ? "selected" : "" },
-            item.name,
-            item.charges ? "(" + item.charges + ")" : "",
-            item == player.weapon ? " (wielding)" : "",
-            player.isWearing(item) ? " (wearing)" : ""
+            null,
+            (0, _hyperapp.h)(
+              "span",
+              { style: { color: item.fg, marginRight: '4px' } },
+              item.char
+            ),
+            (0, _hyperapp.h)(
+              "span",
+              { "class": i == selectedItemIndex ? "selected" : "" },
+              item.name,
+              item.charges ? "(" + item.charges + ")" : "",
+              item == player.weapon ? " (wielding)" : "",
+              player.isWearing(item) ? " (wearing)" : ""
+            )
           );
         })
       );
@@ -6885,7 +6905,7 @@ var ItemListDialog = function () {
 }();
 
 exports.default = ItemListDialog;
-},{"rot-js":33,"hyperapp":39,"../colors":4,"./itemDetailDialog":32}],18:[function(require,module,exports) {
+},{"rot-js":36,"hyperapp":38,"../colors":5,"./itemDetailDialog":30}],19:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6955,7 +6975,73 @@ var PickUpScreen = function (_ItemListDialog) {
 }(_itemListDialog2.default);
 
 exports.default = PickUpScreen;
-},{"./itemListDialog":17,"rot-js":33}],8:[function(require,module,exports) {
+},{"./itemListDialog":18,"rot-js":36}],54:[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
+var _itemListDialog = require("./itemListDialog");
+
+var _itemListDialog2 = _interopRequireDefault(_itemListDialog);
+
+var _itemDetailDialog = require("./itemDetailDialog");
+
+var _itemDetailDialog2 = _interopRequireDefault(_itemDetailDialog);
+
+var _rotJs = require("rot-js");
+
+var _rotJs2 = _interopRequireDefault(_rotJs);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var VisibleThingsDialog = function (_ItemListDialog) {
+  _inherits(VisibleThingsDialog, _ItemListDialog);
+
+  function VisibleThingsDialog() {
+    var _ref;
+
+    _classCallCheck(this, VisibleThingsDialog);
+
+    var _this = _possibleConstructorReturn(this, (_ref = VisibleThingsDialog.__proto__ || Object.getPrototypeOf(VisibleThingsDialog)).call.apply(_ref, [this].concat(Array.prototype.slice.call(arguments), ["Visible Creatures and Items"])));
+
+    _this.title = "Visible Creatures and Items";
+    return _this;
+  }
+
+  _createClass(VisibleThingsDialog, [{
+    key: "handleInput",
+    value: function handleInput(inputData) {
+      if (inputData.keyCode == _rotJs2.default.VK_D || inputData.keyCode == _rotJs2.default.VK_W || inputData.keyCode == _rotJs2.default.VK_A) {
+        return;
+      }
+      if (inputData.keyCode == _rotJs2.default.VK_RETURN) {
+        var item = this.functions.getSelectedItem();
+        var detailDialog = new _itemDetailDialog2.default(item, true);
+        this.display.innerHTML = "";
+        this.display.appendChild(detailDialog.display);
+        return;
+      }
+      _get(VisibleThingsDialog.prototype.__proto__ || Object.getPrototypeOf(VisibleThingsDialog.prototype), "handleInput", this).call(this, inputData);
+    }
+  }]);
+
+  return VisibleThingsDialog;
+}(_itemListDialog2.default);
+
+exports.default = VisibleThingsDialog;
+},{"./itemListDialog":18,"./itemDetailDialog":30,"rot-js":36}],9:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6975,12 +7061,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Confirmation = function () {
-  function Confirmation(text, func, masterScreen) {
+  function Confirmation(text, func, cancelFunction, masterScreen) {
     _classCallCheck(this, Confirmation);
 
     this.text = text;
     this.masterScreen = masterScreen;
     this.function = func;
+    this.cancelFunction = cancelFunction;
     this.display = document.createElement("div");
     this.display.classList.add("subscreen");
     this.display.classList.add("confirmation");
@@ -7035,10 +7122,12 @@ var Confirmation = function () {
     value: function cancel() {
       this.masterScreen.exitSubscreen();
       this.display.remove();
+      this.cancelFunction();
     }
   }, {
     key: "handleInput",
     value: function handleInput(inputData) {
+      console.log(inputData.keyCode);
       if (inputData.keyCode === _rotJs2.default.VK_ESCAPE) {
         this.cancel();
       }
@@ -7052,7 +7141,7 @@ var Confirmation = function () {
 }();
 
 exports.default = Confirmation;
-},{"hyperapp":39,"rot-js":33}],19:[function(require,module,exports) {
+},{"hyperapp":38,"rot-js":36}],20:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7130,7 +7219,7 @@ var StoryScreen = function () {
 }();
 
 exports.default = StoryScreen;
-},{"hyperapp":39,"rot-js":33}],20:[function(require,module,exports) {
+},{"hyperapp":38,"rot-js":36}],21:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7156,7 +7245,7 @@ var HelpScreen = function () {
     this.masterScreen = masterScreen;
     this.display = document.createElement("div");
     this.display.classList.add("subscreen");
-    this.screens = ["movement", "otherKeys", "inventory", "weaponsAndArmor", "blasters"];
+    this.screens = ["otherKeys", "movement", "inventory", "weaponsAndArmor", "blasters"];
     this.actions = {
       switchScreen: function switchScreen(value) {
         return function (state) {
@@ -7235,7 +7324,7 @@ var HelpScreen = function () {
         (0, _hyperapp.h)(
           "h1",
           null,
-          "HELP - GUNS"
+          "HELP - BLASTERS"
         ),
         (0, _hyperapp.h)(
           "p",
@@ -7298,7 +7387,7 @@ var HelpScreen = function () {
         (0, _hyperapp.h)(
           "h1",
           null,
-          "HELP - OTHER KEYS"
+          "HELP - KEYS"
         ),
         (0, _hyperapp.h)(
           "div",
@@ -7309,6 +7398,11 @@ var HelpScreen = function () {
           "div",
           null,
           "g - pick up item"
+        ),
+        (0, _hyperapp.h)(
+          "div",
+          null,
+          "v - inspect visible creatures and items"
         ),
         (0, _hyperapp.h)(
           "div",
@@ -7324,6 +7418,11 @@ var HelpScreen = function () {
           "div",
           null,
           "f - fire weapon"
+        ),
+        (0, _hyperapp.h)(
+          "div",
+          null,
+          "v - inspect visible creatures and items"
         ),
         (0, _hyperapp.h)(
           "p",
@@ -7394,7 +7493,7 @@ var HelpScreen = function () {
 }();
 
 exports.default = HelpScreen;
-},{"hyperapp":39,"rot-js":33}],21:[function(require,module,exports) {
+},{"hyperapp":38,"rot-js":36}],22:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7484,7 +7583,7 @@ var PlayerStatusScreen = function () {
 }();
 
 exports.default = PlayerStatusScreen;
-},{"hyperapp":39,"rot-js":33}],29:[function(require,module,exports) {
+},{"hyperapp":38,"rot-js":36}],28:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7564,7 +7663,7 @@ var Repository = function () {
 }();
 
 exports.default = Repository;
-},{"rot-js":33}],35:[function(require,module,exports) {
+},{"rot-js":36}],31:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7611,7 +7710,7 @@ var Item = function (_DynamicGlyph) {
 }(_dynamicGlyph2.default);
 
 exports.default = Item;
-},{"../dynamicGlyph":28}],12:[function(require,module,exports) {
+},{"../dynamicGlyph":27}],13:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7693,7 +7792,7 @@ var openDoorTile = exports.openDoorTile = new Tile({
   blocksLight: false,
   isWalkable: true
 });
-},{"./glyph":26,"./colors":4}],36:[function(require,module,exports) {
+},{"./glyph":26,"./colors":5}],32:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7749,13 +7848,16 @@ var StatusBooster = exports.StatusBooster = function () {
         _ref2$statusEffect = _ref2.statusEffect,
         statusEffect = _ref2$statusEffect === undefined ? null : _ref2$statusEffect,
         _ref2$weaponRecharge = _ref2.weaponRecharge,
-        weaponRecharge = _ref2$weaponRecharge === undefined ? 0 : _ref2$weaponRecharge;
+        weaponRecharge = _ref2$weaponRecharge === undefined ? 0 : _ref2$weaponRecharge,
+        _ref2$maxHpUp = _ref2.maxHpUp,
+        maxHpUp = _ref2$maxHpUp === undefined ? 0 : _ref2$maxHpUp;
 
     _classCallCheck(this, StatusBooster);
 
     this.name = "StatusBooster";
     this.groupName = "Usable";
     this.hpUp = hpUp;
+    this.maxHpUp = maxHpUp;
     this.weaponRecharge = weaponRecharge;
     this.use = this._use;
     this.statusEffect = statusEffect;
@@ -7767,9 +7869,15 @@ var StatusBooster = exports.StatusBooster = function () {
       if (entity.weapon && entity.weapon.charges) {
         entity.weapon.recharge(this.weaponRecharge);
       }
-      entity.addHp(this.hpUp);
+      if (this.hpUp >= 0) {
+        entity.addHp(this.hpUp);
+      } else {
+        _game2.default.messageDisplay.add({ color: "red", text: "ouch" });
+        entity.takeDamage(-this.hpUp, _colors2.default.darkPurple);
+      }
+      entity.addMaxHp(this.maxHpUp);
       if (this.statusEffect) {
-        entity.addTimedStatusEffect(this.statusEffect);
+        entity.addTimedStatusEffect(Object.assign({}, this.statusEffect));
       }
     }
   }]);
@@ -7812,11 +7920,13 @@ var Fireable = exports.Fireable = function () {
       var _this = this;
 
       if (this.charges - this.chargesPerShot <= 0) {
-        _game2.default.messageDisplay.add({
-          color: "blue",
-          text: "Your weapon does not have enough charges to fire"
-        });
-        return;
+        if (targetObj.coords[0].name == "ME") {
+          _game2.default.messageDisplay.add({
+            color: "blue",
+            text: "Your weapon does not have enough charges to fire"
+          });
+        }
+        return false;
       }
       this.charges -= this.chargesPerShot;
       var targetArray = targetObj.coords;
@@ -7825,7 +7935,6 @@ var Fireable = exports.Fireable = function () {
       var _loop = function _loop(i) {
         var target = targetArray[i];
         var shooter = targetArray[0];
-        console.log(targetArray[i]);
         if (targetArray[i] && (targetArray[i].blocksLight || targetArray[i].constructor.name == "Entity")) {
           if (_this.blastRadius > 0) {
             // cause explosion
@@ -7839,7 +7948,6 @@ var Fireable = exports.Fireable = function () {
                   level.map.setTile(tile.x, tile.y, _tile.floorTile);
                 }
               } else if (tile.hasMixin && tile.hasMixin("Destructible")) {
-                console.log("hit the" + tile.name);
                 var attack = _this.rangeDamage;
                 var defense = tile.getDefenseValue();
                 var damage = Math.max(attack - defense, 0);
@@ -7902,7 +8010,7 @@ var Fireable = exports.Fireable = function () {
 
   return Fireable;
 }();
-},{"../game":3,"../tile":12,"../colors":4}],22:[function(require,module,exports) {
+},{"../game":3,"../tile":13,"../colors":5}],23:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7941,10 +8049,11 @@ ItemRepository.define({
 
 ItemRepository.define({
   name: "health generator",
-  description: "Using this item will increase you maxHP by 10 points, but installing it hurts and will decrease your health points by 10.. you might want to have a medpack handy.",
+  description: "Using this item will increase you maxHP by 15 points, but installing it hurts and will decrease your health points by 15.. you might want to have a medpack handy.",
   fg: _colors2.default.orange,
   char: "‡",
-  hpUp: -10,
+  hpUp: -15,
+  maxHpUp: 10,
   rngWeight: 3,
   rank: 3,
   mixins: [_itemMixins.StatusBooster]
@@ -8013,7 +8122,7 @@ ItemRepository.define({
   rngWeight: 5,
   rank: 1,
   statusEffect: {
-    property: "speed",
+    property: "defense",
     value: 10,
     label: "Armor boost",
     timer: 25
@@ -8146,6 +8255,20 @@ WeaponRepository.define({
 });
 
 WeaponRepository.define({
+  name: "turret blaster",
+  char: "┌",
+  description: "a blaster ripped off of a turret",
+  fg: _colors2.default.darkPurple,
+  wieldable: true,
+  maxCharges: 20,
+  chargesPerShot: 5,
+  attackValue: 0,
+  rangeDamage: 6,
+  rank: 1,
+  mixins: [_itemMixins.Equippable, _itemMixins.Fireable]
+});
+
+WeaponRepository.define({
   name: "mean blaster",
   char: "┌",
   description: "Holds 30 charges, takes 5 to shoot... but packs a mean punch",
@@ -8188,7 +8311,7 @@ WeaponRepository.define({
   rank: 2,
   mixins: [_itemMixins.Equippable, _itemMixins.Fireable]
 });
-},{"../repository":29,"../colors":4,"./item":35,"./itemMixins":36}],31:[function(require,module,exports) {
+},{"../repository":28,"../colors":5,"./item":31,"./itemMixins":32}],33:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8206,9 +8329,15 @@ var _colors = require("../colors");
 
 var _colors2 = _interopRequireDefault(_colors);
 
+var _confirmation = require("../screens/confirmation");
+
+var _confirmation2 = _interopRequireDefault(_confirmation);
+
 var _tile = require("../tile");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -8250,6 +8379,7 @@ var Destructible = exports.Destructible = function () {
     this.defenseValue = defenseValue;
     this.takeDamage = this._takeDamage;
     this.addHp = this._addHp;
+    this.addMaxHp = this._addMaxHp;
     this.getDefenseValue = this._getDefenseValue;
     this.hit = false;
   }
@@ -8276,6 +8406,11 @@ var Destructible = exports.Destructible = function () {
     key: "_addHp",
     value: function _addHp(value) {
       this.hp = Math.min(this.hp + value, this.maxHp);
+    }
+  }, {
+    key: "_addMaxHp",
+    value: function _addMaxHp(value) {
+      this.maxHp += value;
     }
   }, {
     key: "_takeDamage",
@@ -8320,6 +8455,7 @@ var Sight = exports.Sight = function () {
     this.sightRadius = sightRadius;
     this.canSee = this._canSee;
     this.getSightRadius = this._getSightRadius;
+    this.getVisible = this._getVisible;
   }
 
   _createClass(Sight, [{
@@ -8343,9 +8479,41 @@ var Sight = exports.Sight = function () {
       return this.sightRadius + mod;
     }
   }, {
+    key: "_getVisible",
+    value: function _getVisible() {
+      var _this = this;
+
+      var fov = new _rotJs2.default.FOV.PreciseShadowcasting(function (x, y) {
+        if (_this.game.currentScreen.level.map.getTile(x, y)) {
+          return !_this.game.currentScreen.map.getTile(x, y).blocksLight;
+        }
+        return false;
+      });
+      var visibleTiles = {};
+
+      fov.compute(this.getX(), this.getY(), this.sightRadius, function (x, y, radius, visibility) {
+        visibleTiles[x + "," + y] = true;
+      });
+      var entitiesItems = [];
+      Object.keys(visibleTiles).forEach(function (tile) {
+        var xy = tile.split(",");
+        var entity = _this.game.currentScreen.level.getEntityAt(xy[0], xy[1]);
+        var items = _this.game.currentScreen.level.getItemsAt(xy[0], xy[1]);
+        if (entity) {
+          entitiesItems.push(entity);
+        }
+        if (items && items.length) {
+          entitiesItems.push.apply(entitiesItems, _toConsumableArray(items));
+        }
+      });
+      return entitiesItems.filter(function (x) {
+        return x.name !== "ME";
+      });
+    }
+  }, {
     key: "_canSee",
     value: function _canSee(entity) {
-      var _this = this;
+      var _this2 = this;
 
       var otherX = entity.getX();
       var otherY = entity.getY();
@@ -8354,8 +8522,8 @@ var Sight = exports.Sight = function () {
       }
       var found = false;
       var fov = new _rotJs2.default.FOV.PreciseShadowcasting(function (x, y) {
-        if (_this.level.map.getTile(x, y)) {
-          return !_this.level.map.getTile(x, y).blocksLight;
+        if (_this2.level.map.getTile(x, y)) {
+          return !_this2.level.map.getTile(x, y).blocksLight;
         }
         return false;
       });
@@ -8444,9 +8612,12 @@ var TaskActor = exports.TaskActor = function () {
       var dX = xOffset == 0 ? 0 : xOffset > 0 ? -1 : 1;
       var dY = yOffset == 0 ? 0 : yOffset > 0 ? -1 : 1;
       var fireArray = this.getLevel().lookInDirection(dX, dY, this);
-      this.game.rangeWeaponDisplay = Object.assign(this.weapon.fire(fireArray), {
-        color: this.weapon.fg
-      });
+      var rangeDisplayArray = this.weapon.fire(fireArray);
+      if (rangeDisplayArray) {
+        this.game.rangeWeaponDisplay = Object.assign(rangeDisplayArray, {
+          color: this.weapon.fg
+        });
+      }
     }
   }, {
     key: "_flee",
@@ -8546,7 +8717,20 @@ var InventoryHolder = exports.InventoryHolder = function () {
   }, {
     key: "_addItem",
     value: function _addItem(item) {
+      var _this3 = this;
+
       if (this.inventory.length < this.getInventorySize()) {
+        if (item.hasMixin("Fireable") && this.hasItem(item.name)) {
+          var exitFunction = function exitFunction() {
+            _this3.inventory.find(function (i) {
+              return i.name == item.name;
+            }).recharge(item.charges);
+          };
+          this.game.currentScreen.enterSubscreen(new _confirmation2.default("You already have one of those. Would you like to recharge your existing one(YES) or add it to your inventory(NO)?", exitFunction, function () {
+            return _this3.inventory.push(item);
+          }, this.game.currentScreen));
+          return true;
+        }
         this.inventory.push(item);
         return true;
       }
@@ -8790,13 +8974,13 @@ var TimedStatusEffects = exports.TimedStatusEffects = function () {
   }, {
     key: "_incrementTimedStatusEffects",
     value: function _incrementTimedStatusEffects() {
-      var _this2 = this;
+      var _this4 = this;
 
       this.statusEffects.forEach(function (s) {
         s.timer -= 1;
         if (s.timer <= 0) {
-          var i = _this2.statusEffects.indexOf(s);
-          _this2.statusEffects.splice(i, 1);
+          var i = _this4.statusEffects.indexOf(s);
+          _this4.statusEffects.splice(i, 1);
         }
       });
     }
@@ -8804,7 +8988,7 @@ var TimedStatusEffects = exports.TimedStatusEffects = function () {
 
   return TimedStatusEffects;
 }();
-},{"rot-js":33,"../colors":4,"../tile":12}],23:[function(require,module,exports) {
+},{"rot-js":36,"../colors":5,"../screens/confirmation":9,"../tile":13}],24:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8847,6 +9031,7 @@ var EnemyRepository = exports.EnemyRepository = new _repository2.default({
 
 EnemyRepository.define({
   name: "Small Alien",
+  description: "A small, slimy creature.  Has claws.  Looks mean.",
   char: "a",
   fg: _colors2.default.indigo,
   rank: 1,
@@ -8874,6 +9059,7 @@ EnemyRepository.define({
 
 EnemyRepository.define({
   name: "Flying Insect",
+  description: "BIG BUG.  Looks like a type of beetle, buzzes around near the top of the Cavern, swooping in to attack.  Moves faster than you.",
   char: "b",
   fg: _colors2.default.darkGreen,
   rank: 1,
@@ -8887,6 +9073,7 @@ EnemyRepository.define({
 
 EnemyRepository.define({
   name: "Big Alien",
+  description: "A large, slimy thing with long claws and teeth.  It moves slow, but looks like it hits hard.",
   char: "A",
   fg: _colors2.default.pink,
   rank: 2,
@@ -8903,12 +9090,13 @@ EnemyRepository.define({
 
 EnemyRepository.define({
   name: "Tough Alien",
+  description: "Slightly shorter than you, but rippling with muscles.  Maybe run?",
   char: "A",
   fg: _colors2.default.red,
   speed: 900,
   maxHp: 52,
   sightRadius: 10,
-  strength: 9,
+  strength: 16,
   rngWeight: 3,
   rank: 3,
   inventoryConstructor: function inventoryConstructor() {
@@ -8920,6 +9108,7 @@ EnemyRepository.define({
 EnemyRepository.define({
   name: "Shooter",
   char: "s",
+  description: "IT HAS A GUN.  Seems to flee when you get close, but takes a shot when it gets a chance... taking that gun might be handy though.",
   fg: _colors2.default.orange,
   speed: 1000,
   maxHp: 15,
@@ -8936,12 +9125,32 @@ EnemyRepository.define({
 });
 
 EnemyRepository.define({
+  name: "Turret",
+  char: "t",
+  description: "Stationary, but strangely organic looking.  It's blaster is weak but persistent.",
+  fg: _colors2.default.darkPurple,
+  speed: 1400,
+  maxHp: 15,
+  sightRadius: 10,
+  strength: 3,
+  rngWeight: 4,
+  rank: 2,
+  tasks: ["shoot"],
+  inventoryConstructor: function inventoryConstructor() {
+    return _items.WeaponRepository.create("turret blaster");
+  },
+  weapon: "inventory",
+  mixins: [_entityMixins.Movable, _entityMixins.TaskActor, _entityMixins.Equipper, _entityMixins.InventoryHolder, _entityMixins.Destructible, _entityMixins.Sight, _entityMixins.Attacker]
+});
+
+EnemyRepository.define({
   name: "Bomber",
   char: "S",
+  description: "small buggy looking critter with some sort of plasma cannon.",
   fg: _colors2.default.red,
   speed: 800,
   maxHp: 25,
-  sightRadius: 15,
+  sightRadius: 10,
   strength: 3,
   rngWeight: 2,
   rank: 3,
@@ -8955,11 +9164,12 @@ EnemyRepository.define({
 
 EnemyRepository.define({
   name: "Alien with huge gun",
+  description: "seems weak.. like you could just kick it over.  Or maybe it's the huge cannon it's manuvering that makes it look small.",
   char: "s",
   fg: _colors2.default.pink,
-  speed: 800,
+  speed: 500,
   maxHp: 25,
-  sightRadius: 25,
+  sightRadius: 10,
   strength: 3,
   rngWeight: 1,
   rank: 4,
@@ -8970,7 +9180,7 @@ EnemyRepository.define({
   weapon: "inventory",
   mixins: [_entityMixins.Movable, _entityMixins.TaskActor, _entityMixins.Equipper, _entityMixins.InventoryHolder, _entityMixins.Destructible, _entityMixins.Sight, _entityMixins.Attacker]
 });
-},{"../colors":4,"../repository":29,"./entity":14,"../item/items":22,"./entityMixins":31}],38:[function(require,module,exports) {
+},{"../colors":5,"../repository":28,"./entity":16,"../item/items":23,"./entityMixins":33}],35:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9078,7 +9288,7 @@ var DungeonMap = function () {
 }();
 
 exports.default = DungeonMap;
-},{"rot-js":33,"./tile":12}],27:[function(require,module,exports) {
+},{"rot-js":36,"./tile":13}],25:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9187,14 +9397,19 @@ var Level = function () {
 
     if (topLevel) {
       var firstRoomPosition = this.getRandomRoomPosition(this.firstRoom);
-      this.addItem(_items.WeaponRepository.createRandom(1), firstRoomPosition.x, firstRoomPosition.y);
 
+      // this.addItem(
+      //   ItemRepository.create("strength stim syringe"),
+      //   firstRoomPosition.x,
+      //   firstRoomPosition.y
+      // );
+      // this.addItem(
+      //   ItemRepository.create("strength stim syringe"),
+      //   firstRoomPosition.x,
+      //   firstRoomPosition.y
+      // );
       var _roomPosition = this.getRandomRoomPosition(this.firstRoom);
-      var _bug = _entities.EnemyRepository.create("Flying Insect");
-      _bug.setPosition(_roomPosition.x, _roomPosition.y);
-      this.addEntity(_bug);
-      _roomPosition = this.getRandomRoomPosition(this.firstRoom);
-      _bug = _entities.EnemyRepository.create("Shooter");
+      var _bug = _entities.EnemyRepository.create("Turret");
       _bug.setPosition(_roomPosition.x, _roomPosition.y);
       this.addEntity(_bug);
 
@@ -9367,7 +9582,7 @@ var Level = function () {
 }();
 
 exports.default = Level;
-},{"./dungeonMap":38,"./entity/entity":14,"./item/items":22,"./entity/entities":23,"./tile":12}],11:[function(require,module,exports) {
+},{"./dungeonMap":35,"./entity/entity":16,"./item/items":23,"./entity/entities":24,"./tile":13}],12:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9429,7 +9644,7 @@ var GameWorld = function () {
 }();
 
 exports.default = GameWorld;
-},{"./level":27}],13:[function(require,module,exports) {
+},{"./level":25}],14:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9443,7 +9658,7 @@ var text = {
 };
 
 exports.default = text;
-},{}],9:[function(require,module,exports) {
+},{}],11:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9481,6 +9696,10 @@ var _itemListDialog2 = _interopRequireDefault(_itemListDialog);
 var _pickUpDialog = require("./pickUpDialog");
 
 var _pickUpDialog2 = _interopRequireDefault(_pickUpDialog);
+
+var _visibleThingsDialog = require("./visibleThingsDialog");
+
+var _visibleThingsDialog2 = _interopRequireDefault(_visibleThingsDialog);
 
 var _confirmation = require("./confirmation");
 
@@ -9559,24 +9778,19 @@ var playScreen = function () {
   }, {
     key: "handleInput",
     value: function handleInput(inputData) {
-      var _this = this;
-
       if (this.subscreen) {
         this.subscreen.handleInput(inputData);
         return;
-      }
-      if (inputData.keyCode === _rotJs2.default.VK_ESCAPE) {
-        var exitFunction = function exitFunction() {
-          _this.game.switchScreen(_gameOverScreen2.default);
-        };
-        this.enterSubscreen(new _confirmation2.default("Are you SURE you want to INSTA-LOSE?", exitFunction, this));
       }
       //movement
       var move = function (dX, dY) {
         if (this.firing) {
           var array = this.level.lookInDirection(dX, dY);
-          this.game.rangeWeaponDisplay = this.player.weapon.fire(array);
-          this.game.rangeWeaponDisplay.color = this.player.weapon.fg;
+          var fireArray = this.player.weapon.fire(array);
+          if (fireArray) {
+            this.game.rangeWeaponDisplay = this.player.weapon.fire(array);
+            this.game.rangeWeaponDisplay.color = this.player.weapon.fg;
+          }
           this.firing = false;
           this.game.getEngine().unlock();
           return;
@@ -9675,8 +9889,11 @@ var playScreen = function () {
         if (item.length == 1 && item[0].canPickUp && this.player.addItem(item[0])) {
           this.level.setItemsAt(this.player.getX(), this.player.getY(), []);
           this.game.messageDisplay.add("you pick up " + item[0].describeA());
+          if (item[0].hasMixin("Equippable")) {
+            this.game.messageDisplay.add("wield it from the (i)nventory screen");
+          }
           if (item[0].hasMixin("Fireable")) {
-            this.game.messageDisplay.add("press 'f' to shoot it");
+            this.game.messageDisplay.add("then (f)ire it with 'f'");
           }
         }
         if (item.length > 1) {
@@ -9692,6 +9909,10 @@ var playScreen = function () {
       }
       if (inputData.keyCode == _rotJs2.default.VK_P) {
         this.enterSubscreen(new _playerStatusScreen2.default(this));
+      }
+      if (inputData.keyCode === _rotJs2.default.VK_V) {
+        var visibleThings = this.player.getVisible();
+        this.enterSubscreen(new _visibleThingsDialog2.default(visibleThings, this, this.player));
       }
     }
   }, {
@@ -9709,7 +9930,7 @@ var playScreen = function () {
   }, {
     key: "render",
     value: function render(Game) {
-      var _this2 = this;
+      var _this = this;
 
       this.level.getSurroundingTiles(this.player.getX(), this.player.getY());
       if (!this.player.isAlive()) {
@@ -9765,7 +9986,7 @@ var playScreen = function () {
         }).length > 0) {
           this.win = true;
           this.enterSubscreen(new _storyScreen2.default(this, _text2.default.foundKeysAndShip, function () {
-            _this2.game.switchScreen(_winScreen2.default);
+            _this.game.switchScreen(_winScreen2.default);
           }));
           return;
         }
@@ -9846,8 +10067,8 @@ var playScreen = function () {
           display.draw(xy[0] - topLeftX, xy[1] - topLeftY, "•", _colors2.default.orange, _colors2.default.black);
         });
         setTimeout(function () {
-          _this2.game.explosionDisplay = null;
-          _this2.render(_this2.game);
+          _this.game.explosionDisplay = null;
+          _this.render(_this.game);
         }, 100);
       }
 
@@ -9866,13 +10087,13 @@ var playScreen = function () {
         }
         this.game.rangeWeaponDisplay.coords.forEach(function (coord) {
           var xy = coord.split(",");
-          var fg = _this2.game.rangeWeaponDisplay.color || _colors2.default.blue;
-          display.draw(xy[0] - topLeftX, xy[1] - topLeftY, char, fg, _this2.player.getBg());
+          var fg = _this.game.rangeWeaponDisplay.color || _colors2.default.blue;
+          display.draw(xy[0] - topLeftX, xy[1] - topLeftY, char, fg, _this.player.getBg());
         });
 
         setTimeout(function () {
-          _this2.game.rangeWeaponDisplay = null;
-          _this2.render(_this2.game);
+          _this.game.rangeWeaponDisplay = null;
+          _this.render(_this.game);
         }, 100);
       }
 
@@ -9883,7 +10104,7 @@ var playScreen = function () {
           if (entity.hit) {
             setTimeout(function () {
               entity.hit = false;
-              _this2.render(_this2.game);
+              _this.render(_this.game);
             }, 100);
           }
         }
@@ -9891,8 +10112,8 @@ var playScreen = function () {
       display.draw(this.player.getX() - topLeftX, this.player.getY() - topLeftY, this.player.getChar(), this.player.hit ? _colors2.default.black : this.player.getFg(), this.player.hit || this.player.getBg());
       if (this.player.hit) {
         setTimeout(function () {
-          _this2.player.hit = false;
-          _this2.render(_this2.game);
+          _this.player.hit = false;
+          _this.render(_this.game);
         }, 300);
       }
       if (this.subscreen) {
@@ -9906,7 +10127,7 @@ var playScreen = function () {
 }();
 
 exports.default = playScreen;
-},{"rot-js":33,"../colors":4,"../entity/entity":14,"./gameOverScreen":15,"./winScreen":16,"./itemListDialog":17,"./pickUpDialog":18,"./confirmation":8,"./storyScreen":19,"./helpScreen":20,"./playerStatusScreen":21,"../item/items":22,"../entity/entities":23,"../gameWorld":11,"../tile":12,"../text":13}],7:[function(require,module,exports) {
+},{"rot-js":36,"../colors":5,"../entity/entity":16,"./gameOverScreen":15,"./winScreen":17,"./itemListDialog":18,"./pickUpDialog":19,"./visibleThingsDialog":54,"./confirmation":9,"./storyScreen":20,"./helpScreen":21,"./playerStatusScreen":22,"../item/items":23,"../entity/entities":24,"../gameWorld":12,"../tile":13,"../text":14}],8:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9979,7 +10200,6 @@ var startScreen = function () {
   }, {
     key: "handleInput",
     value: function handleInput(inputData) {
-      console.log;
       if (inputData.keyCode == _rotJs2.default.VK_RETURN) {
         this.game.switchScreen(_playScreen2.default);
         this.display.remove();
@@ -9991,7 +10211,7 @@ var startScreen = function () {
 }();
 
 exports.default = startScreen;
-},{"./playScreen":9,"hyperapp":39,"rot-js":33}],5:[function(require,module,exports) {
+},{"./playScreen":11,"hyperapp":38,"rot-js":36}],6:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10072,7 +10292,7 @@ var MessageDisplay = function () {
 }();
 
 exports.default = MessageDisplay;
-},{"./colors":4}],6:[function(require,module,exports) {
+},{"./colors":5}],7:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10096,6 +10316,7 @@ var PlayerStatusDisplay = function () {
     _classCallCheck(this, PlayerStatusDisplay);
 
     this.playerStatus = document.createElement("div");
+    this.playerStatus.classList.add("player-status");
     Object.assign(this.playerStatus.style, {
       width: "800px",
       "font-size": "15px",
@@ -10132,7 +10353,7 @@ var PlayerStatusDisplay = function () {
 
       var hpColor = hp <= 10 ? "red" : "";
       this.playerStatus.innerHTML = "";
-      this.playerStatus.innerHTML = "<div class=\"" + hpColor + "\" style=\"flex: 1\">HEALTH \u2665" + hp + "/" + maxHp + "</div>";
+      this.playerStatus.innerHTML = "<div class=\"" + hpColor + "\" style=\"flex: 1\">HEALTH \u2665" + hp + "/" + maxHp + "<span>" + (weapon ? weapon.name : "NO WEAPON") + "</span></div>";
       this.playerStatus.innerHTML += "<div>";
       statusEffects.forEach(function (s) {
         _this.playerStatus.innerHTML += s.label + "/" + s.timer + " ";
@@ -10148,7 +10369,7 @@ var PlayerStatusDisplay = function () {
 }();
 
 exports.default = PlayerStatusDisplay;
-},{"./colors":4}],3:[function(require,module,exports) {
+},{"./colors":5}],3:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10275,4 +10496,128 @@ window.onload = function () {
     game.switchScreen(_startScreen2.default);
   }
 };
-},{"rot-js":33,"./colors":4,"./screens/startScreen":7,"./messageDisplay":5,"./playerStatusDisplay":6,"./screens/confirmation":8}]},{},[3])
+},{"rot-js":36,"./colors":5,"./screens/startScreen":8,"./messageDisplay":6,"./playerStatusDisplay":7,"./screens/confirmation":9}],61:[function(require,module,exports) {
+
+var global = (1, eval)('this');
+var OldModule = module.bundle.Module;
+function Module(moduleName) {
+  OldModule.call(this, moduleName);
+  this.hot = {
+    accept: function (fn) {
+      this._acceptCallback = fn || function () {};
+    },
+    dispose: function (fn) {
+      this._disposeCallback = fn;
+    }
+  };
+}
+
+module.bundle.Module = Module;
+
+var parent = module.bundle.parent;
+if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
+  var hostname = '' || location.hostname;
+  var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + '54269' + '/');
+  ws.onmessage = function (event) {
+    var data = JSON.parse(event.data);
+
+    if (data.type === 'update') {
+      data.assets.forEach(function (asset) {
+        hmrApply(global.require, asset);
+      });
+
+      data.assets.forEach(function (asset) {
+        if (!asset.isNew) {
+          hmrAccept(global.require, asset.id);
+        }
+      });
+    }
+
+    if (data.type === 'reload') {
+      ws.close();
+      ws.onclose = function () {
+        location.reload();
+      };
+    }
+
+    if (data.type === 'error-resolved') {
+      console.log('[parcel] ✨ Error resolved');
+    }
+
+    if (data.type === 'error') {
+      console.error('[parcel] 🚨  ' + data.error.message + '\n' + 'data.error.stack');
+    }
+  };
+}
+
+function getParents(bundle, id) {
+  var modules = bundle.modules;
+  if (!modules) {
+    return [];
+  }
+
+  var parents = [];
+  var k, d, dep;
+
+  for (k in modules) {
+    for (d in modules[k][1]) {
+      dep = modules[k][1][d];
+      if (dep === id || Array.isArray(dep) && dep[dep.length - 1] === id) {
+        parents.push(+k);
+      }
+    }
+  }
+
+  if (bundle.parent) {
+    parents = parents.concat(getParents(bundle.parent, id));
+  }
+
+  return parents;
+}
+
+function hmrApply(bundle, asset) {
+  var modules = bundle.modules;
+  if (!modules) {
+    return;
+  }
+
+  if (modules[asset.id] || !bundle.parent) {
+    var fn = new Function('require', 'module', 'exports', asset.generated.js);
+    asset.isNew = !modules[asset.id];
+    modules[asset.id] = [fn, asset.deps];
+  } else if (bundle.parent) {
+    hmrApply(bundle.parent, asset);
+  }
+}
+
+function hmrAccept(bundle, id) {
+  var modules = bundle.modules;
+  if (!modules) {
+    return;
+  }
+
+  if (!modules[id] && bundle.parent) {
+    return hmrAccept(bundle.parent, id);
+  }
+
+  var cached = bundle.cache[id];
+  if (cached && cached.hot._disposeCallback) {
+    cached.hot._disposeCallback();
+  }
+
+  delete bundle.cache[id];
+  bundle(id);
+
+  cached = bundle.cache[id];
+  if (cached && cached.hot && cached.hot._acceptCallback) {
+    cached.hot._acceptCallback();
+    return true;
+  }
+
+  return getParents(global.require, id).some(function (id) {
+    return hmrAccept(global.require, id);
+  });
+}
+},{}]},{},[61,3])
+//# sourceMappingURL=/dist/28d908142711746cd98d878a219803a3.map

@@ -49,11 +49,16 @@ class ItemListDialog {
         </h1>
         {items.map((item, i) => {
           return (
-            <div class={i == selectedItemIndex ? "selected" : ""}>
-              {item.name}
-              {item.charges ? `(${item.charges})` : ""}
-              {item == player.weapon ? " (wielding)" : ""}
-              {player.isWearing(item) ? " (wearing)" : ""}
+            <div>
+              <span style={{ color: item.fg, marginRight: "4px" }}>
+                {item.char}
+              </span>
+              <span class={i == selectedItemIndex ? "selected" : ""}>
+                {item.name}
+                {item.charges ? `(${item.charges})` : ""}
+                {item == player.weapon ? " (wielding)" : ""}
+                {player.isWearing(item) ? " (wearing)" : ""}
+              </span>
             </div>
           );
         })}

@@ -22,10 +22,16 @@ export class Equippable {
 }
 
 export class StatusBooster {
-  constructor({ hpUp = 0, statusEffect = null, weaponRecharge = 0 }) {
+  constructor({
+    hpUp = 0,
+    statusEffect = null,
+    weaponRecharge = 0,
+    maxHpUp = 0
+  }) {
     this.name = "StatusBooster";
     this.groupName = "Usable";
     this.hpUp = hpUp;
+    this.maxHpUp = maxHpUp;
     this.weaponRecharge = weaponRecharge;
     this.use = this._use;
     this.statusEffect = statusEffect;
@@ -35,9 +41,15 @@ export class StatusBooster {
     if (entity.weapon && entity.weapon.charges) {
       entity.weapon.recharge(this.weaponRecharge);
     }
-    entity.addHp(this.hpUp);
+    if (this.hpUp >= 0) {
+      entity.addHp(this.hpUp);
+    } else {
+      game.messageDisplay.add({ color: "red", text: "ouch" });
+      entity.takeDamage(-this.hpUp, Colors.darkPurple);
+    }
+    entity.addMaxHp(this.maxHpUp);
     if (this.statusEffect) {
-      entity.addTimedStatusEffect(this.statusEffect);
+      entity.addTimedStatusEffect(Object.assign({}, this.statusEffect));
     }
   }
 }
@@ -66,11 +78,13 @@ export class Fireable {
 
   _fire(targetObj) {
     if (this.charges - this.chargesPerShot <= 0) {
-      game.messageDisplay.add({
-        color: "blue",
-        text: "Your weapon does not have enough charges to fire"
-      });
-      return;
+      if (targetObj.coords[0].name == "ME") {
+        game.messageDisplay.add({
+          color: "blue",
+          text: "Your weapon does not have enough charges to fire"
+        });
+      }
+      return false;
     }
     this.charges -= this.chargesPerShot;
     const targetArray = targetObj.coords;
@@ -78,7 +92,6 @@ export class Fireable {
     for (let i = 1; i < targetArray.length; i++) {
       const target = targetArray[i];
       const shooter = targetArray[0];
-      console.log(targetArray[i]);
       if (
         targetArray[i] &&
         (targetArray[i].blocksLight ||
@@ -100,7 +113,6 @@ export class Fireable {
                 level.map.setTile(tile.x, tile.y, floorTile);
               }
             } else if (tile.hasMixin && tile.hasMixin("Destructible")) {
-              console.log("hit the" + tile.name);
               const attack = this.rangeDamage;
               const defense = tile.getDefenseValue();
               const damage = Math.max(attack - defense, 0);

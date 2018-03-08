@@ -82,18 +82,19 @@ class Level {
 
     if (topLevel) {
       let firstRoomPosition = this.getRandomRoomPosition(this.firstRoom);
-      this.addItem(
-        WeaponRepository.createRandom(1),
-        firstRoomPosition.x,
-        firstRoomPosition.y
-      );
 
-      let roomPosition = this.getRandomRoomPosition(this.firstRoom);
-      let bug = EnemyRepository.create("Flying Insect");
-      bug.setPosition(roomPosition.x, roomPosition.y);
-      this.addEntity(bug);
-      roomPosition = this.getRandomRoomPosition(this.firstRoom);
-      bug = EnemyRepository.create("Shooter");
+      // this.addItem(
+      //   ItemRepository.create("strength stim syringe"),
+      //   firstRoomPosition.x,
+      //   firstRoomPosition.y
+      // );
+      // this.addItem(
+      //   ItemRepository.create("strength stim syringe"),
+      //   firstRoomPosition.x,
+      //   firstRoomPosition.y
+      // );
+      const roomPosition = this.getRandomRoomPosition(this.firstRoom);
+      const bug = EnemyRepository.create("Turret");
       bug.setPosition(roomPosition.x, roomPosition.y);
       this.addEntity(bug);
 

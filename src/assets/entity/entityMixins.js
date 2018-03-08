@@ -1,5 +1,6 @@
 import ROT from "rot-js";
 import Colors from "../colors";
+import Confirmation from "../screens/confirmation";
 import { closedDoorTile } from "../tile";
 
 export class PlayerActor {
@@ -24,6 +25,7 @@ export class Destructible {
     this.defenseValue = defenseValue;
     this.takeDamage = this._takeDamage;
     this.addHp = this._addHp;
+    this.addMaxHp = this._addMaxHp;
     this.getDefenseValue = this._getDefenseValue;
     this.hit = false;
   }
@@ -47,6 +49,9 @@ export class Destructible {
 
   _addHp(value) {
     this.hp = Math.min(this.hp + value, this.maxHp);
+  }
+  _addMaxHp(value) {
+    this.maxHp += value;
   }
 
   _takeDamage(damage, color = Colors.red) {
@@ -78,6 +83,7 @@ export class Sight {
     this.sightRadius = sightRadius;
     this.canSee = this._canSee;
     this.getSightRadius = this._getSightRadius;
+    this.getVisible = this._getVisible;
   }
 
   _getSightRadius() {
@@ -97,6 +103,38 @@ export class Sight {
     }
 
     return this.sightRadius + mod;
+  }
+
+  _getVisible() {
+    const fov = new ROT.FOV.PreciseShadowcasting((x, y) => {
+      if (this.game.currentScreen.level.map.getTile(x, y)) {
+        return !this.game.currentScreen.map.getTile(x, y).blocksLight;
+      }
+      return false;
+    });
+    const visibleTiles = {};
+
+    fov.compute(this.getX(), this.getY(), this.sightRadius, function(
+      x,
+      y,
+      radius,
+      visibility
+    ) {
+      visibleTiles[x + "," + y] = true;
+    });
+    const entitiesItems = [];
+    Object.keys(visibleTiles).forEach(tile => {
+      const xy = tile.split(",");
+      const entity = this.game.currentScreen.level.getEntityAt(xy[0], xy[1]);
+      const items = this.game.currentScreen.level.getItemsAt(xy[0], xy[1]);
+      if (entity) {
+        entitiesItems.push(entity);
+      }
+      if (items && items.length) {
+        entitiesItems.push(...items);
+      }
+    });
+    return entitiesItems.filter(x => x.name !== "ME");
   }
 
   _canSee(entity) {
@@ -204,9 +242,12 @@ export class TaskActor {
     const dX = xOffset == 0 ? 0 : xOffset > 0 ? -1 : 1;
     const dY = yOffset == 0 ? 0 : yOffset > 0 ? -1 : 1;
     const fireArray = this.getLevel().lookInDirection(dX, dY, this);
-    this.game.rangeWeaponDisplay = Object.assign(this.weapon.fire(fireArray), {
-      color: this.weapon.fg
-    });
+    const rangeDisplayArray = this.weapon.fire(fireArray);
+    if (rangeDisplayArray) {
+      this.game.rangeWeaponDisplay = Object.assign(rangeDisplayArray, {
+        color: this.weapon.fg
+      });
+    }
   }
 
   _flee() {
@@ -297,6 +338,20 @@ export class InventoryHolder {
   }
   _addItem(item) {
     if (this.inventory.length < this.getInventorySize()) {
+      if (item.hasMixin("Fireable") && this.hasItem(item.name)) {
+        const exitFunction = () => {
+          this.inventory.find(i => i.name == item.name).recharge(item.charges);
+        };
+        this.game.currentScreen.enterSubscreen(
+          new Confirmation(
+            "You already have one of those. Would you like to recharge your existing one(YES) or add it to your inventory(NO)?",
+            exitFunction,
+            () => this.inventory.push(item),
+            this.game.currentScreen
+          )
+        );
+        return true;
+      }
       this.inventory.push(item);
       return true;
     }

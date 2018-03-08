@@ -7,8 +7,8 @@ class HelpScreen {
     this.display = document.createElement("div");
     this.display.classList.add("subscreen");
     this.screens = [
-      "movement",
       "otherKeys",
+      "movement",
       "inventory",
       "weaponsAndArmor",
       "blasters"
@@ -69,7 +69,7 @@ class HelpScreen {
   blasters() {
     return (
       <div>
-        <h1>HELP - GUNS</h1>
+        <h1>HELP - BLASTERS</h1>
         <p>
           Blasters can be fired by pressing 'f' and then one of the direction
           keys while wielding the weapon. Blasters can only be fired in one of
@@ -114,12 +114,14 @@ class HelpScreen {
   otherKeys() {
     return (
       <div>
-        <h1>HELP - OTHER KEYS</h1>
+        <h1>HELP - KEYS</h1>
         <div>i - inventory</div>
         <div>g - pick up item</div>
+        <div>v - inspect visible creatures and items</div>
         <div>p - view player status</div>
         <div>c - close door</div>
         <div>f - fire weapon</div>
+        <div>v - inspect visible creatures and items</div>
         <p class="gray">(press &lt; or &gt; to view more help topics)</p>
       </div>
     );

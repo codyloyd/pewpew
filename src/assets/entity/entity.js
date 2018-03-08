@@ -7,11 +7,13 @@ class Entity extends DynamicGlyph {
     name = " ",
     level = null,
     Game = null,
-    speed = 1000
+    speed = 1000,
+    description = ""
   }) {
     super(...arguments);
     this.x = x;
     this.y = y;
+    this.description = description;
     this.name = name;
     this.level = level;
     this.game = Game;
