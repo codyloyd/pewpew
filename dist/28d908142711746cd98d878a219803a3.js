@@ -71,7 +71,7 @@ require = (function (modules, cache, entry) {
 
   // Override the current require with this new one
   return newRequire;
-})({32:[function(require,module,exports) {
+})({34:[function(require,module,exports) {
 
 // shim for using process in browser
 var process = module.exports = {};
@@ -258,7 +258,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],31:[function(require,module,exports) {
+},{}],33:[function(require,module,exports) {
 var global = (1,eval)("this");
 var process = require("process");
 /*
@@ -5883,7 +5883,7 @@ for (var p in ROT) {
   return ROT;
 }));
 
-},{"process":32}],4:[function(require,module,exports) {
+},{"process":34}],4:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5907,7 +5907,7 @@ exports.default = {
   pink: "#ff77a8",
   peach: "#ffccaa"
 };
-},{}],28:[function(require,module,exports) {
+},{}],26:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5961,7 +5961,7 @@ var Glyph = function () {
 }();
 
 exports.default = Glyph;
-},{"./colors":4}],29:[function(require,module,exports) {
+},{"./colors":4}],28:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6043,7 +6043,7 @@ var DynamicGlyph = function (_Glyph) {
 }(_glyph2.default);
 
 exports.default = DynamicGlyph;
-},{"./glyph":28}],15:[function(require,module,exports) {
+},{"./glyph":26}],15:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6192,7 +6192,7 @@ var Entity = function (_DynamicGlyph) {
 }(_dynamicGlyph2.default);
 
 exports.default = Entity;
-},{"../dynamicGlyph":29}],16:[function(require,module,exports) {
+},{"../dynamicGlyph":28}],14:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6242,7 +6242,7 @@ var gameOverScreen = function () {
 }();
 
 exports.default = gameOverScreen;
-},{"rot-js":31,"./startScreen":7}],17:[function(require,module,exports) {
+},{"rot-js":33,"./startScreen":7}],16:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6292,7 +6292,7 @@ var WinScreen = function () {
 }();
 
 exports.default = WinScreen;
-},{"rot-js":31,"./startScreen":7}],40:[function(require,module,exports) {
+},{"rot-js":33,"./startScreen":7}],39:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6575,7 +6575,7 @@ function app(state, actions, view, container) {
     return element;
   }
 }
-},{}],30:[function(require,module,exports) {
+},{}],35:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6661,7 +6661,7 @@ var ItemDetailDialog = function () {
 }();
 
 exports.default = ItemDetailDialog;
-},{"rot-js":31,"hyperapp":40,"../colors":4}],18:[function(require,module,exports) {
+},{"rot-js":33,"hyperapp":39,"../colors":4}],17:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6766,6 +6766,7 @@ var ItemListDialog = function () {
             "div",
             { "class": i == selectedItemIndex ? "selected" : "" },
             item.name,
+            item.charges ? "(" + item.charges + ")" : "",
             item == player.weapon ? " (wielding)" : "",
             player.isWearing(item) ? " (wearing)" : ""
           );
@@ -6877,7 +6878,7 @@ var ItemListDialog = function () {
 }();
 
 exports.default = ItemListDialog;
-},{"rot-js":31,"hyperapp":40,"../colors":4,"./itemDetailDialog":30}],19:[function(require,module,exports) {
+},{"rot-js":33,"hyperapp":39,"../colors":4,"./itemDetailDialog":35}],18:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6947,7 +6948,7 @@ var PickUpScreen = function (_ItemListDialog) {
 }(_itemListDialog2.default);
 
 exports.default = PickUpScreen;
-},{"./itemListDialog":18,"rot-js":31}],8:[function(require,module,exports) {
+},{"./itemListDialog":17,"rot-js":33}],8:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7044,7 +7045,7 @@ var Confirmation = function () {
 }();
 
 exports.default = Confirmation;
-},{"hyperapp":40,"rot-js":31}],20:[function(require,module,exports) {
+},{"hyperapp":39,"rot-js":33}],19:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7122,7 +7123,7 @@ var StoryScreen = function () {
 }();
 
 exports.default = StoryScreen;
-},{"hyperapp":40,"rot-js":31}],21:[function(require,module,exports) {
+},{"hyperapp":39,"rot-js":33}],20:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7386,7 +7387,7 @@ var HelpScreen = function () {
 }();
 
 exports.default = HelpScreen;
-},{"hyperapp":40,"rot-js":31}],22:[function(require,module,exports) {
+},{"hyperapp":39,"rot-js":33}],21:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7476,7 +7477,7 @@ var PlayerStatusScreen = function () {
 }();
 
 exports.default = PlayerStatusScreen;
-},{"hyperapp":40,"rot-js":31}],35:[function(require,module,exports) {
+},{"hyperapp":39,"rot-js":33}],29:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7547,7 +7548,7 @@ var Repository = function () {
 }();
 
 exports.default = Repository;
-},{"rot-js":31}],36:[function(require,module,exports) {
+},{"rot-js":33}],31:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7594,7 +7595,7 @@ var Item = function (_DynamicGlyph) {
 }(_dynamicGlyph2.default);
 
 exports.default = Item;
-},{"../dynamicGlyph":29}],13:[function(require,module,exports) {
+},{"../dynamicGlyph":28}],12:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7676,7 +7677,7 @@ var openDoorTile = exports.openDoorTile = new Tile({
   blocksLight: false,
   isWalkable: true
 });
-},{"./glyph":28,"./colors":4}],37:[function(require,module,exports) {
+},{"./glyph":26,"./colors":4}],32:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7883,7 +7884,7 @@ var Fireable = exports.Fireable = function () {
 
   return Fireable;
 }();
-},{"../game":3,"../tile":13,"../colors":4}],23:[function(require,module,exports) {
+},{"../game":3,"../tile":12,"../colors":4}],22:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8152,7 +8153,7 @@ WeaponRepository.define({
   level: 2,
   mixins: [_itemMixins.Equippable, _itemMixins.Fireable]
 });
-},{"../repository":35,"../colors":4,"./item":36,"./itemMixins":37}],38:[function(require,module,exports) {
+},{"../repository":29,"../colors":4,"./item":31,"./itemMixins":32}],36:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8258,6 +8259,11 @@ var Destructible = exports.Destructible = function () {
           });
         }
         this.kill();
+        if (this.hasMixin("InventoryHolder")) {
+          // drop items
+          console.log("inventory", this.inventory);
+          this.level.setItemsAt(this.getX(), this.getY(), this.inventory);
+        }
       }
     }
   }]);
@@ -8461,13 +8467,15 @@ var TaskActor = exports.TaskActor = function () {
 var InventoryHolder = exports.InventoryHolder = function () {
   function InventoryHolder(_ref4) {
     var _ref4$inventorySize = _ref4.inventorySize,
-        inventorySize = _ref4$inventorySize === undefined ? 8 : _ref4$inventorySize;
+        inventorySize = _ref4$inventorySize === undefined ? 8 : _ref4$inventorySize,
+        _ref4$inventory = _ref4.inventory,
+        inventory = _ref4$inventory === undefined ? [] : _ref4$inventory;
 
     _classCallCheck(this, InventoryHolder);
 
     this.name = "InventoryHolder";
     this.inventorySize = inventorySize;
-    this.inventory = [];
+    this.inventory = inventory;
     this.addItem = this._addItem;
     this.removeItem = this._removeItem;
     this.hasItem = this._hasItem;
@@ -8745,7 +8753,7 @@ var TimedStatusEffects = exports.TimedStatusEffects = function () {
 
   return TimedStatusEffects;
 }();
-},{"rot-js":31,"../colors":4,"../tile":13}],24:[function(require,module,exports) {
+},{"rot-js":33,"../colors":4,"../tile":12}],23:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8794,8 +8802,21 @@ EnemyRepository.define({
   strength: 3,
   maxHp: 10,
   rngWeight: 10,
-  mixins: [_entityMixins.Movable, _entityMixins.TaskActor, _entityMixins.Destructible, _entityMixins.Sight, _entityMixins.Attacker]
+  inventory: [_items.ItemRepository.createRandom()],
+  mixins: [_entityMixins.Movable, _entityMixins.InventoryHolder, _entityMixins.TaskActor, _entityMixins.Destructible, _entityMixins.Sight, _entityMixins.Attacker]
 });
+
+// EnemyRepository.define({
+//   name: "Thieving Alien",
+//   char: "a",
+//   fg: Colors.indigo,
+//   speed: 800,
+//   strength: 3,
+//   maxHp: 10,
+//   rngWeight: 10,
+//   tasks: ["steal", "flee", "wander"],
+//   mixins: [Movable, InventoryHolder, TaskActor, Destructible, Sight, Attacker]
+// });
 
 EnemyRepository.define({
   name: "Flying Insect",
@@ -8818,6 +8839,18 @@ EnemyRepository.define({
   sightRadius: 10,
   strength: 7,
   rngWeight: 4,
+  mixins: [_entityMixins.Movable, _entityMixins.TaskActor, _entityMixins.Destructible, _entityMixins.Sight, _entityMixins.Attacker]
+});
+
+EnemyRepository.define({
+  name: "Tough Alien",
+  char: "A",
+  fg: _colors2.default.red,
+  speed: 900,
+  maxHp: 52,
+  sightRadius: 10,
+  strength: 9,
+  rngWeight: 3,
   mixins: [_entityMixins.Movable, _entityMixins.TaskActor, _entityMixins.Destructible, _entityMixins.Sight, _entityMixins.Attacker]
 });
 
@@ -8853,7 +8886,7 @@ EnemyRepository.define({
 
 EnemyRepository.define({
   name: "Alien with huge gun",
-  char: "X",
+  char: "s",
   fg: _colors2.default.pink,
   speed: 800,
   maxHp: 25,
@@ -8865,7 +8898,7 @@ EnemyRepository.define({
   weapon: _items.WeaponRepository.create("heavy plasma cannon"),
   mixins: [_entityMixins.Movable, _entityMixins.TaskActor, _entityMixins.Equipper, _entityMixins.InventoryHolder, _entityMixins.Destructible, _entityMixins.Sight, _entityMixins.Attacker]
 });
-},{"../colors":4,"../repository":35,"./entity":15,"../item/items":23,"./entityMixins":38}],41:[function(require,module,exports) {
+},{"../colors":4,"../repository":29,"./entity":15,"../item/items":22,"./entityMixins":36}],38:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8973,7 +9006,7 @@ var DungeonMap = function () {
 }();
 
 exports.default = DungeonMap;
-},{"rot-js":31,"./tile":13}],33:[function(require,module,exports) {
+},{"rot-js":33,"./tile":12}],27:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9045,7 +9078,7 @@ var Level = function () {
       this.addEntityAtRandomPosition(alien);
     }
     if (!topLevel) {
-      for (var _i = 0; _i < 10; _i++) {
+      for (var _i = 0; _i < 15; _i++) {
         var _alien = _entities.EnemyRepository.createRandom();
         this.addEntityAtRandomPosition(_alien);
       }
@@ -9250,7 +9283,7 @@ var Level = function () {
 }();
 
 exports.default = Level;
-},{"./dungeonMap":41,"./entity/entity":15,"./item/items":23,"./entity/entities":24,"./tile":13}],12:[function(require,module,exports) {
+},{"./dungeonMap":38,"./entity/entity":15,"./item/items":22,"./entity/entities":23,"./tile":12}],11:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9312,7 +9345,7 @@ var GameWorld = function () {
 }();
 
 exports.default = GameWorld;
-},{"./level":33}],14:[function(require,module,exports) {
+},{"./level":27}],13:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9326,7 +9359,7 @@ var text = {
 };
 
 exports.default = text;
-},{}],10:[function(require,module,exports) {
+},{}],9:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9487,15 +9520,15 @@ var playScreen = function () {
         move(0, -1);
       } else if (inputData.keyCode === _rotJs2.default.VK_J || inputData.keyCode == _rotJs2.default.VK_2 || inputData.keyCode == _rotJs2.default.VK_DOWN) {
         move(0, 1);
-      } else if (inputData.keyCode === _rotJs2.default.VK_Y || inputData.keyCode == _rotJs2.default.VK_7) {
+      } else if (inputData.keyCode === _rotJs2.default.VK_Y || inputData.keyCode === _rotJs2.default.VK_NUMPAD7 || inputData.keyCode == _rotJs2.default.VK_7) {
         move(-1, -1);
-      } else if (inputData.keyCode === _rotJs2.default.VK_U || inputData.keyCode == _rotJs2.default.VK_9) {
+      } else if (inputData.keyCode === _rotJs2.default.VK_U || inputData.keyCode === _rotJs2.default.VK_NUMPAD9 || inputData.keyCode == _rotJs2.default.VK_9) {
         move(1, -1);
-      } else if (inputData.keyCode === _rotJs2.default.VK_B || inputData.keyCode == _rotJs2.default.VK_1) {
+      } else if (inputData.keyCode === _rotJs2.default.VK_B || inputData.keyCode === _rotJs2.default.VK_NUMPAD1 || inputData.keyCode == _rotJs2.default.VK_1) {
         move(-1, 1);
-      } else if (inputData.keyCode === _rotJs2.default.VK_N || inputData.keyCode == _rotJs2.default.VK_3) {
+      } else if (inputData.keyCode === _rotJs2.default.VK_N || inputData.keyCode === _rotJs2.default.VK_NUMPAD3 || inputData.keyCode == _rotJs2.default.VK_3) {
         move(1, 1);
-      } else if (inputData.keyCode === _rotJs2.default.VK_5 || inputData.keyCode === _rotJs2.default.VK_PERIOD) {
+      } else if (inputData.keyCode === _rotJs2.default.VK_5 || inputData.keyCode === _rotJs2.default.VK_NUMPAD5 || inputData.keyCode === _rotJs2.default.VK_PERIOD) {
         if (inputData.shiftKey) {
           // go down level
           if (this.level.getMap().getTile(this.player.getX(), this.player.getY()) !== _tile.stairsDownTile) {
@@ -9621,9 +9654,13 @@ var playScreen = function () {
           this.foundShip = true;
           this.enterSubscreen(new _storyScreen2.default(this, _text2.default.foundShipNoKeys, function () {
             _this2.player.addItem(_items.WeaponRepository.create("crowbar"));
-            _this2.game.messageDisplay.add("You have found your rig, don't forget where it is!");
+            _this2.player.addItem(_items.WeaponRepository.create("small blaster"));
             _this2.game.messageDisplay.add({
-              text: "crowbar added to inventory (go wield it. or don't. whatever)",
+              text: "You have found your rig, don't forget where it is!",
+              color: "blue"
+            });
+            _this2.game.messageDisplay.add({
+              text: "crowbar and small blaster added to inventory",
               color: "blue"
             });
           }));
@@ -9648,23 +9685,23 @@ var playScreen = function () {
         if (item.length == 1) {
           this.game.messageDisplay.add({
             text: "you see " + item[0].describeA(),
-            color: "light-gray"
+            color: "gray"
           });
           if (this.player.inventory.length <= 0) {
             this.game.messageDisplay.add({
               text: "press 'g' to pick it up",
-              color: "light-gray"
+              color: "gray"
             });
           }
         } else {
           this.game.messageDisplay.add({
             text: "you see several items here",
-            color: "light-gray"
+            color: "gray"
           });
           if (this.player.inventory.length <= 0) {
             this.game.messageDisplay.add({
               text: "press 'g' to pick them up",
-              color: "light-gray"
+              color: "gray"
             });
           }
         }
@@ -9783,7 +9820,7 @@ var playScreen = function () {
 }();
 
 exports.default = playScreen;
-},{"rot-js":31,"../colors":4,"../entity/entity":15,"./gameOverScreen":16,"./winScreen":17,"./itemListDialog":18,"./pickUpDialog":19,"./confirmation":8,"./storyScreen":20,"./helpScreen":21,"./playerStatusScreen":22,"../item/items":23,"../entity/entities":24,"../gameWorld":12,"../tile":13,"../text":14}],7:[function(require,module,exports) {
+},{"rot-js":33,"../colors":4,"../entity/entity":15,"./gameOverScreen":14,"./winScreen":16,"./itemListDialog":17,"./pickUpDialog":18,"./confirmation":8,"./storyScreen":19,"./helpScreen":20,"./playerStatusScreen":21,"../item/items":22,"../entity/entities":23,"../gameWorld":11,"../tile":12,"../text":13}],7:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9834,7 +9871,7 @@ var startScreen = function () {
 }();
 
 exports.default = startScreen;
-},{"rot-js":31,"./playScreen":10}],5:[function(require,module,exports) {
+},{"rot-js":33,"./playScreen":9}],5:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10118,4 +10155,4 @@ window.onload = function () {
     game.switchScreen(_startScreen2.default);
   }
 };
-},{"rot-js":31,"./colors":4,"./screens/startScreen":7,"./messageDisplay":5,"./playerStatusDisplay":6,"./screens/confirmation":8}]},{},[3])
+},{"rot-js":33,"./colors":4,"./screens/startScreen":7,"./messageDisplay":5,"./playerStatusDisplay":6,"./screens/confirmation":8}]},{},[3])

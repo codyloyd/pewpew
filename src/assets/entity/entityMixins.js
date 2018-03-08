@@ -62,6 +62,11 @@ export class Destructible {
         });
       }
       this.kill();
+      if (this.hasMixin("InventoryHolder")) {
+        // drop items
+        console.log("inventory", this.inventory);
+        this.level.setItemsAt(this.getX(), this.getY(), this.inventory);
+      }
     }
   }
 }
@@ -260,10 +265,10 @@ export class TaskActor {
 }
 
 export class InventoryHolder {
-  constructor({ inventorySize = 8 }) {
+  constructor({ inventorySize = 8, inventory = [] }) {
     this.name = "InventoryHolder";
     this.inventorySize = inventorySize;
-    this.inventory = [];
+    this.inventory = inventory;
     this.addItem = this._addItem;
     this.removeItem = this._removeItem;
     this.hasItem = this._hasItem;

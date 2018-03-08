@@ -44,7 +44,7 @@ class Level {
       this.addEntityAtRandomPosition(alien);
     }
     if (!topLevel) {
-      for (let i = 0; i < 10; i++) {
+      for (let i = 0; i < 15; i++) {
         const alien = EnemyRepository.createRandom();
         this.addEntityAtRandomPosition(alien);
       }

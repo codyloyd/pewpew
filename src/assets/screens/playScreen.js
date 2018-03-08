@@ -128,26 +128,31 @@ class playScreen {
       move(0, 1);
     } else if (
       inputData.keyCode === ROT.VK_Y ||
+      inputData.keyCode === ROT.VK_NUMPAD7 ||
       inputData.keyCode == ROT.VK_7
     ) {
       move(-1, -1);
     } else if (
       inputData.keyCode === ROT.VK_U ||
+      inputData.keyCode === ROT.VK_NUMPAD9 ||
       inputData.keyCode == ROT.VK_9
     ) {
       move(1, -1);
     } else if (
       inputData.keyCode === ROT.VK_B ||
+      inputData.keyCode === ROT.VK_NUMPAD1 ||
       inputData.keyCode == ROT.VK_1
     ) {
       move(-1, 1);
     } else if (
       inputData.keyCode === ROT.VK_N ||
+      inputData.keyCode === ROT.VK_NUMPAD3 ||
       inputData.keyCode == ROT.VK_3
     ) {
       move(1, 1);
     } else if (
       inputData.keyCode === ROT.VK_5 ||
+      inputData.keyCode === ROT.VK_NUMPAD5 ||
       inputData.keyCode === ROT.VK_PERIOD
     ) {
       if (inputData.shiftKey) {
@@ -286,12 +291,13 @@ class playScreen {
         this.enterSubscreen(
           new StoryScreen(this, text.foundShipNoKeys, () => {
             this.player.addItem(WeaponRepository.create("crowbar"));
-            this.game.messageDisplay.add(
-              "You have found your rig, don't forget where it is!"
-            );
+            this.player.addItem(WeaponRepository.create("small blaster"));
             this.game.messageDisplay.add({
-              text:
-                "crowbar added to inventory (go wield it. or don't. whatever)",
+              text: "You have found your rig, don't forget where it is!",
+              color: "blue"
+            });
+            this.game.messageDisplay.add({
+              text: "crowbar and small blaster added to inventory",
               color: "blue"
             });
           })
@@ -319,23 +325,23 @@ class playScreen {
       if (item.length == 1) {
         this.game.messageDisplay.add({
           text: "you see " + item[0].describeA(),
-          color: "light-gray"
+          color: "gray"
         });
         if (this.player.inventory.length <= 0) {
           this.game.messageDisplay.add({
             text: "press 'g' to pick it up",
-            color: "light-gray"
+            color: "gray"
           });
         }
       } else {
         this.game.messageDisplay.add({
           text: "you see several items here",
-          color: "light-gray"
+          color: "gray"
         });
         if (this.player.inventory.length <= 0) {
           this.game.messageDisplay.add({
             text: "press 'g' to pick them up",
-            color: "light-gray"
+            color: "gray"
           });
         }
       }

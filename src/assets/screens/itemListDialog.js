@@ -51,6 +51,7 @@ class ItemListDialog {
           return (
             <div class={i == selectedItemIndex ? "selected" : ""}>
               {item.name}
+              {item.charges ? `(${item.charges})` : ""}
               {item == player.weapon ? " (wielding)" : ""}
               {player.isWearing(item) ? " (wearing)" : ""}
             </div>

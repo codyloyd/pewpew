@@ -1,7 +1,7 @@
 import Colors from "../colors";
 import Repository from "../repository";
 import Entity from "./entity";
-import { WeaponRepository } from "../item/items";
+import { ItemRepository, WeaponRepository } from "../item/items";
 import {
   InventoryHolder,
   PlayerActor,
@@ -46,8 +46,21 @@ EnemyRepository.define({
   strength: 3,
   maxHp: 10,
   rngWeight: 10,
-  mixins: [Movable, TaskActor, Destructible, Sight, Attacker]
+  inventory: [ItemRepository.createRandom()],
+  mixins: [Movable, InventoryHolder, TaskActor, Destructible, Sight, Attacker]
 });
+
+// EnemyRepository.define({
+//   name: "Thieving Alien",
+//   char: "a",
+//   fg: Colors.indigo,
+//   speed: 800,
+//   strength: 3,
+//   maxHp: 10,
+//   rngWeight: 10,
+//   tasks: ["steal", "flee", "wander"],
+//   mixins: [Movable, InventoryHolder, TaskActor, Destructible, Sight, Attacker]
+// });
 
 EnemyRepository.define({
   name: "Flying Insect",
@@ -70,6 +83,18 @@ EnemyRepository.define({
   sightRadius: 10,
   strength: 7,
   rngWeight: 4,
+  mixins: [Movable, TaskActor, Destructible, Sight, Attacker]
+});
+
+EnemyRepository.define({
+  name: "Tough Alien",
+  char: "A",
+  fg: Colors.red,
+  speed: 900,
+  maxHp: 52,
+  sightRadius: 10,
+  strength: 9,
+  rngWeight: 3,
   mixins: [Movable, TaskActor, Destructible, Sight, Attacker]
 });
 
@@ -121,7 +146,7 @@ EnemyRepository.define({
 
 EnemyRepository.define({
   name: "Alien with huge gun",
-  char: "X",
+  char: "s",
   fg: Colors.pink,
   speed: 800,
   maxHp: 25,
