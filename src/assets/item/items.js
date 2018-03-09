@@ -161,6 +161,64 @@ ArmorRepository.define({
   mixins: [Equippable]
 });
 
+ArmorRepository.define({
+  name: "Plate mail",
+  char: "[",
+  fg: Colors.indigo,
+  description: "What is this? Dungeons and Dragons?  Whatever.",
+  wearable: true,
+  defenseValue: 12,
+  rngWeight: 1,
+  mixins: [Equippable]
+});
+
+ArmorRepository.define({
+  name: "Sparkley helmet",
+  char: "[",
+  fg: Colors.indigo,
+  description:
+    "Looks like it will provide a lot of protection for your noggin.",
+  wearable: true,
+  defenseValue: 8,
+  rngWeight: 1,
+  mixins: [Equippable]
+});
+
+ArmorRepository.define({
+  name: "Leathery vest",
+  char: "[",
+  fg: Colors.brown,
+  description:
+    "Let's not think about what this is actually made of.. just put it on.",
+  wearable: true,
+  defenseValue: 5,
+  rngWeight: 4,
+  mixins: [Equippable]
+});
+
+ArmorRepository.define({
+  name: "Arm Guards",
+  char: "[",
+  fg: Colors.darkGreen,
+  description: "Moderate protection for yer arms.",
+  wearable: true,
+  defenseValue: 5,
+  rngWeight: 4,
+  mixins: [Equippable]
+});
+
+ArmorRepository.define({
+  name: "A shirt",
+  char: "[",
+  fg: Colors.darkBlue,
+  description:
+    "You're already wearing a shirt.. but dressing in layers might help.",
+  wearable: true,
+  defenseValue: 2,
+  rngWeight: 5,
+  mixins: [Equippable]
+});
+
 export const WeaponRepository = new Repository({ name: "Weapons", ctor: Item });
 
 WeaponRepository.define({
@@ -255,7 +313,7 @@ WeaponRepository.define({
   fg: Colors.blue,
   wieldable: true,
   maxCharges: 30,
-  chargesPerShot: 3,
+  chargesPerShot: 5,
   attackValue: 0,
   rangeDamage: 15,
   rank: 2,
@@ -265,7 +323,7 @@ WeaponRepository.define({
 WeaponRepository.define({
   name: "light plasma cannon",
   char: "┌",
-  description: "Uses up 15 charges per shot. This one really leaves a mark.",
+  description: "Uses up 10 charges per shot. This one really leaves a mark.",
   fg: Colors.red,
   wieldable: true,
   maxCharges: 50,

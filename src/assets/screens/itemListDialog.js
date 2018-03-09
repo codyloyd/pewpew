@@ -148,11 +148,19 @@ class ItemListDialog {
       }
     } else if (inputData.keyCode === ROT.VK_A) {
       if (item.hasMixin("Usable")) {
-        item.use(this.player);
-        this.player.removeItem(item);
-        this.functions.removeItem(item);
-        this.player.getGame().messageDisplay.add(`You apply the ${item.name}`);
-        this.exit();
+        if (item.use(this.player)) {
+          this.player.removeItem(item);
+          this.functions.removeItem(item);
+          this.player
+            .getGame()
+            .messageDisplay.add(`You apply the ${item.name}`);
+          this.exit();
+        } else {
+          this.player.getGame().messageDisplay.add({
+            text: `You can't use that right now`,
+            color: "red"
+          });
+        }
       }
     } else if (inputData.keyCode === ROT.VK_U) {
       this.player.unequip(item);

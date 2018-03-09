@@ -71,7 +71,7 @@ require = (function (modules, cache, entry) {
 
   // Override the current require with this new one
   return newRequire;
-})({40:[function(require,module,exports) {
+})({34:[function(require,module,exports) {
 
 // shim for using process in browser
 var process = module.exports = {};
@@ -258,7 +258,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],22:[function(require,module,exports) {
+},{}],33:[function(require,module,exports) {
 var global = (1,eval)("this");
 var process = require("process");
 /*
@@ -5883,7 +5883,7 @@ for (var p in ROT) {
   return ROT;
 }));
 
-},{"process":40}],9:[function(require,module,exports) {
+},{"process":34}],4:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5907,7 +5907,7 @@ exports.default = {
   pink: "#ff77a8",
   peach: "#ffccaa"
 };
-},{}],47:[function(require,module,exports) {
+},{}],25:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5961,7 +5961,7 @@ var Glyph = function () {
 }();
 
 exports.default = Glyph;
-},{"./colors":9}],46:[function(require,module,exports) {
+},{"./colors":4}],26:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6050,7 +6050,7 @@ var DynamicGlyph = function (_Glyph) {
 }(_glyph2.default);
 
 exports.default = DynamicGlyph;
-},{"./glyph":47}],27:[function(require,module,exports) {
+},{"./glyph":25}],13:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6202,7 +6202,7 @@ var Entity = function (_DynamicGlyph) {
 }(_dynamicGlyph2.default);
 
 exports.default = Entity;
-},{"../dynamicGlyph":46}],28:[function(require,module,exports) {
+},{"../dynamicGlyph":26}],14:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6252,7 +6252,7 @@ var gameOverScreen = function () {
 }();
 
 exports.default = gameOverScreen;
-},{"rot-js":22,"./startScreen":11}],29:[function(require,module,exports) {
+},{"rot-js":33,"./startScreen":7}],15:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6302,7 +6302,7 @@ var WinScreen = function () {
 }();
 
 exports.default = WinScreen;
-},{"rot-js":22,"./startScreen":11}],45:[function(require,module,exports) {
+},{"rot-js":33,"./startScreen":7}],35:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6585,7 +6585,7 @@ function app(state, actions, view, container) {
     return element;
   }
 }
-},{}],48:[function(require,module,exports) {
+},{}],28:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6679,7 +6679,7 @@ var ItemDetailDialog = function () {
 }();
 
 exports.default = ItemDetailDialog;
-},{"rot-js":22,"hyperapp":45,"../colors":9}],30:[function(require,module,exports) {
+},{"rot-js":33,"hyperapp":35,"../colors":4}],16:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6883,11 +6883,17 @@ var ItemListDialog = function () {
         }
       } else if (inputData.keyCode === _rotJs2.default.VK_A) {
         if (item.hasMixin("Usable")) {
-          item.use(this.player);
-          this.player.removeItem(item);
-          this.functions.removeItem(item);
-          this.player.getGame().messageDisplay.add("You apply the " + item.name);
-          this.exit();
+          if (item.use(this.player)) {
+            this.player.removeItem(item);
+            this.functions.removeItem(item);
+            this.player.getGame().messageDisplay.add("You apply the " + item.name);
+            this.exit();
+          } else {
+            this.player.getGame().messageDisplay.add({
+              text: "You can't use that right now",
+              color: "red"
+            });
+          }
         }
       } else if (inputData.keyCode === _rotJs2.default.VK_U) {
         this.player.unequip(item);
@@ -6905,7 +6911,7 @@ var ItemListDialog = function () {
 }();
 
 exports.default = ItemListDialog;
-},{"rot-js":22,"hyperapp":45,"../colors":9,"./itemDetailDialog":48}],31:[function(require,module,exports) {
+},{"rot-js":33,"hyperapp":35,"../colors":4,"./itemDetailDialog":28}],17:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6975,7 +6981,7 @@ var PickUpScreen = function (_ItemListDialog) {
 }(_itemListDialog2.default);
 
 exports.default = PickUpScreen;
-},{"./itemListDialog":30,"rot-js":22}],32:[function(require,module,exports) {
+},{"./itemListDialog":16,"rot-js":33}],18:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7041,7 +7047,7 @@ var VisibleThingsDialog = function (_ItemListDialog) {
 }(_itemListDialog2.default);
 
 exports.default = VisibleThingsDialog;
-},{"./itemListDialog":30,"./itemDetailDialog":48,"rot-js":22}],12:[function(require,module,exports) {
+},{"./itemListDialog":16,"./itemDetailDialog":28,"rot-js":33}],8:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7140,7 +7146,7 @@ var Confirmation = function () {
 }();
 
 exports.default = Confirmation;
-},{"hyperapp":45,"rot-js":22}],33:[function(require,module,exports) {
+},{"hyperapp":35,"rot-js":33}],19:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7218,7 +7224,7 @@ var StoryScreen = function () {
 }();
 
 exports.default = StoryScreen;
-},{"hyperapp":45,"rot-js":22}],34:[function(require,module,exports) {
+},{"hyperapp":35,"rot-js":33}],20:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7487,7 +7493,7 @@ var HelpScreen = function () {
 }();
 
 exports.default = HelpScreen;
-},{"hyperapp":45,"rot-js":22}],37:[function(require,module,exports) {
+},{"hyperapp":35,"rot-js":33}],21:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7577,7 +7583,7 @@ var PlayerStatusScreen = function () {
 }();
 
 exports.default = PlayerStatusScreen;
-},{"hyperapp":45,"rot-js":22}],41:[function(require,module,exports) {
+},{"hyperapp":35,"rot-js":33}],27:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7657,7 +7663,7 @@ var Repository = function () {
 }();
 
 exports.default = Repository;
-},{"rot-js":22}],42:[function(require,module,exports) {
+},{"rot-js":33}],29:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7704,7 +7710,7 @@ var Item = function (_DynamicGlyph) {
 }(_dynamicGlyph2.default);
 
 exports.default = Item;
-},{"../dynamicGlyph":46}],25:[function(require,module,exports) {
+},{"../dynamicGlyph":26}],11:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7786,7 +7792,7 @@ var openDoorTile = exports.openDoorTile = new Tile({
   blocksLight: false,
   isWalkable: true
 });
-},{"./glyph":47,"./colors":9}],43:[function(require,module,exports) {
+},{"./glyph":25,"./colors":4}],30:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7862,17 +7868,23 @@ var StatusBooster = exports.StatusBooster = function () {
     value: function _use(entity) {
       if (entity.weapon && entity.weapon.charges) {
         entity.weapon.recharge(this.weaponRecharge);
+        return true;
       }
-      if (this.hpUp >= 0) {
-        entity.addHp(this.hpUp);
-      } else {
-        _game2.default.messageDisplay.add({ color: "red", text: "ouch" });
-        entity.takeDamage(-this.hpUp, _colors2.default.darkPurple);
+      if (this.hpUp) {
+        if (this.hpUp >= 0) {
+          entity.addHp(this.hpUp);
+        } else {
+          _game2.default.messageDisplay.add({ color: "red", text: "ouch" });
+          entity.takeDamage(-this.hpUp, _colors2.default.darkPurple);
+        }
+        entity.addMaxHp(this.maxHpUp);
+        return true;
       }
-      entity.addMaxHp(this.maxHpUp);
       if (this.statusEffect) {
         entity.addTimedStatusEffect(Object.assign({}, this.statusEffect));
+        return true;
       }
+      return false;
     }
   }]);
 
@@ -7913,7 +7925,7 @@ var Fireable = exports.Fireable = function () {
     value: function _fire(targetObj) {
       var _this = this;
 
-      if (this.charges - this.chargesPerShot <= 0) {
+      if (this.charges - this.chargesPerShot < 0) {
         if (targetObj.coords[0].name == "ME") {
           _game2.default.messageDisplay.add({
             color: "blue",
@@ -7923,6 +7935,7 @@ var Fireable = exports.Fireable = function () {
         return false;
       }
       this.charges -= this.chargesPerShot;
+      console.log(this.charges);
       var targetArray = targetObj.coords;
       var displayArray = [];
 
@@ -8004,7 +8017,7 @@ var Fireable = exports.Fireable = function () {
 
   return Fireable;
 }();
-},{"../game":4,"../tile":25,"../colors":9}],35:[function(require,module,exports) {
+},{"../game":3,"../tile":11,"../colors":4}],22:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8178,6 +8191,61 @@ ArmorRepository.define({
   mixins: [_itemMixins.Equippable]
 });
 
+ArmorRepository.define({
+  name: "Plate mail",
+  char: "[",
+  fg: _colors2.default.indigo,
+  description: "What is this? Dungeons and Dragons?  Whatever.",
+  wearable: true,
+  defenseValue: 12,
+  rngWeight: 1,
+  mixins: [_itemMixins.Equippable]
+});
+
+ArmorRepository.define({
+  name: "Sparkley helmet",
+  char: "[",
+  fg: _colors2.default.indigo,
+  description: "Looks like it will provide a lot of protection for your noggin.",
+  wearable: true,
+  defenseValue: 8,
+  rngWeight: 1,
+  mixins: [_itemMixins.Equippable]
+});
+
+ArmorRepository.define({
+  name: "Leathery vest",
+  char: "[",
+  fg: _colors2.default.brown,
+  description: "Let's not think about what this is actually made of.. just put it on.",
+  wearable: true,
+  defenseValue: 5,
+  rngWeight: 4,
+  mixins: [_itemMixins.Equippable]
+});
+
+ArmorRepository.define({
+  name: "Arm Guards",
+  char: "[",
+  fg: _colors2.default.darkGreen,
+  description: "Moderate protection for yer arms.",
+  wearable: true,
+  defenseValue: 5,
+  rngWeight: 4,
+  mixins: [_itemMixins.Equippable]
+});
+
+ArmorRepository.define({
+  name: "A shirt",
+  char: "[",
+  fg: _colors2.default.darkBlue,
+  description: "You're already wearing a shirt.. but dressing in layers might help.",
+  wearable: true,
+  defenseValue: 2,
+  rngWeight: 5,
+  mixins: [_itemMixins.Equippable]
+});
+
 var WeaponRepository = exports.WeaponRepository = new _repository2.default({ name: "Weapons", ctor: _item2.default });
 
 WeaponRepository.define({
@@ -8269,7 +8337,7 @@ WeaponRepository.define({
   fg: _colors2.default.blue,
   wieldable: true,
   maxCharges: 30,
-  chargesPerShot: 3,
+  chargesPerShot: 5,
   attackValue: 0,
   rangeDamage: 15,
   rank: 2,
@@ -8279,7 +8347,7 @@ WeaponRepository.define({
 WeaponRepository.define({
   name: "light plasma cannon",
   char: "┌",
-  description: "Uses up 15 charges per shot. This one really leaves a mark.",
+  description: "Uses up 10 charges per shot. This one really leaves a mark.",
   fg: _colors2.default.red,
   wieldable: true,
   maxCharges: 50,
@@ -8305,7 +8373,7 @@ WeaponRepository.define({
   rank: 2,
   mixins: [_itemMixins.Equippable, _itemMixins.Fireable]
 });
-},{"../repository":41,"../colors":9,"./item":42,"./itemMixins":43}],44:[function(require,module,exports) {
+},{"../repository":27,"../colors":4,"./item":29,"./itemMixins":30}],31:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8982,7 +9050,7 @@ var TimedStatusEffects = exports.TimedStatusEffects = function () {
 
   return TimedStatusEffects;
 }();
-},{"rot-js":22,"../colors":9,"../screens/confirmation":12,"../tile":25}],36:[function(require,module,exports) {
+},{"rot-js":33,"../colors":4,"../screens/confirmation":8,"../tile":11}],23:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9174,7 +9242,7 @@ EnemyRepository.define({
   weapon: "inventory",
   mixins: [_entityMixins.Movable, _entityMixins.TaskActor, _entityMixins.Equipper, _entityMixins.InventoryHolder, _entityMixins.Destructible, _entityMixins.Sight, _entityMixins.Attacker]
 });
-},{"../colors":9,"../repository":41,"./entity":27,"../item/items":35,"./entityMixins":44}],50:[function(require,module,exports) {
+},{"../colors":4,"../repository":27,"./entity":13,"../item/items":22,"./entityMixins":31}],32:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9282,7 +9350,7 @@ var DungeonMap = function () {
 }();
 
 exports.default = DungeonMap;
-},{"rot-js":22,"./tile":25}],49:[function(require,module,exports) {
+},{"rot-js":33,"./tile":11}],24:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9376,7 +9444,7 @@ var Level = function () {
 
     if (!topLevel && Math.random() < 0.5) {
       var _bugRoom = this.map.getRooms()[3];
-      for (var _i4 = 0; _i4 < 10; _i4++) {
+      for (var _i4 = 0; _i4 < 5; _i4++) {
         var _roomPosition = this.getRandomRoomPosition(_bugRoom);
         var _bug = _entities.EnemyRepository.create("Turret");
         _bug.setPosition(_roomPosition.x, _roomPosition.y);
@@ -9395,27 +9463,15 @@ var Level = function () {
       this.addItemAtRandomPosition(_items.ItemRepository.createRandom());
     }
 
-    var weaponOrArmor = Math.random() > 0.5 ? _items.ArmorRepository : _items.WeaponRepository;
+    var weaponOrArmor = Math.random() > 0.3 ? _items.ArmorRepository : _items.WeaponRepository;
 
     this.addItemAtRandomPosition(weaponOrArmor.createRandom());
 
     if (topLevel) {
       var firstRoomPosition = this.getRandomRoomPosition(this.firstRoom);
 
-      // this.addItem(
-      //   ItemRepository.create("strength stim syringe"),
-      //   firstRoomPosition.x,
-      //   firstRoomPosition.y
-      // );
-      // this.addItem(
-      //   ItemRepository.create("strength stim syringe"),
-      //   firstRoomPosition.x,
-      //   firstRoomPosition.y
-      // );
-      // const roomPosition = this.getRandomRoomPosition(this.firstRoom);
-      // const bug = EnemyRepository.create("Turret");
-      // bug.setPosition(roomPosition.x, roomPosition.y);
-      // this.addEntity(bug);
+      this.addItem(_items.WeaponRepository.createRandom(), firstRoomPosition.x, firstRoomPosition.y);
+      this.addItem(_items.ItemRepository.create("med pack"), firstRoomPosition.x, firstRoomPosition.y);
 
       var otherRoomPosition = this.getRandomRoomPosition();
       var ship = _items.ItemRepository.create("Space Ship");
@@ -9586,7 +9642,7 @@ var Level = function () {
 }();
 
 exports.default = Level;
-},{"./dungeonMap":50,"./entity/entity":27,"./item/items":35,"./entity/entities":36,"./tile":25}],24:[function(require,module,exports) {
+},{"./dungeonMap":32,"./entity/entity":13,"./item/items":22,"./entity/entities":23,"./tile":11}],10:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9648,7 +9704,7 @@ var GameWorld = function () {
 }();
 
 exports.default = GameWorld;
-},{"./level":49}],26:[function(require,module,exports) {
+},{"./level":24}],12:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9662,7 +9718,7 @@ var text = {
 };
 
 exports.default = text;
-},{}],20:[function(require,module,exports) {
+},{}],9:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9792,7 +9848,7 @@ var playScreen = function () {
           var array = this.level.lookInDirection(dX, dY);
           var fireArray = this.player.weapon.fire(array);
           if (fireArray) {
-            this.game.rangeWeaponDisplay = this.player.weapon.fire(array);
+            this.game.rangeWeaponDisplay = fireArray;
             this.game.rangeWeaponDisplay.color = this.player.weapon.fg;
           }
           this.firing = false;
@@ -10131,7 +10187,7 @@ var playScreen = function () {
 }();
 
 exports.default = playScreen;
-},{"rot-js":22,"../colors":9,"../entity/entity":27,"./gameOverScreen":28,"./winScreen":29,"./itemListDialog":30,"./pickUpDialog":31,"./visibleThingsDialog":32,"./confirmation":12,"./storyScreen":33,"./helpScreen":34,"./playerStatusScreen":37,"../item/items":35,"../entity/entities":36,"../gameWorld":24,"../tile":25,"../text":26}],11:[function(require,module,exports) {
+},{"rot-js":33,"../colors":4,"../entity/entity":13,"./gameOverScreen":14,"./winScreen":15,"./itemListDialog":16,"./pickUpDialog":17,"./visibleThingsDialog":18,"./confirmation":8,"./storyScreen":19,"./helpScreen":20,"./playerStatusScreen":21,"../item/items":22,"../entity/entities":23,"../gameWorld":10,"../tile":11,"../text":12}],7:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10215,7 +10271,7 @@ var startScreen = function () {
 }();
 
 exports.default = startScreen;
-},{"./playScreen":20,"hyperapp":45,"rot-js":22}],8:[function(require,module,exports) {
+},{"./playScreen":9,"hyperapp":35,"rot-js":33}],6:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10296,7 +10352,7 @@ var MessageDisplay = function () {
 }();
 
 exports.default = MessageDisplay;
-},{"./colors":9}],10:[function(require,module,exports) {
+},{"./colors":4}],5:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10373,7 +10429,7 @@ var PlayerStatusDisplay = function () {
 }();
 
 exports.default = PlayerStatusDisplay;
-},{"./colors":9}],4:[function(require,module,exports) {
+},{"./colors":4}],3:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10500,128 +10556,4 @@ window.onload = function () {
     game.switchScreen(_startScreen2.default);
   }
 };
-},{"rot-js":22,"./colors":9,"./screens/startScreen":11,"./messageDisplay":8,"./playerStatusDisplay":10,"./screens/confirmation":12}],52:[function(require,module,exports) {
-
-var global = (1, eval)('this');
-var OldModule = module.bundle.Module;
-function Module(moduleName) {
-  OldModule.call(this, moduleName);
-  this.hot = {
-    accept: function (fn) {
-      this._acceptCallback = fn || function () {};
-    },
-    dispose: function (fn) {
-      this._disposeCallback = fn;
-    }
-  };
-}
-
-module.bundle.Module = Module;
-
-var parent = module.bundle.parent;
-if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
-  var hostname = '' || location.hostname;
-  var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + '56043' + '/');
-  ws.onmessage = function (event) {
-    var data = JSON.parse(event.data);
-
-    if (data.type === 'update') {
-      data.assets.forEach(function (asset) {
-        hmrApply(global.require, asset);
-      });
-
-      data.assets.forEach(function (asset) {
-        if (!asset.isNew) {
-          hmrAccept(global.require, asset.id);
-        }
-      });
-    }
-
-    if (data.type === 'reload') {
-      ws.close();
-      ws.onclose = function () {
-        location.reload();
-      };
-    }
-
-    if (data.type === 'error-resolved') {
-      console.log('[parcel] ✨ Error resolved');
-    }
-
-    if (data.type === 'error') {
-      console.error('[parcel] 🚨  ' + data.error.message + '\n' + 'data.error.stack');
-    }
-  };
-}
-
-function getParents(bundle, id) {
-  var modules = bundle.modules;
-  if (!modules) {
-    return [];
-  }
-
-  var parents = [];
-  var k, d, dep;
-
-  for (k in modules) {
-    for (d in modules[k][1]) {
-      dep = modules[k][1][d];
-      if (dep === id || Array.isArray(dep) && dep[dep.length - 1] === id) {
-        parents.push(+k);
-      }
-    }
-  }
-
-  if (bundle.parent) {
-    parents = parents.concat(getParents(bundle.parent, id));
-  }
-
-  return parents;
-}
-
-function hmrApply(bundle, asset) {
-  var modules = bundle.modules;
-  if (!modules) {
-    return;
-  }
-
-  if (modules[asset.id] || !bundle.parent) {
-    var fn = new Function('require', 'module', 'exports', asset.generated.js);
-    asset.isNew = !modules[asset.id];
-    modules[asset.id] = [fn, asset.deps];
-  } else if (bundle.parent) {
-    hmrApply(bundle.parent, asset);
-  }
-}
-
-function hmrAccept(bundle, id) {
-  var modules = bundle.modules;
-  if (!modules) {
-    return;
-  }
-
-  if (!modules[id] && bundle.parent) {
-    return hmrAccept(bundle.parent, id);
-  }
-
-  var cached = bundle.cache[id];
-  if (cached && cached.hot._disposeCallback) {
-    cached.hot._disposeCallback();
-  }
-
-  delete bundle.cache[id];
-  bundle(id);
-
-  cached = bundle.cache[id];
-  if (cached && cached.hot && cached.hot._acceptCallback) {
-    cached.hot._acceptCallback();
-    return true;
-  }
-
-  return getParents(global.require, id).some(function (id) {
-    return hmrAccept(global.require, id);
-  });
-}
-},{}]},{},[52,4])
-//# sourceMappingURL=/dist/28d908142711746cd98d878a219803a3.map
+},{"rot-js":33,"./colors":4,"./screens/startScreen":7,"./messageDisplay":6,"./playerStatusDisplay":5,"./screens/confirmation":8}]},{},[3])

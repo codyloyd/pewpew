@@ -40,17 +40,23 @@ export class StatusBooster {
   _use(entity) {
     if (entity.weapon && entity.weapon.charges) {
       entity.weapon.recharge(this.weaponRecharge);
+      return true;
     }
-    if (this.hpUp >= 0) {
-      entity.addHp(this.hpUp);
-    } else {
-      game.messageDisplay.add({ color: "red", text: "ouch" });
-      entity.takeDamage(-this.hpUp, Colors.darkPurple);
+    if (this.hpUp) {
+      if (this.hpUp >= 0) {
+        entity.addHp(this.hpUp);
+      } else {
+        game.messageDisplay.add({ color: "red", text: "ouch" });
+        entity.takeDamage(-this.hpUp, Colors.darkPurple);
+      }
+      entity.addMaxHp(this.maxHpUp);
+      return true;
     }
-    entity.addMaxHp(this.maxHpUp);
     if (this.statusEffect) {
       entity.addTimedStatusEffect(Object.assign({}, this.statusEffect));
+      return true;
     }
+    return false;
   }
 }
 
@@ -77,7 +83,7 @@ export class Fireable {
   }
 
   _fire(targetObj) {
-    if (this.charges - this.chargesPerShot <= 0) {
+    if (this.charges - this.chargesPerShot < 0) {
       if (targetObj.coords[0].name == "ME") {
         game.messageDisplay.add({
           color: "blue",
@@ -87,6 +93,7 @@ export class Fireable {
       return false;
     }
     this.charges -= this.chargesPerShot;
+    console.log(this.charges);
     const targetArray = targetObj.coords;
     const displayArray = [];
     for (let i = 1; i < targetArray.length; i++) {

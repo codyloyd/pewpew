@@ -66,7 +66,7 @@ class playScreen {
         const array = this.level.lookInDirection(dX, dY);
         const fireArray = this.player.weapon.fire(array);
         if (fireArray) {
-          this.game.rangeWeaponDisplay = this.player.weapon.fire(array);
+          this.game.rangeWeaponDisplay = fireArray;
           this.game.rangeWeaponDisplay.color = this.player.weapon.fg;
         }
         this.firing = false;

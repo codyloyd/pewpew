@@ -66,7 +66,7 @@ class Level {
 
     if (!topLevel && Math.random() < 0.5) {
       const bugRoom = this.map.getRooms()[3];
-      for (let i = 0; i < 10; i++) {
+      for (let i = 0; i < 5; i++) {
         const roomPosition = this.getRandomRoomPosition(bugRoom);
         const bug = EnemyRepository.create("Turret");
         bug.setPosition(roomPosition.x, roomPosition.y);
@@ -86,27 +86,23 @@ class Level {
     }
 
     const weaponOrArmor =
-      Math.random() > 0.5 ? ArmorRepository : WeaponRepository;
+      Math.random() > 0.3 ? ArmorRepository : WeaponRepository;
 
     this.addItemAtRandomPosition(weaponOrArmor.createRandom());
 
     if (topLevel) {
       let firstRoomPosition = this.getRandomRoomPosition(this.firstRoom);
 
-      // this.addItem(
-      //   ItemRepository.create("strength stim syringe"),
-      //   firstRoomPosition.x,
-      //   firstRoomPosition.y
-      // );
-      // this.addItem(
-      //   ItemRepository.create("strength stim syringe"),
-      //   firstRoomPosition.x,
-      //   firstRoomPosition.y
-      // );
-      // const roomPosition = this.getRandomRoomPosition(this.firstRoom);
-      // const bug = EnemyRepository.create("Turret");
-      // bug.setPosition(roomPosition.x, roomPosition.y);
-      // this.addEntity(bug);
+      this.addItem(
+        WeaponRepository.createRandom(),
+        firstRoomPosition.x,
+        firstRoomPosition.y
+      );
+      this.addItem(
+        ItemRepository.create("med pack"),
+        firstRoomPosition.x,
+        firstRoomPosition.y
+      );
 
       const otherRoomPosition = this.getRandomRoomPosition();
       const ship = ItemRepository.create("Space Ship");
